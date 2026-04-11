@@ -7,1355 +7,813 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-
 /* ─── RESET ─── */
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{font-family:'Montserrat',-apple-system,sans-serif;background:#020c1a;color:#fff;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 
-:root {
-  --n1: #07152e;
-  --n2: #091B3D;
-  --n3: #0d2147;
-  --n4: #162648;
-  --blue-solid: #1a3a6b;
-  --white: #ffffff;
-  --off: #f4f6fa;
-  --gray-mid: #e8ecf3;
-  --w80: rgba(255,255,255,0.82);
-  --w55: rgba(255,255,255,0.55);
-  --w30: rgba(255,255,255,0.30);
-  --w10: rgba(255,255,255,0.10);
-  --w06: rgba(255,255,255,0.06);
-  --inv-text: #07152e;
-  --inv-dim: rgba(7,21,46,0.58);
-  --font: 'Montserrat', -apple-system, sans-serif;
-  --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+/* ─── VARIÁVEIS ─── */
+:root{
+  --n0:#020c1a;--n1:#07152e;--n2:#091B3D;--n3:#0d2147;--n4:#162648;
+  --white:#fff;--off:#f2f5fb;
+  --w80:rgba(255,255,255,.82);--w55:rgba(255,255,255,.55);
+  --w30:rgba(255,255,255,.30);--w12:rgba(255,255,255,.12);
+  --w06:rgba(255,255,255,.06);--w03:rgba(255,255,255,.03);
+  --inv:#07152e;--idim:rgba(7,21,46,.58);
+  --ease:cubic-bezier(.25,.46,.45,.94);
 }
 
-body {
-  font-family: var(--font);
-  background: var(--n2);
-  color: var(--white);
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
+/* ─── BOTÃO PORTFEL ─── */
+.pb{display:inline-flex;align-items:center;gap:0;background:rgba(10,30,80,.82);border:1.5px solid rgba(255,255,255,.20);border-radius:55px;padding:7px 7px 7px 28px;text-decoration:none;cursor:pointer;transition:border-color .25s,background .25s;backdrop-filter:blur(8px)}
+.pb:hover{border-color:rgba(255,255,255,.48);background:rgba(10,30,80,.96)}
+.pb-t{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#fff;white-space:nowrap;margin-right:16px;line-height:1}
+.pb-i{width:38px;height:38px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .22s}
+.pb:hover .pb-i{transform:rotate(45deg)}
+.pb-i svg{width:16px;height:16px}
+
+/* ─── Z NO HERO (fundo, lado esquerdo, exatamente como no print) ─── */
+.hz-bg{
+  position:absolute;
+  top:50%;
+  left:-12%;
+  transform:translateY(-50%);
+  width:min(62vw,640px);
+  z-index:1;           /* atrás de tudo */
+  pointer-events:none;
+  opacity:.18;
+  filter:blur(2px);    /* desfoque sutil */
+}
+/* Fade preto cobrindo a borda esquerda — Z some naturalmente */
+.hz-bg::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(to right,
+    rgba(2,12,26,1)   0%,
+    rgba(2,12,26,.80) 18%,
+    rgba(2,12,26,.35) 45%,
+    rgba(2,12,26,.05) 72%,
+    transparent       90%
+  );
+  pointer-events:none;
 }
 
-/* ─────────────────────────────
-   NAV — transparente, sem fundo
-───────────────────────────── */
-nav {
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  z-index: 100;
-  height: 72px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 56px;
-}
+/* ─── HERO ─── */
+#hero{position:relative;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 24px 80px;overflow:hidden;background:var(--n0)}
+.hg{position:absolute;top:-8%;left:50%;transform:translateX(-50%);width:1000px;height:720px;background:radial-gradient(ellipse 62% 58% at 50% 18%,rgba(28,88,230,.52) 0%,rgba(8,36,130,.28) 42%,transparent 68%);pointer-events:none;z-index:0}
+.ho{position:absolute;top:12%;left:50%;transform:translateX(-50%);width:360px;height:360px;background:radial-gradient(circle,rgba(38,108,255,.26) 0%,transparent 70%);border-radius:50%;filter:blur(18px);pointer-events:none;z-index:0}
 
-.nav-logo {
-  font-size: 16px;
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  color: var(--white);
-  text-decoration: none;
+/* ─── EFEITO Z (scroll reveal estilo ClickUp) ─── */
+/* A seção tem 280vh — o Z fica sticky enquanto scrolla */
+#z-section{
+  position:relative;
+  height:280vh;
+  background:var(--n1);
 }
+/* Pontinhos no fundo */
+#z-section::before{
+  content:'';position:absolute;inset:0;
+  background-image:radial-gradient(circle,rgba(255,255,255,.05) 1px,transparent 1px);
+  background-size:36px 36px;pointer-events:none;z-index:0;
+}
+.z-sticky{
+  position:sticky;top:0;height:100vh;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  overflow:hidden;
+}
+.z-sticky-glow{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 50% at 50% 50%,rgba(28,88,230,.18) 0%,transparent 70%);
+  pointer-events:none;z-index:0;
+}
+.z-txt{
+  position:relative;z-index:10;
+  text-align:center;margin-bottom:28px;
+  transition:opacity .4s, transform .4s;
+}
+.z-txt .ey{margin-bottom:10px}
+.z-txt h2{font-size:clamp(20px,3vw,36px);font-weight:900;letter-spacing:-.05em;line-height:1.05;max-width:540px}
+.z-txt p{font-size:14px;color:var(--w55);margin-top:8px;max-width:400px;line-height:1.65;margin-left:auto;margin-right:auto}
 
-.nav-center {
-  display: flex;
-  gap: 2px;
-  list-style: none;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.10);
-  border-radius: 100px;
-  padding: 5px;
+/* O Z em si */
+.z-wrap{
+  position:relative;z-index:5;
+  width:min(70vw,520px);
+  aspect-ratio:700/600;
 }
-.nav-center a {
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--w55);
-  text-decoration: none;
-  padding: 7px 16px;
-  border-radius: 100px;
-  transition: background .2s, color .2s;
-  white-space: nowrap;
+/* Camada branca — começa opaca, dissolve com scroll */
+.z-white{
+  position:absolute;inset:0;
+  transition:none; /* controlado via JS */
 }
-.nav-center a:hover {
-  background: rgba(255,255,255,0.10);
-  color: var(--white);
-}
+/* Camada de dados — sempre presente, revelada quando branco dissolve */
+.z-data{position:absolute;inset:0}
 
-.nav-wa {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--white);
-  text-decoration: none;
-  padding: 9px 20px;
-  border-radius: 100px;
-  background: #1a7a38;
-  letter-spacing: 0.02em;
-  transition: opacity .2s;
-}
-.nav-wa:hover { opacity: .84; }
-.nav-wa svg { flex-shrink: 0; }
+/* ─── GRADIENTES DIVISORES ─── */
+.gd{pointer-events:none}
+.gd-n0-off{height:90px;background:linear-gradient(var(--n0),var(--off))}
+.gd-off-n1{height:90px;background:linear-gradient(var(--off),var(--n1))}
+.gd-n1-n3{height:90px;background:linear-gradient(var(--n1),var(--n3))}
+.gd-n3-n2{height:90px;background:linear-gradient(var(--n3),var(--n2))}
+.gd-n2-n4{height:90px;background:linear-gradient(var(--n2),var(--n4))}
+.gd-n4-n1{height:90px;background:linear-gradient(var(--n4),var(--n1))}
+.gd-n1-n3b{height:90px;background:linear-gradient(var(--n1),var(--n3))}
+.gd-n3-n2b{height:90px;background:linear-gradient(var(--n3),var(--n2))}
+.gd-n2-n0{height:90px;background:linear-gradient(var(--n2),var(--n0))}
+.gd-n0-n1{height:90px;background:linear-gradient(var(--n0),var(--n1))}
+.gd-n1-n2{height:90px;background:linear-gradient(var(--n1),var(--n2))}
 
-@media (max-width: 860px) {
-  .nav-center { display: none; }
-  nav { padding: 0 24px; }
-}
+/* ─── SEÇÕES ─── */
+.sec{padding:clamp(52px,7vw,88px) clamp(24px,8vw,88px);display:flex;flex-direction:column;align-items:center;text-align:center;position:relative}
+.s0{background:var(--n0)}.s1{background:var(--n1)}.s2{background:var(--n2)}.s3{background:var(--n3)}.s4{background:var(--n4)}
+.sw{background:var(--off);color:var(--inv)}
 
-/* ─────────────────────────────
-   HERO — Z animado com números
-───────────────────────────── */
-#hero {
-  min-height: 100svh;
-  background: var(--n1);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 72px 24px 80px;
-  position: relative;
-  overflow: hidden;
+/* Pontinhos em seções escuras */
+.s0::before,.s1::before,.s2::before,.s3::before,.s4::before,
+#z-section::before,#scta::before{
+  content:'';position:absolute;inset:0;
+  background-image:radial-gradient(circle,rgba(255,255,255,.05) 1px,transparent 1px);
+  background-size:36px 36px;pointer-events:none;z-index:0;
 }
+.sw::before{background-image:radial-gradient(circle,rgba(7,21,46,.07) 1px,transparent 1px);background-size:36px 36px}
+.sec>*{position:relative;z-index:1}
 
-/* Z de fundo com números de bolsa */
-.hero-z-wrap {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-  user-select: none;
-  overflow: hidden;
-}
+/* ─── TIPOGRAFIA ─── */
+.ey{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.20em;text-transform:uppercase;color:var(--w30);margin-bottom:14px;padding:5px 14px;border:1px solid var(--w12);border-radius:100px}
+.sw .ey{color:rgba(7,21,46,.35);border-color:rgba(7,21,46,.12)}
+.stit{font-size:clamp(28px,4vw,54px);font-weight:900;letter-spacing:-.05em;line-height:1.04;color:#fff;margin-bottom:16px;max-width:800px}
+.sw .stit{color:var(--inv)}
+.sbdy{font-size:clamp(13px,1.3vw,15px);font-weight:400;line-height:1.76;color:var(--w55);max-width:600px;letter-spacing:-.005em;margin-bottom:12px}
+.sw .sbdy{color:var(--idim)}
 
-.hero-z-bg {
-  font-size: clamp(320px, 50vw, 620px);
-  font-weight: 900;
-  letter-spacing: -0.06em;
-  line-height: 1;
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(255,255,255,0.05);
-  position: relative;
-  z-index: 1;
-}
+/* ─── S2 PROBLEMA ─── */
+.pg{display:grid;grid-template-columns:1fr 1fr;gap:60px;max-width:940px;width:100%;margin-top:44px;text-align:left}
+.pc p{font-size:14px;line-height:1.78;color:var(--idim);margin-bottom:14px}
+.pc strong{color:var(--inv);font-weight:700}
+.pcards{display:flex;flex-direction:column;border-left:1px solid rgba(7,21,46,.1);padding-left:36px}
+.pcard{padding:19px 0;border-bottom:1px solid rgba(7,21,46,.07)}
+.pcard:last-child{border-bottom:none}
+.pn{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(7,21,46,.28);margin-bottom:6px}
+.pt{font-size:14px;font-weight:800;letter-spacing:-.03em;color:var(--n2);margin-bottom:4px}
+.pb2{font-size:12px;line-height:1.65;color:rgba(7,21,46,.5)}
 
-/* Ticker de números caindo sobre o Z */
-.ticker-container {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  overflow: hidden;
-  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Ctext x='50%25' y='55%25' font-family='Montserrat,sans-serif' font-weight='900' font-size='50vw' text-anchor='middle' dominant-baseline='central' letter-spacing='-0.06em'%3EZ%3C/text%3E%3C/svg%3E");
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Ctext x='50%25' y='55%25' font-family='Montserrat,sans-serif' font-weight='900' font-size='50vw' text-anchor='middle' dominant-baseline='central' letter-spacing='-0.06em'%3EZ%3C/text%3E%3C/svg%3E");
-  mask-repeat: no-repeat;
-  mask-position: center;
-  mask-size: contain;
-  -webkit-mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  -webkit-mask-size: contain;
-}
+/* ─── S3 MUDANÇA ─── */
+.chr{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:800px;width:100%;margin-top:40px}
+.cb{background:var(--w03);border:1px solid var(--w06);border-radius:2px;padding:24px 20px;text-align:left}
+.cf{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--w30);margin-bottom:14px}
+.csv{width:100%;height:100px;display:block;margin-bottom:12px}
+.cn{font-size:12px;line-height:1.6;color:var(--w55)}.cn b{color:var(--w80);font-weight:700}
+.csr{margin-top:40px;max-width:800px;width:100%;border:1px solid var(--w12);border-radius:2px;padding:40px 48px;display:flex;flex-direction:column;align-items:center;gap:22px;text-align:center}
+.csr h3{font-size:clamp(22px,2.8vw,36px);font-weight:900;letter-spacing:-.05em;line-height:1.05}
+.csr p{font-size:14px;color:var(--w55);line-height:1.6;max-width:480px}
 
-.ticker-col {
-  position: absolute;
-  top: -100%;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  animation: tickerFall linear infinite;
-  opacity: 0.55;
-}
+/* ─── S4 PILARES ─── */
+.prow{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;max-width:840px;width:100%;margin-top:40px;background:var(--w06);overflow:hidden;border-radius:2px}
+.pil{background:var(--n3);padding:28px 24px;text-align:left;transition:background .2s}
+.pil:hover{background:var(--n4)}
+.pit{font-size:14px;font-weight:800;letter-spacing:-.02em;margin-bottom:8px}
+.pib{font-size:12px;line-height:1.65;color:var(--w55)}
 
-@keyframes tickerFall {
-  0%   { transform: translateY(0); }
-  100% { transform: translateY(200%); }
-}
+/* ─── S5 COMO FUNCIONA (bento Portfel) ─── */
+.bento{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;max-width:960px;width:100%;margin-top:40px}
+.bcard{background:var(--n3);border-radius:20px;padding:32px 28px;text-align:left;position:relative;border:1px solid rgba(255,255,255,.07);transition:border-color .2s,background .2s}
+.bcard:hover{border-color:rgba(255,255,255,.15);background:var(--n4)}
+.bcard-hero{grid-column:1/3}
+.bcard-side{grid-column:3/4;grid-row:1/3;display:flex;flex-direction:column;justify-content:space-between}
+.bcard-sm{grid-column:auto}
+.bnum{position:absolute;top:18px;right:18px;width:30px;height:30px;border-radius:50%;border:1.5px solid rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:var(--w55)}
+.bico{width:36px;height:36px;border-radius:8px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);display:flex;align-items:center;justify-content:center;margin-bottom:20px}
+.bico svg{width:18px;height:18px;stroke:rgba(255,255,255,.6);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.btit{font-size:clamp(18px,2vw,24px);font-weight:800;letter-spacing:-.04em;line-height:1.15;margin-bottom:12px;color:#fff}
+.bdsc{font-size:13px;line-height:1.68;color:var(--w55)}
+.b-fpsb{margin-top:20px;padding-top:18px;border-top:1px solid rgba(255,255,255,.07)}
+.b-fpsb p{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--w30);margin-bottom:6px}
+.b-fpsb span{font-size:12px;color:var(--w55);line-height:1.6}
 
-.ticker-num {
-  font-size: 11px;
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: 0.04em;
-  white-space: nowrap;
-  line-height: 1.4;
-}
-.ticker-num.up   { color: #4ade80; }
-.ticker-num.down { color: #f87171; }
-.ticker-num.neu  { color: rgba(255,255,255,0.6); }
+/* ─── S6 FEE ─── */
+.fp{display:grid;grid-template-columns:1fr 1fr;gap:2px;max-width:800px;width:100%;margin-top:40px;background:var(--w06);overflow:hidden;border-radius:2px}
+.fcol{background:var(--n4);padding:32px 28px;text-align:left}
+.fct{font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--w30);margin-bottom:20px}
+.fi{display:flex;gap:12px;align-items:baseline;font-size:14px;font-weight:500;color:var(--w80);margin-bottom:12px;letter-spacing:-.01em}
+.fi:last-child{margin-bottom:0}
+.fm{font-size:11px;font-weight:700;color:var(--w30);flex-shrink:0;width:12px}
 
-/* Conteúdo do hero */
-.hero-content {
-  position: relative;
-  z-index: 10;
-  max-width: 720px;
-}
+/* ─── S7 PARA QUEM ─── */
+.pqb{max-width:660px;width:100%;margin-top:32px}
+.pqb p{font-size:clamp(13px,1.3vw,15px);line-height:1.76;color:var(--w55);margin-bottom:12px}
+.pqq{margin-top:32px;padding:24px 28px;border-left:2px solid var(--w12);text-align:left;font-size:clamp(16px,1.7vw,20px);font-weight:700;font-style:italic;line-height:1.4;letter-spacing:-.03em;color:var(--w80)}
+.pqm{margin-top:22px;font-size:12px;color:var(--w30);letter-spacing:.02em}
 
-.hero-eyebrow {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--w30);
-  margin-bottom: 24px;
-}
+/* ─── S8 GESTORA ─── */
+.gc{display:grid;grid-template-columns:1fr 1fr;gap:44px;max-width:840px;width:100%;margin-top:40px;text-align:left}
+.gtag{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--w30);display:block;margin-bottom:8px}
+.gnm{font-size:clamp(17px,1.8vw,22px);font-weight:900;letter-spacing:-.04em;margin-bottom:14px;color:#fff}
+.gbdy p{font-size:13px;line-height:1.74;color:var(--w55);margin-bottom:10px}
+.gbdy strong{color:var(--w80);font-weight:700}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.chip{font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--w30);padding:4px 10px;border:1px solid var(--w12);border-radius:100px}
 
-.hero-title {
-  font-size: clamp(58px, 9vw, 118px);
-  font-weight: 900;
-  letter-spacing: -0.055em;
-  line-height: 0.95;
-  color: var(--white);
-  margin-bottom: 28px;
-}
+/* ─── PASSO A PASSO ─── */
+#s-passo{background:var(--n2);padding:clamp(52px,7vw,88px) clamp(24px,8vw,88px);display:flex;flex-direction:column;align-items:center;text-align:center;position:relative}
+.ptit-main{font-size:clamp(24px,3vw,40px);font-weight:800;letter-spacing:-.04em;line-height:1.1;color:#fff;margin-bottom:36px;max-width:640px}
+.pgrid{width:100%;max-width:960px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.prow1{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+.prow2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.pstep{background:var(--n3);border-radius:22px;padding:32px 28px;position:relative;border:1px solid rgba(255,255,255,.08);transition:border-color .2s,background .2s;text-align:left}
+.pstep:hover{border-color:rgba(255,255,255,.16);background:var(--n4)}
+.psbadge{position:absolute;top:18px;right:18px;width:30px;height:30px;border-radius:50%;border:1.5px solid rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:var(--w55)}
+.psico{width:36px;height:36px;border-radius:10px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);display:flex;align-items:center;justify-content:center;margin-bottom:20px}
+.psico svg{width:18px;height:18px;stroke:rgba(255,255,255,.62);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.pstit{font-size:clamp(18px,2vw,24px);font-weight:800;letter-spacing:-.04em;line-height:1.15;color:#fff;margin-bottom:12px}
+.psdsc{font-size:13px;line-height:1.68;color:var(--w55)}
+/* Imagem do gráfico */
+.pimg{background:var(--n4);border-radius:20px;border:1px solid rgba(255,255,255,.1);overflow:hidden;width:100%;aspect-ratio:4/3;transform:perspective(800px) rotateY(-4deg) rotateX(2deg);box-shadow:0 24px 60px rgba(0,0,0,.5)}
 
-.hero-sub {
-  font-size: clamp(16px, 1.8vw, 20px);
-  font-weight: 400;
-  line-height: 1.58;
-  color: var(--w55);
-  max-width: 540px;
-  margin: 0 auto 18px;
-  letter-spacing: -0.01em;
-}
+/* ─── S10 CTA ─── */
+#scta{background:var(--n0);padding:clamp(68px,9vw,110px) 24px;display:flex;flex-direction:column;align-items:center;text-align:center;position:relative;overflow:hidden}
+.cta-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:580px;height:480px;background:radial-gradient(ellipse 58% 52% at 50% 50%,rgba(22,78,210,.22) 0%,transparent 70%);pointer-events:none}
+.ctt{font-size:clamp(30px,4.2vw,56px);font-weight:900;letter-spacing:-.05em;line-height:1.05;max-width:740px;margin-bottom:20px;position:relative;z-index:1}
+.ctb{font-size:clamp(13px,1.3vw,15px);line-height:1.74;color:var(--w55);max-width:500px;margin-bottom:8px;position:relative;z-index:1}
+.ctn{font-size:11px;color:var(--w30);margin-top:14px;position:relative;z-index:1}
 
-.hero-body {
-  font-size: clamp(14px, 1.4vw, 16px);
-  font-weight: 400;
-  line-height: 1.72;
-  color: var(--w30);
-  max-width: 520px;
-  margin: 0 auto 44px;
-  letter-spacing: -0.005em;
-}
+/* ─── TESTI ─── */
+.tph{margin-top:40px;max-width:500px;width:100%;padding:40px 28px;border:1px dashed var(--w12);border-radius:2px}
+.tph p{font-size:13px;color:var(--w30);font-style:italic}
 
-.hero-cta-wrap {
-  display: flex;
-  gap: 14px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
+/* ─── FAQ ─── */
+.flist{max-width:700px;width:100%;margin-top:40px;text-align:left}
+.fi2{border-bottom:1px solid var(--w06)}.fi2:first-child{border-top:1px solid var(--w06)}
+.fbt{width:100%;background:none;border:none;display:flex;justify-content:space-between;align-items:center;padding:18px 0;gap:14px;font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;color:var(--w80);cursor:pointer;text-align:left;letter-spacing:-.02em;transition:color .2s}
+.fbt:hover{color:#fff}
+.fpl{font-size:18px;font-weight:200;color:var(--w30);flex-shrink:0;transition:transform .3s var(--ease);line-height:1}
+.fi2.open .fpl{transform:rotate(45deg);color:var(--w80)}
+.fan{font-size:13px;line-height:1.74;color:var(--w55);max-height:0;overflow:hidden;transition:max-height .35s ease,padding .25s}
+.fi2.open .fan{max-height:400px;padding-bottom:18px}
+.fan b{color:var(--w80);font-weight:700}
 
-/* ─── BOTÕES ─── */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  padding: 16px 32px;
-  border-radius: 100px;
-  text-decoration: none;
-  transition: opacity .2s, transform .18s var(--ease);
-  border: none;
-  cursor: pointer;
-}
-.btn:hover { opacity: .84; transform: translateY(-1px); }
+/* ─── FOOTER ─── */
+footer{background:#020c1a;border-top:1px solid var(--w06);padding:44px clamp(24px,8vw,88px) 32px}
+.fgrid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:44px;max-width:940px;margin:0 auto 32px}
+.fbrand{font-size:15px;font-weight:800;letter-spacing:-.04em;margin-bottom:7px}
+.finfo{font-size:11px;color:var(--w30);line-height:1.7}
+.flbl{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--w30);margin-bottom:12px}
+.flinks{display:flex;flex-direction:column;gap:8px}
+.flinks a{font-size:12px;color:var(--w55);text-decoration:none;transition:color .2s}
+.flinks a:hover{color:#fff}
+.flgl p{font-size:10px;color:var(--w30);line-height:1.6;margin-bottom:2px}
+.fhr{border:none;border-top:1px solid var(--w06);max-width:940px;margin:0 auto 20px}
+.fdisc{max-width:940px;margin:0 auto;font-size:10px;color:rgba(255,255,255,.16);line-height:1.7}
 
-.btn-dark {
-  background: var(--n1);
-  color: var(--white);
-  border: 1px solid rgba(255,255,255,0.15);
-}
-.btn-white {
-  background: var(--white);
-  color: var(--n1);
-}
-.btn-outline {
-  background: transparent;
-  color: var(--w80);
-  border: 1px solid rgba(255,255,255,0.22);
-}
+/* ─── HERO LOGO ─── */
+.hlog-img{height:40px;width:auto;margin-bottom:44px;display:block;object-fit:contain;filter:brightness(0) invert(1)}
+.htit{font-size:clamp(50px,8.2vw,108px);font-weight:900;letter-spacing:-.055em;line-height:.96;color:#fff;margin-bottom:22px;max-width:680px}
+.htit em{font-style:normal;color:rgba(110,190,255,.90)}
+.hsub{font-size:clamp(15px,1.7vw,19px);font-weight:400;line-height:1.56;color:var(--w55);max-width:500px;margin:0 auto 12px;letter-spacing:-.01em}
+.hbody{font-size:clamp(12px,1.2vw,14px);font-weight:400;line-height:1.7;color:var(--w30);max-width:460px;margin:0 auto 40px}
+.hcon{position:relative;z-index:10;display:flex;flex-direction:column;align-items:center}
 
-/* ─────────────────────────────
-   GRADIENTE DIVISOR entre seções
-───────────────────────────── */
-.grad-div {
-  height: 120px;
-  pointer-events: none;
-}
-.grad-navy-to-off { background: linear-gradient(to bottom, var(--n1), var(--off)); }
-.grad-off-to-navy { background: linear-gradient(to bottom, var(--off), var(--n1)); }
-.grad-navy-to-gray { background: linear-gradient(to bottom, var(--n2), #c8d0dc); }
-.grad-gray-to-white { background: linear-gradient(to bottom, #c8d0dc, var(--white)); }
-.grad-white-to-navy { background: linear-gradient(to bottom, var(--white), var(--n2)); }
-.grad-navy-to-blue { background: linear-gradient(to bottom, var(--n2), var(--blue-solid)); }
-.grad-blue-to-navy { background: linear-gradient(to bottom, var(--blue-solid), var(--n1)); }
-.grad-navy-to-n3  { background: linear-gradient(to bottom, var(--n1), var(--n3)); }
-.grad-n3-to-navy  { background: linear-gradient(to bottom, var(--n3), var(--n2)); }
+/* ─── SCROLL REVEAL ─── */
+.r{opacity:0;transform:translateY(22px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.r.on{opacity:1;transform:translateY(0)}
+.r.d1{transition-delay:.1s}.r.d2{transition-delay:.2s}.r.d3{transition-delay:.3s}
+/* Hero usa CSS animation pura */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+#hero .r{animation:fadeUp .9s var(--ease) both;opacity:1}
+#hero .r.d1{animation-delay:.15s}
+#hero .r.d2{animation-delay:.30s}
+#hero .r.d3{animation-delay:.45s}
+@media(prefers-reduced-motion:reduce){.r{opacity:1;transform:none;transition:none}#hero .r{animation:none}}
 
-/* ─────────────────────────────
-   SEÇÃO GENÉRICA
-───────────────────────────── */
-.sec {
-  padding: clamp(64px, 8vw, 100px) clamp(24px, 6vw, 96px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
+/* ─── RESPONSIVO ─── */
+@media(max-width:768px){
+  #hero{padding:48px 20px 60px}
+  .hlog-img{height:32px;margin-bottom:28px}
+  .htit{font-size:clamp(42px,11vw,64px)}
+  .hsub,.hbody{max-width:100%}
+  .pb{padding:7px 7px 7px 18px;max-width:340px}
+  .pb-t{font-size:11px;margin-right:10px;white-space:normal;line-height:1.3}
+  .sec{padding:48px 20px}
+  .stit{font-size:clamp(24px,7vw,38px)}
+  .pg{grid-template-columns:1fr;gap:24px}
+  .pcards{border-left:none;padding-left:0;border-top:1px solid rgba(7,21,46,.1);padding-top:24px}
+  .chr{grid-template-columns:1fr}
+  .csr{padding:28px 24px}
+  .prow{grid-template-columns:1fr}
+  .bento{grid-template-columns:1fr}
+  .bcard-hero,.bcard-side,.bcard-sm{grid-column:1;grid-row:auto}
+  .bcard-side{display:block}
+  .fp{grid-template-columns:1fr}
+  .gc{grid-template-columns:1fr;gap:24px}
+  #s-passo{padding:48px 20px}
+  .prow1,.prow2{grid-template-columns:1fr}
+  .pimg{transform:none;aspect-ratio:16/9}
+  #scta{padding:56px 20px}
+  .ctt{font-size:clamp(26px,7vw,40px)}
+  .fgrid{grid-template-columns:1fr;gap:24px}
+  footer{padding:36px 20px 28px}
+  .gd{height:60px}
+  /* Z section no mobile */
+  .z-wrap{width:min(85vw,380px)}
+  .z-txt h2{font-size:clamp(18px,5vw,26px)}
+}
+@media(max-width:480px){
+  #hero{padding:40px 16px 52px}
+  .htit{font-size:clamp(36px,12vw,52px)}
+  .pb{max-width:100%;padding:7px 7px 7px 16px}
+  .pb-t{font-size:10px}
+  .pb-i{width:32px;height:32px}
+  .sec{padding:40px 16px}
+  .bcard,.pstep{padding:22px 18px;border-radius:16px}
+  .btit,.pstit{font-size:18px}
+  .bnum,.psbadge{width:26px;height:26px;font-size:10px;top:12px;right:12px}
+  footer{padding:28px 16px 24px}
+  .fdisc{font-size:9px}
 }
-
-.sec-navy  { background: var(--n2); }
-.sec-deep  { background: var(--n1); }
-.sec-n3    { background: var(--n3); }
-.sec-blue  { background: var(--blue-solid); }
-.sec-white { background: var(--white); color: var(--inv-text); }
-.sec-off   { background: var(--off); color: var(--inv-text); }
-.sec-gray  { background: #e0e6ef; color: var(--inv-text); }
-
-.eyebrow {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--w30);
-  margin-bottom: 16px;
-}
-.sec-white .eyebrow,
-.sec-off .eyebrow,
-.sec-gray .eyebrow { color: rgba(7,21,46,0.35); }
-.sec-blue .eyebrow { color: rgba(255,255,255,0.5); }
-
-.sec-title {
-  font-size: clamp(32px, 4.5vw, 60px);
-  font-weight: 900;
-  letter-spacing: -0.05em;
-  line-height: 1.02;
-  color: var(--white);
-  margin-bottom: 20px;
-  max-width: 800px;
-}
-.sec-white .sec-title,
-.sec-off .sec-title,
-.sec-gray .sec-title { color: var(--n1); }
-
-.sec-body {
-  font-size: clamp(15px, 1.5vw, 17px);
-  font-weight: 400;
-  line-height: 1.74;
-  color: var(--w55);
-  max-width: 620px;
-  letter-spacing: -0.005em;
-}
-.sec-white .sec-body,
-.sec-off .sec-body,
-.sec-gray .sec-body { color: var(--inv-dim); }
-.sec-blue .sec-body { color: rgba(255,255,255,0.65); }
-
-.sec-body + .sec-body { margin-top: 16px; }
-
-/* ─────────────────────────────
-   SEÇÃO 2 — O PROBLEMA (branco)
-───────────────────────────── */
-.problema-cols {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0;
-  max-width: 960px;
-  width: 100%;
-  margin-top: 52px;
-  text-align: left;
-}
-@media (max-width: 700px) { .problema-cols { grid-template-columns: 1fr; } }
-
-.problema-text { padding-right: 48px; }
-.problema-text p {
-  font-size: 15px;
-  line-height: 1.76;
-  color: var(--inv-dim);
-  margin-bottom: 16px;
-}
-.problema-text strong { color: var(--n1); font-weight: 700; }
-
-.problema-cards {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  border-left: 1px solid rgba(7,21,46,0.1);
-  padding-left: 48px;
-}
-.pcard {
-  padding: 24px 0;
-  border-bottom: 1px solid rgba(7,21,46,0.08);
-  transition: background .2s;
-}
-.pcard:last-child { border-bottom: none; }
-.pcard-n {
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: rgba(7,21,46,0.28);
-  margin-bottom: 8px;
-}
-.pcard-title {
-  font-size: 16px;
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  color: var(--n2);
-  margin-bottom: 6px;
-}
-.pcard-body {
-  font-size: 13px;
-  line-height: 1.65;
-  color: rgba(7,21,46,0.5);
-}
-
-/* ─────────────────────────────
-   SEÇÃO 3 — MUDANÇA (cinza→branco)
-───────────────────────────── */
-.charts-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  max-width: 860px;
-  width: 100%;
-  margin-top: 48px;
-}
-@media (max-width: 680px) { .charts-row { grid-template-columns: 1fr; } }
-
-.chart-box {
-  border: 1px solid rgba(7,21,46,0.10);
-  border-radius: 2px;
-  padding: 28px 24px;
-  background: rgba(255,255,255,0.6);
-  text-align: left;
-}
-.chart-flag {
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: rgba(7,21,46,0.35);
-  margin-bottom: 16px;
-}
-.chart-svg { width: 100%; height: 120px; display: block; margin-bottom: 14px; }
-.chart-note { font-size: 12px; line-height: 1.6; color: rgba(7,21,46,0.5); }
-.chart-note b { color: var(--n2); font-weight: 700; }
-
-.transicao-callout {
-  margin-top: 48px;
-  max-width: 680px;
-  width: 100%;
-  text-align: center;
-}
-.transicao-callout p {
-  font-size: clamp(18px, 2.2vw, 26px);
-  font-weight: 900;
-  letter-spacing: -0.04em;
-  line-height: 1.2;
-  color: var(--n1);
-  margin-bottom: 8px;
-}
-.transicao-callout span {
-  font-size: 14px;
-  font-weight: 400;
-  color: rgba(7,21,46,0.5);
-  line-height: 1.6;
-  display: block;
-  margin-bottom: 28px;
-}
-
-/* ─────────────────────────────
-   SEÇÃO 4 — QUEM SOMOS (navy)
-───────────────────────────── */
-.pilares-row {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap: 2px;
-  max-width: 860px;
-  width: 100%;
-  margin-top: 48px;
-  background: var(--w06);
-  border-radius: 2px;
-  overflow: hidden;
-}
-@media (max-width: 680px) { .pilares-row { grid-template-columns: 1fr; } }
-
-.pilar {
-  padding: 36px 28px;
-  background: var(--n2);
-  text-align: left;
-  transition: background .2s;
-}
-.pilar:hover { background: var(--n3); }
-.pilar-title {
-  font-size: 15px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  margin-bottom: 10px;
-  color: var(--white);
-}
-.pilar-body {
-  font-size: 13px;
-  line-height: 1.65;
-  color: var(--w55);
-}
-
-/* ─────────────────────────────
-   SEÇÃO 5 — COMO FUNCIONA (n3)
-───────────────────────────── */
-.fpsb-steps {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap: 2px;
-  max-width: 960px;
-  width: 100%;
-  margin-top: 48px;
-  background: var(--w06);
-  border-radius: 2px;
-  overflow: hidden;
-}
-@media (max-width: 680px) { .fpsb-steps { grid-template-columns: 1fr; } }
-
-.fpsb-step {
-  background: var(--n3);
-  padding: 32px 28px;
-  text-align: left;
-  transition: background .2s;
-}
-.fpsb-step:hover { background: var(--n4); }
-.fpsb-num {
-  font-size: 36px;
-  font-weight: 900;
-  letter-spacing: -0.06em;
-  color: var(--w10);
-  margin-bottom: 16px;
-  line-height: 1;
-  display: block;
-}
-.fpsb-title {
-  font-size: 14px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  margin-bottom: 8px;
-  color: var(--white);
-}
-.fpsb-desc {
-  font-size: 12px;
-  line-height: 1.65;
-  color: var(--w55);
-}
-
-/* ─────────────────────────────
-   SEÇÃO 6 — FEE-ONLY (azul sólido)
-───────────────────────────── */
-.fee-cols {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2px;
-  max-width: 820px;
-  width: 100%;
-  margin-top: 48px;
-  background: rgba(255,255,255,0.08);
-  border-radius: 2px;
-  overflow: hidden;
-}
-@media (max-width: 600px) { .fee-cols { grid-template-columns: 1fr; } }
-
-.fee-col {
-  padding: 36px 32px;
-  text-align: left;
-  background: rgba(255,255,255,0.04);
-}
-.fee-col-title {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.4);
-  margin-bottom: 24px;
-}
-.fee-item {
-  display: flex;
-  gap: 12px;
-  align-items: baseline;
-  font-size: 15px;
-  font-weight: 500;
-  color: rgba(255,255,255,0.80);
-  margin-bottom: 14px;
-  letter-spacing: -0.01em;
-}
-.fee-item:last-child { margin-bottom: 0; }
-.fee-mark {
-  font-size: 12px;
-  font-weight: 700;
-  color: rgba(255,255,255,0.35);
-  flex-shrink: 0;
-  width: 14px;
-}
-
-/* ─────────────────────────────
-   SEÇÃO 7 — PARA QUEM É (navy deep)
-───────────────────────────── */
-.paraquem-box {
-  max-width: 680px;
-  width: 100%;
-  margin-top: 40px;
-  text-align: center;
-}
-.paraquem-box p {
-  font-size: clamp(15px, 1.5vw, 17px);
-  line-height: 1.74;
-  color: var(--w55);
-  margin-bottom: 16px;
-}
-.paraquem-destaque {
-  margin-top: 40px;
-  padding: 32px 36px;
-  border: 1px solid var(--w10);
-  border-radius: 2px;
-  font-size: clamp(18px, 2vw, 24px);
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  line-height: 1.3;
-  color: var(--white);
-  font-style: italic;
-}
-
-/* ─────────────────────────────
-   SEÇÃO 8 — GESTORA (n3)
-───────────────────────────── */
-.gestora-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 48px;
-  max-width: 860px;
-  width: 100%;
-  margin-top: 48px;
-  text-align: left;
-  align-items: start;
-}
-@media (max-width: 700px) { .gestora-grid { grid-template-columns: 1fr; gap: 32px; } }
-
-.gestora-left p,
-.gestora-right p {
-  font-size: 15px;
-  line-height: 1.74;
-  color: var(--w55);
-  margin-bottom: 14px;
-}
-.gestora-right p:last-child { margin-bottom: 0; }
-.gestora-tag {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--w30);
-  margin-bottom: 16px;
-  display: block;
-}
-.gestora-headline {
-  font-size: clamp(20px, 2.2vw, 28px);
-  font-weight: 900;
-  letter-spacing: -0.04em;
-  line-height: 1.1;
-  color: var(--white);
-  margin-bottom: 20px;
-}
-
-/* Corretoras */
-.corretoras {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 20px;
-}
-.corretora-chip {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--w30);
-  padding: 6px 12px;
-  border: 1px solid var(--w10);
-  border-radius: 100px;
-}
-
-/* ─────────────────────────────
-   SEÇÃO 9 — DEPOIMENTOS (navy)
-───────────────────────────── */
-.testi-grid {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap: 2px;
-  max-width: 960px;
-  width: 100%;
-  margin-top: 48px;
-  background: var(--w06);
-  border-radius: 2px;
-  overflow: hidden;
-}
-@media (max-width: 700px) { .testi-grid { grid-template-columns: 1fr; } }
-
-.tcard {
-  background: var(--n1);
-  padding: 36px 28px;
-  text-align: left;
-  transition: background .2s;
-}
-.tcard:hover { background: var(--n3); }
-.tcard-stars { font-size: 11px; letter-spacing: 3px; color: var(--w30); margin-bottom: 14px; }
-.tcard-text { font-size: 14px; line-height: 1.72; color: var(--w55); font-style: italic; margin-bottom: 22px; }
-.tcard-name { font-size: 12px; font-weight: 700; color: var(--w80); }
-.tcard-role { font-size: 11px; color: var(--w30); margin-top: 2px; }
-
-.testi-placeholder {
-  margin-top: 48px;
-  padding: 48px 36px;
-  border: 1px dashed var(--w10);
-  border-radius: 2px;
-  max-width: 560px;
-  width: 100%;
-  text-align: center;
-}
-.testi-placeholder p {
-  font-size: 14px;
-  color: var(--w30);
-  font-style: italic;
-}
-
-/* ─────────────────────────────
-   SEÇÃO 10 — CTA FINAL (n1)
-───────────────────────────── */
-#s-cta {
-  min-height: 80svh;
-  background: var(--n1);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 80px 24px;
-  position: relative;
-  overflow: hidden;
-}
-#s-cta::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
-  background-size: 36px 36px;
-  pointer-events: none;
-}
-
-.cta-title {
-  font-size: clamp(36px, 5.5vw, 72px);
-  font-weight: 900;
-  letter-spacing: -0.05em;
-  line-height: 1.05;
-  color: var(--white);
-  max-width: 760px;
-  margin: 0 auto 24px;
-  position: relative;
-  z-index: 1;
-}
-.cta-body {
-  font-size: clamp(15px, 1.5vw, 17px);
-  font-weight: 400;
-  line-height: 1.72;
-  color: var(--w55);
-  max-width: 520px;
-  margin: 0 auto 36px;
-  position: relative;
-  z-index: 1;
-}
-.cta-note {
-  font-size: 12px;
-  color: var(--w30);
-  margin-top: 18px;
-  letter-spacing: 0.01em;
-  position: relative;
-  z-index: 1;
-}
-
-/* ─────────────────────────────
-   SEÇÃO 11 — FAQ
-───────────────────────────── */
-.faq-list {
-  max-width: 720px;
-  width: 100%;
-  margin-top: 48px;
-  text-align: left;
-}
-.faq-item { border-bottom: 1px solid var(--w06); }
-.faq-item:first-child { border-top: 1px solid var(--w06); }
-.faq-btn {
-  width: 100%; background: none; border: none;
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 22px 0; gap: 16px;
-  font-family: var(--font); font-size: 15px; font-weight: 700;
-  color: var(--w80); cursor: pointer; text-align: left;
-  letter-spacing: -0.02em; transition: color .2s;
-}
-.faq-btn:hover { color: var(--white); }
-.faq-plus {
-  font-size: 20px; font-weight: 200;
-  color: var(--w30); flex-shrink: 0;
-  transition: transform .3s var(--ease); line-height: 1;
-}
-.faq-item.open .faq-plus { transform: rotate(45deg); color: var(--w80); }
-.faq-answer {
-  font-size: 14px; line-height: 1.74; color: var(--w55);
-  max-height: 0; overflow: hidden;
-  transition: max-height .35s ease, padding .25s;
-}
-.faq-item.open .faq-answer { max-height: 400px; padding-bottom: 22px; }
-.faq-answer b { color: var(--w80); font-weight: 700; }
-
-/* ─────────────────────────────
-   FOOTER
-───────────────────────────── */
-footer {
-  background: #030c1c;
-  border-top: 1px solid var(--w06);
-  padding: 52px 56px 40px;
-}
-@media (max-width: 760px) { footer { padding: 40px 24px 32px; } }
-
-.footer-grid {
-  display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr;
-  gap: 48px;
-  max-width: 1000px;
-  margin: 0 auto 40px;
-}
-@media (max-width: 760px) { .footer-grid { grid-template-columns: 1fr; gap: 28px; } }
-
-.footer-col-title {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--w30);
-  margin-bottom: 16px;
-}
-.footer-brand {
-  font-size: 16px;
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  color: var(--white);
-  margin-bottom: 8px;
-}
-.footer-brand-sub {
-  font-size: 12px;
-  color: var(--w30);
-  line-height: 1.6;
-}
-.footer-links {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.footer-links a {
-  font-size: 13px;
-  color: var(--w55);
-  text-decoration: none;
-  transition: color .2s;
-}
-.footer-links a:hover { color: var(--white); }
-.footer-legal-col p {
-  font-size: 12px;
-  color: var(--w30);
-  line-height: 1.6;
-  margin-bottom: 4px;
-}
-
-.footer-divider {
-  border: none;
-  border-top: 1px solid var(--w06);
-  max-width: 1000px;
-  margin: 0 auto 28px;
-}
-
-.footer-disclaimer {
-  max-width: 1000px;
-  margin: 0 auto;
-  font-size: 11px;
-  color: rgba(255,255,255,0.18);
-  line-height: 1.7;
-}
-
-/* ─────────────────────────────
-   SCROLL REVEAL
-───────────────────────────── */
-.reveal {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity .65s var(--ease), transform .65s var(--ease);
-}
-.reveal.up { opacity: 1; transform: translateY(0); }
-.reveal.d1 { transition-delay: .1s; }
-.reveal.d2 { transition-delay: .2s; }
-.reveal.d3 { transition-delay: .3s; }
-@media (prefers-reduced-motion: reduce) {
-  .reveal { opacity: 1; transform: none; transition: none; }
-}
-
-/* ─────────────────────────────
-   RESPONSIVE HELPERS
-───────────────────────────── */
-@media (max-width: 760px) {
-  .sec { padding: 56px 24px; }
-  .problema-text { padding-right: 0; }
-  .problema-cards { border-left: none; padding-left: 0; border-top: 1px solid rgba(7,21,46,0.1); padding-top: 32px; }
-}
-
 </style>
 </head>
 <body>
 
-<!-- ══ NAV ══ -->
-<nav>
-  <a href="#" class="nav-logo">Zé Investe</a>
-  <ul class="nav-center">
-    <li><a href="#s-como">Como funciona</a></li>
-    <li><a href="#s-quem">Quem somos</a></li>
-    <li><a href="#s-fee">Diferencial</a></li>
-    <li><a href="#s-faq">FAQ</a></li>
-  </ul>
-  <a href="https://wa.me/5516974005673" target="_blank" class="nav-wa">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-    Fale agora
-  </a>
-</nav>
-
-<!-- ══ S1 HERO ══ -->
+<!-- ══ HERO ══ -->
 <section id="hero">
-  <!-- Z com números de bolsa -->
-  <div class="hero-z-wrap">
-    <div class="ticker-container" id="tickerContainer"></div>
-    <div class="hero-z-bg">Z</div>
+  <div class="hg"></div>
+  <div class="ho"></div>
+  <!-- Z sutil no fundo do hero, lado direito -->
+  <div class="hz-bg">
+    <svg viewBox="0 0 700 600" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <clipPath id="hzClip">
+          <polygon points="60,40 640,40 640,130 200,470 640,470 640,560 60,560 60,470 500,130 60,130"/>
+        </clipPath>
+        <filter id="hzGlow">
+          <feGaussianBlur stdDeviation="5" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <linearGradient id="hzBg" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#0d2147"/>
+          <stop offset="100%" stop-color="#050d1e"/>
+        </linearGradient>
+      </defs>
+      <g clip-path="url(#hzClip)">
+        <rect x="0" y="0" width="700" height="600" fill="url(#hzBg)"/>
+        <foreignObject x="60" y="40" width="580" height="520">
+          <div xmlns="http://www.w3.org/1999/xhtml" id="zHeroTicker"
+            style="width:100%;height:100%;overflow:hidden;display:grid;grid-template-columns:repeat(7,1fr);gap:2px;padding:10px;font-family:Montserrat,monospace;font-size:10px;font-weight:700;letter-spacing:.04em;line-height:1.6">
+          </div>
+        </foreignObject>
+      </g>
+      <g filter="url(#hzGlow)" fill="none" stroke="rgba(50,130,255,.35)" stroke-width="1.5">
+        <polygon points="60,40 640,40 640,130 200,470 640,470 640,560 60,560 60,470 500,130 60,130"/>
+      </g>
+    </svg>
   </div>
 
-  <div class="hero-content">
-    <p class="hero-eyebrow reveal">Planejamento financeiro pessoal independente</p>
-    <h1 class="hero-title reveal d1">Invista<br>em você.</h1>
-    <p class="hero-sub reveal d2">O mercado financeiro foi construído para ganhar do seu dinheiro. A Zé Investe foi construída para cuidar dele.</p>
-    <p class="hero-body reveal d2">Somos um escritório de planejamento financeiro pessoal independente. Não vendemos produto. Não ganhamos comissão. Não trabalhamos para corretora. Trabalhamos para você — e apenas para você.</p>
-    <div class="hero-cta-wrap reveal d3">
-      <a href="https://wa.me/5516974005673" target="_blank" class="btn btn-white">Quero entender minha situação financeira →</a>
-    </div>
+  <div class="hcon">
+    <img src="logo.png" alt="Zé Investe" class="hlog-img r">
+    <h1 class="htit r d1">Invista<br>em <em>você.</em></h1>
+    <p class="hsub r d2">O mercado financeiro foi construído para ganhar do seu dinheiro. A Zé Investe foi construída para cuidar dele.</p>
+    <p class="hbody r d2">Somos um escritório de planejamento financeiro pessoal independente. Não vendemos produto. Não ganhamos comissão. Não trabalhamos para corretora. Trabalhamos para você — e apenas para você.</p>
+    <a href="https://wa.me/5516974005673" target="_blank" class="pb r d3">
+      <span class="pb-t">Quero entender minha situação financeira</span>
+      <span class="pb-i"><svg viewBox="0 0 24 24" fill="none" stroke="#07152e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+    </a>
   </div>
 </section>
 
-<!-- divisor -->
-<div class="grad-div grad-navy-to-off"></div>
+<div class="gd gd-n0-off" style="background:linear-gradient(var(--n0),var(--off))"></div>
 
-<!-- ══ S2 O PROBLEMA (branco) ══ -->
-<section id="s-problema" class="sec sec-off">
-  <p class="eyebrow reveal">O Problema</p>
-  <h2 class="sec-title reveal d1">Se você não paga<br>pelo produto,<br>você é o produto.</h2>
-
-  <div class="problema-cols">
-    <div class="problema-text reveal d1">
+<!-- ══ S2 O PROBLEMA (única seção branca) ══ -->
+<section id="s-prob" class="sec sw">
+  <span class="ey r">O Problema</span>
+  <h2 class="stit r d1">Se você não paga pelo produto, você é o produto.</h2>
+  <div class="pg">
+    <div class="pc r d1">
       <p>Seu gerente de banco não trabalha para você. Ele trabalha para o banco. O assessor de investimentos não trabalha para você. Ele trabalha para a corretora. Isso não é opinião — é o modelo de negócio deles.</p>
       <p>Cada produto que te oferecem carrega uma <strong>comissão embutida</strong> que você não vê, não aprovou e provavelmente nunca vai saber o valor. Desde novembro de 2024, as corretoras são obrigadas por lei a declarar quanto ganham com a sua carteira. Peça esse número. A resposta vai surpreender.</p>
       <p>Não estamos aqui para atacar ninguém. Estamos aqui para ser o que o mercado ainda não tem em escala: um planejador que <strong>ganha quando você ganha</strong>, não quando você compra.</p>
     </div>
-    <div class="problema-cards reveal d2">
-      <div class="pcard">
-        <p class="pcard-n">01</p>
-        <p class="pcard-title">Conflito de interesses</p>
-        <p class="pcard-body">O assessor é remunerado pelos produtos que distribui — um incentivo estrutural para te colocar no que rende para ele, não para você.</p>
-      </div>
-      <div class="pcard">
-        <p class="pcard-n">02</p>
-        <p class="pcard-title">Comissões ocultas</p>
-        <p class="pcard-body">Fundos, previdências e produtos estruturados carregam spreads e rebates que nunca aparecem no seu extrato.</p>
-      </div>
-      <div class="pcard">
-        <p class="pcard-n">03</p>
-        <p class="pcard-title">A alternativa existe</p>
-        <p class="pcard-body">O modelo fee-only já dominou Reino Unido e EUA. Agora chega ao Brasil — e você pode se antecipar.</p>
-      </div>
+    <div class="pcards r d2">
+      <div class="pcard"><p class="pn">01</p><p class="pt">Conflito de interesses</p><p class="pb2">O assessor é remunerado pelos produtos que distribui — incentivo estrutural para te colocar no que rende para ele, não para você.</p></div>
+      <div class="pcard"><p class="pn">02</p><p class="pt">Comissões ocultas</p><p class="pb2">Fundos, previdências e produtos estruturados carregam spreads e rebates que nunca aparecem no seu extrato.</p></div>
+      <div class="pcard"><p class="pn">03</p><p class="pt">A alternativa existe</p><p class="pb2">O modelo fee-only já dominou Reino Unido e EUA. Agora chega ao Brasil — você pode se antecipar.</p></div>
     </div>
   </div>
 </section>
 
-<!-- divisor cinza→branco→cinza para seção 3 -->
-<div class="grad-div grad-gray-to-white" style="height:80px"></div>
+<div class="gd gd-off-n1"></div>
 
-<!-- ══ S3 A MUDANÇA (branco→cinza) ══ -->
-<section id="s-transicao" class="sec sec-white" style="background: linear-gradient(to bottom, var(--white), #d8e0ea);">
-  <p class="eyebrow reveal">O Contexto</p>
-  <h2 class="sec-title reveal d1">O modelo de assessoria<br>por comissão está com<br>os dias contados.</h2>
-  <p class="sec-body reveal d2">Não é especulação — é história. No Reino Unido, quando a regulação proibiu os rebates em 2012, os assessores migraram rapidamente para taxas fixas. Nos Estados Unidos, o mesmo movimento empurrou a maioria dos profissionais para a independência das corretoras.</p>
-  <p class="sec-body reveal d2" style="margin-top:12px;">O Brasil está vivendo essa transição agora. O mercado de planejamento financeiro fee-only cresceu 28% em 2025. São 59 milhões de investidores e R$ 7,9 trilhões em ativos — e ainda 80% presos nos bancos tradicionais.</p>
-
-  <div class="charts-row reveal d3">
-    <div class="chart-box">
-      <p class="chart-flag">🇬🇧 Reino Unido</p>
-      <svg class="chart-svg" viewBox="0 0 280 120">
-        <defs>
-          <linearGradient id="ga" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#091B3D" stop-opacity=".12"/>
-            <stop offset="100%" stop-color="#091B3D" stop-opacity="0"/>
-          </linearGradient>
-          <linearGradient id="gb" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#091B3D" stop-opacity=".22"/>
-            <stop offset="100%" stop-color="#091B3D" stop-opacity="0"/>
-          </linearGradient>
-        </defs>
-        <polygon points="0,10 44,16 78,30 100,58 122,90 148,106 196,114 248,117 280,118 280,120 0,120" fill="url(#ga)"/>
-        <polyline points="0,10 44,16 78,30 100,58 122,90 148,106 196,114 248,117 280,118" fill="none" stroke="rgba(9,27,61,0.35)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        <polygon points="0,118 44,115 78,104 100,78 122,50 148,30 196,18 248,12 280,10 280,120 0,120" fill="url(#gb)"/>
-        <polyline points="0,118 44,115 78,104 100,78 122,50 148,30 196,18 248,12 280,10" fill="none" stroke="rgba(9,27,61,0.6)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        <line x1="100" y1="4" x2="100" y2="116" stroke="rgba(9,27,61,0.12)" stroke-width="1" stroke-dasharray="3,3"/>
-        <text x="5" y="9" fill="rgba(9,27,61,0.35)" font-size="8" font-family="Montserrat" font-weight="700">Comissão</text>
-        <text x="204" y="9" fill="rgba(9,27,61,0.55)" font-size="8" font-family="Montserrat" font-weight="700">Fee-based</text>
+<!-- ══ S3 A MUDANÇA ══ -->
+<section id="s-mud" class="sec s1">
+  <span class="ey r">O Contexto</span>
+  <h2 class="stit r d1">O modelo de assessoria por comissão está com os dias contados.</h2>
+  <p class="sbdy r d2">Não é especulação — é história. No Reino Unido, quando a regulação proibiu os rebates em 2012, os assessores migraram rapidamente para taxas fixas. Nos Estados Unidos, o mesmo movimento empurrou a maioria para a independência das corretoras.</p>
+  <p class="sbdy r d2">O Brasil está vivendo essa transição agora. O mercado de planejamento financeiro fee-only cresceu 28% em 2025. São 59 milhões de investidores e R$ 7,9 trilhões em ativos — e ainda 80% presos nos bancos tradicionais.</p>
+  <div class="chr r d3">
+    <div class="cb">
+      <p class="cf">🇬🇧 Reino Unido</p>
+      <svg class="csv" viewBox="0 0 240 100">
+        <defs><linearGradient id="ga" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#fff" stop-opacity=".07"/><stop offset="100%" stop-color="#fff" stop-opacity="0"/></linearGradient><linearGradient id="gb" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#fff" stop-opacity=".15"/><stop offset="100%" stop-color="#fff" stop-opacity="0"/></linearGradient></defs>
+        <polygon points="0,9 38,15 68,28 88,54 110,80 134,94 180,100 230,101 240,101 240,100 0,100" fill="url(#ga)"/>
+        <polyline points="0,9 38,15 68,28 88,54 110,80 134,94 180,100 230,101" fill="none" stroke="rgba(255,255,255,.28)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <polygon points="0,101 38,99 68,90 88,66 110,42 134,26 180,14 230,8 240,6 240,100 0,100" fill="url(#gb)"/>
+        <polyline points="0,101 38,99 68,90 88,66 110,42 134,26 180,14 230,8 240,6" fill="none" stroke="rgba(255,255,255,.52)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="4" y="8" fill="rgba(255,255,255,.28)" font-size="7" font-family="Montserrat" font-weight="700">Comissão</text>
+        <text x="168" y="7" fill="rgba(255,255,255,.48)" font-size="7" font-family="Montserrat" font-weight="700">Fee-based</text>
       </svg>
-      <p class="chart-note">Os assessores substituíram rapidamente os rebates pela implementação das <b>taxas fixas</b>.</p>
+      <p class="cn">Os assessores substituíram os rebates pelas <b>taxas fixas</b>.</p>
     </div>
-    <div class="chart-box">
-      <p class="chart-flag">🇺🇸 Estados Unidos</p>
-      <svg class="chart-svg" viewBox="0 0 280 120">
-        <defs>
-          <linearGradient id="gc" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#091B3D" stop-opacity=".15"/>
-            <stop offset="100%" stop-color="#091B3D" stop-opacity="0"/>
-          </linearGradient>
-        </defs>
-        <polygon points="0,18 44,26 78,42 118,76 154,100 188,112 240,117 272,119 280,119 280,120 0,120" fill="url(#gc)"/>
-        <polyline points="0,18 44,26 78,42 118,76 154,100 188,112 240,117 272,119 280,119" fill="none" stroke="rgba(9,27,61,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        <line x1="78" y1="4" x2="78" y2="116" stroke="rgba(9,27,61,0.12)" stroke-width="1" stroke-dasharray="3,3"/>
-        <text x="5" y="17" fill="rgba(9,27,61,0.35)" font-size="8" font-family="Montserrat" font-weight="700">Comissão</text>
+    <div class="cb">
+      <p class="cf">🇺🇸 Estados Unidos</p>
+      <svg class="csv" viewBox="0 0 240 100">
+        <defs><linearGradient id="gc" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#fff" stop-opacity=".09"/><stop offset="100%" stop-color="#fff" stop-opacity="0"/></linearGradient></defs>
+        <polygon points="0,14 38,22 68,38 104,70 138,90 168,100 216,102 240,102 240,100 0,100" fill="url(#gc)"/>
+        <polyline points="0,14 38,22 68,38 104,70 138,90 168,100 216,102" fill="none" stroke="rgba(255,255,255,.38)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="4" y="13" fill="rgba(255,255,255,.28)" font-size="7" font-family="Montserrat" font-weight="700">Comissão</text>
       </svg>
-      <p class="chart-note">Após a mudança regulatória, a maior parte dos assessores buscou <b>independência das corretoras</b>.</p>
+      <p class="cn">Após a mudança regulatória, a maioria buscou <b>independência das corretoras</b>.</p>
     </div>
   </div>
-
-  <div class="transicao-callout reveal d3">
-    <p>A pergunta não é se o modelo vai mudar.</p>
-    <span>É se você vai esperar ou se antecipar.</span>
-    <a href="https://wa.me/5516974005673" target="_blank" class="btn btn-dark">Quero me antecipar →</a>
-  </div>
-</section>
-
-<div class="grad-div grad-white-to-navy"></div>
-
-<!-- ══ S4 QUEM SOMOS (navy) ══ -->
-<section id="s-quem" class="sec sec-navy">
-  <p class="eyebrow reveal">Quem Somos</p>
-  <h2 class="sec-title reveal d1">Pense em nós como<br>o seu médico financeiro.</h2>
-  <p class="sec-body reveal d2">Um bom médico não prescreve remédio antes de entender o paciente. Ele faz perguntas. Ouve. Examina. Diagnostica. Só então propõe um tratamento — e acompanha de perto.</p>
-  <p class="sec-body reveal d2">É exatamente assim que trabalhamos. Antes de qualquer carteira, qualquer produto, qualquer alocação, queremos entender quem você é. Sua renda, suas dívidas, seus sonhos, seus medos, sua família, o que te tira o sono à noite. Só depois disso faz sentido construir um plano.</p>
-  <p class="sec-body reveal d2">Somos um escritório de planejamento financeiro pessoal. Não somos gestores — quem executa a carteira é a Mont Capital, gestora regulada pela CVM. Nós cuidamos do que nenhuma gestora cuida: do ser humano por trás dos números.</p>
-
-  <div class="pilares-row reveal d3">
-    <div class="pilar">
-      <p class="pilar-title">Construir</p>
-      <p class="pilar-body">Entender seus objetivos de curto, médio e longo prazo. Mapear o que você tem, o que deve e para onde quer ir.</p>
-    </div>
-    <div class="pilar">
-      <p class="pilar-title">Perpetuar</p>
-      <p class="pilar-body">Blindagem patrimonial, planejamento sucessório, inteligência fiscal, proteção do legado que você está construindo.</p>
-    </div>
-    <div class="pilar">
-      <p class="pilar-title">Desfrutar</p>
-      <p class="pilar-body">Usar hoje o máximo possível sem colocar o amanhã em risco. Esse equilíbrio é onde mora o planejamento real.</p>
-    </div>
+  <div class="csr r d3">
+    <h3>A pergunta não é se o modelo vai mudar.</h3>
+    <p>É se você vai esperar ou se antecipar.</p>
+    <a href="https://wa.me/5516974005673" target="_blank" class="pb">
+      <span class="pb-t">Quero me antecipar</span>
+      <span class="pb-i"><svg viewBox="0 0 24 24" fill="none" stroke="#07152e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+    </a>
   </div>
 </section>
 
-<div class="grad-div grad-navy-to-n3"></div>
+<div class="gd gd-n1-n3"></div>
 
-<!-- ══ S5 COMO FUNCIONA (n3) ══ -->
-<section id="s-como" class="sec sec-n3">
-  <p class="eyebrow reveal">Como Funciona</p>
-  <h2 class="sec-title reveal d1">Você decide o horizonte.<br>Nós ajustamos a rota.</h2>
-  <p class="sec-body reveal d2">Seguimos o processo do FPSB — Financial Planning Standards Board — o padrão internacional de planejamento financeiro.</p>
-
-  <div class="fpsb-steps reveal d3">
-    <div class="fpsb-step">
-      <span class="fpsb-num">01</span>
-      <p class="fpsb-title">Estabelecer o relacionamento</p>
-      <p class="fpsb-desc">Começamos entendendo quem você é e o que espera. Sem compromisso, sem produto, sem pressão. Só conversa.</p>
-    </div>
-    <div class="fpsb-step">
-      <span class="fpsb-num">02</span>
-      <p class="fpsb-title">Coletar as informações</p>
-      <p class="fpsb-desc">Renda. Gastos. Investimentos. Imóveis. Dívidas. Família. Seguros. Previdência. Quanto mais detalhe, melhor o diagnóstico.</p>
-    </div>
-    <div class="fpsb-step">
-      <span class="fpsb-num">03</span>
-      <p class="fpsb-title">Analisar a situação</p>
-      <p class="fpsb-desc">Raio-X completo do seu patrimônio. O que está funcionando, o que custa mais do que deveria e onde estão as vulnerabilidades.</p>
-    </div>
-    <div class="fpsb-step">
-      <span class="fpsb-num">04</span>
-      <p class="fpsb-title">Desenvolver recomendações</p>
-      <p class="fpsb-desc">Quanto gastar. Quanto guardar. Qual imóvel faz sentido. Qual seguro. Como dolarizar. Como diversificar. Tudo justificado.</p>
-    </div>
-    <div class="fpsb-step">
-      <span class="fpsb-num">05</span>
-      <p class="fpsb-title">Implementar o plano</p>
-      <p class="fpsb-desc">A carteira é montada pela Mont Capital com base no seu IPS. Sem comissão. Sem produto empurrado.</p>
-    </div>
-    <div class="fpsb-step">
-      <span class="fpsb-num">06</span>
-      <p class="fpsb-title">Monitorar e revisar</p>
-      <p class="fpsb-desc">O plano não é estático. Sua vida muda, o mercado muda, as metas evoluem. Revisões periódicas garantem o alinhamento.</p>
-    </div>
+<!-- ══ S4 QUEM SOMOS ══ -->
+<section id="s-quem" class="sec s3">
+  <span class="ey r">Quem Somos</span>
+  <h2 class="stit r d1">Pense em nós como o seu médico financeiro.</h2>
+  <p class="sbdy r d2">Um bom médico não prescreve remédio antes de entender o paciente. Ele faz perguntas. Ouve. Examina. Diagnostica. Só então propõe um tratamento — e acompanha de perto.</p>
+  <p class="sbdy r d2">Antes de qualquer carteira, qualquer produto, qualquer alocação, queremos entender quem você é. Sua renda, suas dívidas, seus sonhos, seus medos, sua família, o que te tira o sono à noite. Só depois disso faz sentido construir um plano.</p>
+  <p class="sbdy r d2">Somos um escritório de planejamento financeiro pessoal. Não somos gestores — quem executa a carteira é a Mont Capital, gestora regulada pela CVM. Nós cuidamos do que nenhuma gestora cuida: do ser humano por trás dos números.</p>
+  <div class="prow r d3">
+    <div class="pil"><p class="pit">Construir</p><p class="pib">Entender seus objetivos de curto, médio e longo prazo. Mapear o que você tem, o que deve e para onde quer ir.</p></div>
+    <div class="pil"><p class="pit">Perpetuar</p><p class="pib">Blindagem patrimonial, planejamento sucessório, inteligência fiscal, proteção do legado que você está construindo.</p></div>
+    <div class="pil"><p class="pit">Desfrutar</p><p class="pib">Usar hoje o máximo possível sem colocar o amanhã em risco. Esse equilíbrio é onde mora o planejamento real.</p></div>
   </div>
 </section>
 
-<div class="grad-div grad-n3-to-navy"></div>
-<div class="grad-div grad-navy-to-blue" style="height:80px"></div>
+<div class="gd gd-n3-n2"></div>
 
-<!-- ══ S6 FEE-ONLY (azul sólido) ══ -->
-<section id="s-fee" class="sec sec-blue">
-  <p class="eyebrow reveal">Diferencial</p>
-  <h2 class="sec-title reveal d1">Somos remunerados<br>apenas por você.<br>E isso muda tudo.</h2>
-  <p class="sec-body reveal d2">Nosso modelo é fee-only — uma taxa fixa de administração calculada sobre o patrimônio que gerimos juntos. É tudo que recebemos. Não existe comissão de produto. Não existe rebate de corretora. Não existe spread oculto.</p>
-  <p class="sec-body reveal d2">Significa que quando indicamos uma alocação, é porque acreditamos que é a melhor para você — não porque alguém está nos pagando para isso.</p>
-
-  <div class="fee-cols reveal d3">
-    <div class="fee-col">
-      <p class="fee-col-title">O que você nunca vai pagar</p>
-      <div class="fee-item"><span class="fee-mark">—</span> Taxa de abertura</div>
-      <div class="fee-item"><span class="fee-mark">—</span> Taxa de resgate</div>
-      <div class="fee-item"><span class="fee-mark">—</span> Comissão ou corretagem</div>
-      <div class="fee-item"><span class="fee-mark">—</span> Spreads</div>
-      <div class="fee-item"><span class="fee-mark">—</span> TED, DOC ou TEF. Nada.</div>
+<!-- ══ S5 COMO FUNCIONA (bento Portfel) ══ -->
+<section id="s-como" class="sec s2">
+  <span class="ey r">Como Funciona</span>
+  <h2 class="stit r d1">Você decide o horizonte. Nós ajustamos a rota.</h2>
+  <p class="sbdy r d2">Seguimos o processo do FPSB — Financial Planning Standards Board — o padrão internacional de planejamento financeiro.</p>
+  <div class="bento r d3">
+    <div class="bcard bcard-hero">
+      <span class="bnum">1</span>
+      <div class="bico"><svg viewBox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0"/></svg></div>
+      <p class="btit">Estabelecer o relacionamento</p>
+      <p class="bdsc">Começamos entendendo quem você é e o que espera. Sem compromisso, sem produto, sem pressão. Uma conversa de 30 minutos.</p>
+      <div style="margin-top:20px">
+        <a href="https://wa.me/5516974005673" target="_blank" class="pb">
+          <span class="pb-t">Falar com um planejador</span>
+          <span class="pb-i"><svg viewBox="0 0 24 24" fill="none" stroke="#07152e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+        </a>
+      </div>
     </div>
-    <div class="fee-col">
-      <p class="fee-col-title">O que você recebe</p>
-      <div class="fee-item"><span class="fee-mark">+</span> Diagnóstico financeiro completo</div>
-      <div class="fee-item"><span class="fee-mark">+</span> IPS personalizado</div>
-      <div class="fee-item"><span class="fee-mark">+</span> Coordenação com gestora parceira</div>
-      <div class="fee-item"><span class="fee-mark">+</span> Revisões semestrais</div>
-      <div class="fee-item"><span class="fee-mark">+</span> Relatórios de performance</div>
-      <div class="fee-item"><span class="fee-mark">+</span> Acesso direto ao seu planejador</div>
+    <div class="bcard bcard-side">
+      <div>
+        <span class="bnum">6</span>
+        <div class="bico"><svg viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg></div>
+        <p class="btit">Monitorar e revisar</p>
+        <p class="bdsc">O plano não é estático. Sua vida muda, o mercado muda, as metas evoluem. Revisões periódicas garantem o alinhamento.</p>
+      </div>
+      <div class="b-fpsb">
+        <p>FPSB</p>
+        <span>Financial Planning Standards Board — padrão internacional de planejamento financeiro.</span>
+      </div>
+    </div>
+    <div class="bcard bcard-sm">
+      <span class="bnum">2</span>
+      <div class="bico"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg></div>
+      <p class="btit">Coletar as informações</p>
+      <p class="bdsc">Renda. Gastos. Investimentos. Imóveis. Dívidas. Família. Seguros. Previdência. Quanto mais detalhe, melhor o diagnóstico.</p>
+    </div>
+    <div class="bcard bcard-sm">
+      <span class="bnum">3</span>
+      <div class="bico"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
+      <p class="btit">Analisar a situação</p>
+      <p class="bdsc">Raio-X completo do patrimônio. O que está funcionando, o que custa mais do que deveria e onde estão as vulnerabilidades.</p>
+    </div>
+  </div>
+  <div class="bento r d3" style="margin-top:16px">
+    <div class="bcard" style="grid-column:1/2">
+      <span class="bnum">4</span>
+      <div class="bico"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+      <p class="btit">Desenvolver recomendações</p>
+      <p class="bdsc">Quanto gastar. Quanto guardar. Como dolarizar. Como diversificar. Tudo apresentado e justificado.</p>
+    </div>
+    <div class="bcard" style="grid-column:2/4">
+      <span class="bnum">5</span>
+      <div class="bico"><svg viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg></div>
+      <p class="btit">Implementar o plano aprovado</p>
+      <p class="bdsc">A carteira é montada pela Mont Capital com base no IPS — documento que formaliza seus objetivos e perfil de risco. Sem comissão. Você acompanha pelo dashboard em tempo real.</p>
     </div>
   </div>
 </section>
 
-<div class="grad-div grad-blue-to-navy"></div>
+<div class="gd gd-n2-n4"></div>
 
-<!-- ══ S7 PARA QUEM É (navy deep) ══ -->
-<section id="s-paraquem" class="sec sec-deep">
-  <p class="eyebrow reveal">Para Quem É</p>
-  <h2 class="sec-title reveal d1">Para quem trabalhou muito<br>e ainda não parou para organizar<br>o que construiu.</h2>
+<!-- ══ S6 FEE-ONLY ══ -->
+<section id="s-fee" class="sec s4">
+  <span class="ey r">Diferencial</span>
+  <h2 class="stit r d1">Somos remunerados apenas por você. E isso muda tudo.</h2>
+  <p class="sbdy r d2">Nosso modelo é fee-only — uma taxa fixa calculada sobre o patrimônio que gerimos juntos. Não existe comissão de produto. Não existe rebate de corretora. Não existe spread oculto.</p>
+  <p class="sbdy r d2">Quando indicamos uma alocação, é porque acreditamos que é a melhor para você — não porque alguém está nos pagando para isso.</p>
+  <div class="fp r d3">
+    <div class="fcol">
+      <p class="fct">O que você nunca vai pagar</p>
+      <div class="fi"><span class="fm">—</span>Taxa de abertura</div>
+      <div class="fi"><span class="fm">—</span>Taxa de resgate</div>
+      <div class="fi"><span class="fm">—</span>Comissão ou corretagem</div>
+      <div class="fi"><span class="fm">—</span>Spreads</div>
+      <div class="fi"><span class="fm">—</span>TED, DOC ou TEF. Nada.</div>
+    </div>
+    <div class="fcol">
+      <p class="fct">O que você recebe</p>
+      <div class="fi"><span class="fm">+</span>Diagnóstico financeiro completo</div>
+      <div class="fi"><span class="fm">+</span>IPS personalizado</div>
+      <div class="fi"><span class="fm">+</span>Coordenação com gestora parceira</div>
+      <div class="fi"><span class="fm">+</span>Revisões semestrais</div>
+      <div class="fi"><span class="fm">+</span>Relatórios de performance</div>
+      <div class="fi"><span class="fm">+</span>Acesso direto ao seu planejador</div>
+    </div>
+  </div>
+</section>
 
-  <div class="paraquem-box reveal d2">
+<div class="gd gd-n4-n1"></div>
+
+<!-- ══ S7 PARA QUEM É ══ -->
+<section id="s-pq" class="sec s1">
+  <span class="ey r">Para Quem É</span>
+  <h2 class="stit r d1">Para quem trabalhou muito e ainda não parou para organizar o que construiu.</h2>
+  <div class="pqb r d2">
     <p>Você ganhou bem esses anos. Trabalhou muito. Talvez tenha uma clínica, um escritório, uma empresa. Talvez seja médico, advogado, empresário ou executivo. Provavelmente tem mais do que imagina — e menos organizado do que deveria.</p>
     <p>A maioria dos profissionais de alta renda tem algo em comum: o nível profissional é altíssimo, mas o planejamento financeiro pessoal ficou para trás. Não por falta de inteligência — por falta de tempo e de um profissional que sentasse para organizar isso de verdade.</p>
   </div>
-
-  <div class="paraquem-destaque reveal d3">
-    "Se você parasse de trabalhar amanhã, por quanto tempo seu padrão de vida se sustenta?"
-  </div>
-
-  <p class="sec-body reveal d3" style="margin-top: 28px;">Atendemos clientes a partir de R$ 300 mil em patrimônio financeiro, em todo o Brasil.</p>
-  <a href="https://wa.me/5516974005673" target="_blank" class="btn btn-white reveal d3" style="margin-top: 28px;">Agendar diagnóstico gratuito →</a>
+  <div class="pqq r d3">"Se você parasse de trabalhar amanhã, por quanto tempo seu padrão de vida se sustenta?"</div>
+  <p class="pqm r d3">Atendemos clientes a partir de R$ 300 mil em patrimônio financeiro, em todo o Brasil.</p>
+  <a href="https://wa.me/5516974005673" target="_blank" class="pb r d3" style="margin-top:28px">
+    <span class="pb-t">Agendar diagnóstico gratuito</span>
+    <span class="pb-i"><svg viewBox="0 0 24 24" fill="none" stroke="#07152e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+  </a>
 </section>
 
-<div class="grad-div grad-navy-to-n3" style="height:80px"></div>
+<div class="gd gd-n1-n3b"></div>
 
-<!-- ══ S8 GESTORA PARCEIRA (n3) ══ -->
-<section id="s-gestora" class="sec sec-n3">
-  <p class="eyebrow reveal">A Gestora Parceira</p>
-  <h2 class="sec-title reveal d1">Você tem duas equipes<br>trabalhando pelo seu patrimônio.</h2>
-
-  <div class="gestora-grid">
-    <div class="gestora-left reveal d2">
-      <span class="gestora-tag">Zé Investe</span>
-      <p class="gestora-headline">Planejamento</p>
-      <p>A Zé Investe cuida do planejamento. Entendemos quem você é, mapeamos objetivos, construímos o IPS e acompanhamos o plano ao longo do tempo.</p>
-      <p>Somos o profissional que senta com você, entende sua família, seus sonhos e suas vulnerabilidades — e traduz isso em estratégia.</p>
+<!-- ══ S8 GESTORA ══ -->
+<section id="s-gest" class="sec s3">
+  <span class="ey r">A Gestora Parceira</span>
+  <h2 class="stit r d1">Você tem duas equipes trabalhando pelo seu patrimônio.</h2>
+  <div class="gc">
+    <div class="r d2">
+      <span class="gtag">Zé Investe</span>
+      <p class="gnm">Planejamento</p>
+      <div class="gbdy">
+        <p>A Zé Investe cuida do planejamento. Entendemos quem você é, mapeamos objetivos, construímos o IPS e acompanhamos o plano ao longo do tempo.</p>
+        <p>Somos o profissional que senta com você, entende sua família, seus sonhos e vulnerabilidades — e traduz isso em estratégia.</p>
+      </div>
     </div>
-    <div class="gestora-right reveal d3">
-      <span class="gestora-tag">Mont Capital</span>
-      <p class="gestora-headline">Execução</p>
-      <p>A Mont Capital Gestão e Administração de Recursos S.A. é gestora regulada pela CVM, fundada em 2015. Analisou mais de 42 mil fundos para selecionar os aprovados. Cada carteira é montada sob medida.</p>
-      <p>O dinheiro fica no seu nome, no seu CPF, nas maiores corretoras do país. A Mont opera com mandato para gestão discricionária.</p>
-      <p style="margin-top:4px; font-size:13px; font-weight:700; color:var(--w80);">Dois profissionais. Uma só direção: o seu interesse.</p>
-      <div class="corretoras">
-        <span class="corretora-chip">BTG Pactual</span>
-        <span class="corretora-chip">XP</span>
-        <span class="corretora-chip">Safra</span>
-        <span class="corretora-chip">Genial</span>
-        <span class="corretora-chip">Avenue</span>
+    <div class="r d3">
+      <span class="gtag">Mont Capital</span>
+      <p class="gnm">Execução</p>
+      <div class="gbdy">
+        <p>A Mont Capital é gestora regulada pela CVM, fundada em 2015. Analisou mais de 42 mil fundos para selecionar os aprovados. Cada carteira é montada sob medida.</p>
+        <p>O dinheiro fica no seu nome, no seu CPF, nas maiores corretoras do país. <strong>Dois profissionais. Uma só direção: o seu interesse.</strong></p>
+      </div>
+      <div class="chips">
+        <span class="chip">BTG Pactual</span><span class="chip">XP</span><span class="chip">Safra</span><span class="chip">Genial</span><span class="chip">Avenue</span>
       </div>
     </div>
   </div>
 </section>
 
-<div class="grad-div grad-n3-to-navy"></div>
+<div class="gd gd-n3-n2b"></div>
 
-<!-- ══ S9 DEPOIMENTOS (navy) ══ -->
-<section id="s-testi" class="sec sec-navy">
-  <p class="eyebrow reveal">Depoimentos</p>
-  <h2 class="sec-title reveal d1">O que nossos clientes dizem<br>depois de entender a diferença.</h2>
-
-  <div class="testi-placeholder reveal d2">
-    <p>Depoimentos reais em breve — espaço reservado para inserção quando disponíveis.</p>
+<!-- ══ PASSO A PASSO ══ -->
+<section id="s-passo" class="sec s2">
+  <span class="ey r">Passo a Passo</span>
+  <h2 class="ptit-main r d1">Como funciona nosso primeiro contato</h2>
+  <div class="pgrid">
+    <div class="prow1">
+      <div class="pstep r d2">
+        <span class="psbadge">1</span>
+        <div class="psico"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+        <p class="pstit">Clique no botão</p>
+        <div style="margin:0 0 16px">
+          <a href="https://wa.me/5516974005673" target="_blank" class="pb">
+            <span class="pb-t">Falar com um planejador</span>
+            <span class="pb-i"><svg viewBox="0 0 24 24" fill="none" stroke="#07152e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+          </a>
+        </div>
+        <p class="psdsc">Você será direcionado para uma conversa rápida e objetiva. Sem formulário longo, sem pressão.</p>
+      </div>
+      <div class="pimg r d3">
+        <svg viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
+          <defs>
+            <linearGradient id="pbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0a1a3a"/><stop offset="100%" stop-color="#060f24"/></linearGradient>
+            <linearGradient id="pline" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#1a5fd4"/><stop offset="100%" stop-color="#4da6ff"/></linearGradient>
+            <linearGradient id="parea" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1a5fd4" stop-opacity=".25"/><stop offset="100%" stop-color="#1a5fd4" stop-opacity="0"/></linearGradient>
+            <linearGradient id="pbar" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1e6ee8" stop-opacity=".7"/><stop offset="100%" stop-color="#0d3a80" stop-opacity=".3"/></linearGradient>
+            <filter id="pglow"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          </defs>
+          <rect width="480" height="360" fill="url(#pbg)"/>
+          <line x1="40" y1="60" x2="460" y2="60" stroke="rgba(255,255,255,.05)" stroke-width="1"/>
+          <line x1="40" y1="160" x2="460" y2="160" stroke="rgba(255,255,255,.05)" stroke-width="1"/>
+          <line x1="40" y1="260" x2="460" y2="260" stroke="rgba(255,255,255,.05)" stroke-width="1"/>
+          <rect x="55" y="190" width="28" height="80" rx="4" fill="url(#pbar)"/>
+          <rect x="95" y="160" width="28" height="110" rx="4" fill="url(#pbar)"/>
+          <rect x="135" y="140" width="28" height="130" rx="4" fill="url(#pbar)"/>
+          <rect x="175" y="170" width="28" height="100" rx="4" fill="url(#pbar)"/>
+          <rect x="215" y="130" width="28" height="140" rx="4" fill="url(#pbar)"/>
+          <rect x="255" y="110" width="28" height="160" rx="4" fill="url(#pbar)"/>
+          <rect x="295" y="90" width="28" height="180" rx="4" fill="url(#pbar)"/>
+          <rect x="335" y="70" width="28" height="200" rx="4" fill="url(#pbar)"/>
+          <rect x="375" y="50" width="28" height="220" rx="4" fill="#1e6ee8" opacity=".9"/>
+          <rect x="415" y="40" width="28" height="230" rx="4" fill="#1e6ee8" opacity=".95"/>
+          <polygon points="55,230 95,200 135,180 175,210 215,170 255,145 295,118 335,95 375,75 415,58 415,290 55,290" fill="url(#parea)"/>
+          <polyline points="55,230 95,200 135,180 175,210 215,170 255,145 295,118 335,95 375,75 415,58" fill="none" stroke="url(#pline)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#pglow)"/>
+          <circle cx="415" cy="58" r="6" fill="#4da6ff" filter="url(#pglow)"/>
+          <circle cx="415" cy="58" r="3" fill="white"/>
+          <rect x="310" y="26" width="72" height="24" rx="6" fill="rgba(30,110,232,.3)" stroke="rgba(77,166,255,.3)" stroke-width="1"/>
+          <text x="346" y="42" text-anchor="middle" fill="#7dc4ff" font-size="11" font-family="Montserrat,sans-serif" font-weight="700">+28.5%</text>
+          <rect x="300" y="285" width="160" height="60" rx="8" fill="rgba(0,0,0,.4)" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+          <text x="315" y="305" fill="rgba(255,255,255,.5)" font-size="9" font-family="Montserrat,sans-serif" font-weight="700">CARTEIRA</text>
+          <text x="315" y="322" fill="#4da6ff" font-size="13" font-family="Montserrat,sans-serif" font-weight="800">R$ 1.284.930</text>
+          <text x="315" y="336" fill="#4ade80" font-size="9" font-family="Montserrat,sans-serif">+R$ 28.482 este mês</text>
+        </svg>
+      </div>
+    </div>
+    <div class="prow2">
+      <div class="pstep r d2">
+        <span class="psbadge">2</span>
+        <div class="psico"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        <p class="pstit">Preencha seus dados</p>
+        <p class="psdsc">Em até 24 horas úteis, um planejador da Zé Investe entrará em contato. Sem produto para vender. Sem pressão.</p>
+      </div>
+      <div class="pstep r d3">
+        <span class="psbadge">3</span>
+        <div class="psico"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+        <p class="pstit">Pronto!</p>
+        <p class="psdsc">Seu planejador vai te orientar nos próximos passos com base na sua situação e objetivos. Se fizer sentido, avançamos juntos. Se não fizer, você vai embora sabendo mais do que entrou.</p>
+      </div>
+    </div>
   </div>
 </section>
 
-<div class="grad-div grad-navy-to-off" style="height:80px"></div>
+<div class="gd gd-n2-n0" style="background:linear-gradient(var(--n2),var(--n0))"></div>
 
-<!-- ══ S10 CTA FINAL ══ -->
-<section id="s-cta">
-  <p class="eyebrow reveal" style="position:relative;z-index:1;">Diagnóstico gratuito</p>
-  <h2 class="cta-title reveal d1">O primeiro passo não te leva onde quer chegar. Mas te tira do lugar onde não quer ficar.</h2>
-  <p class="cta-body reveal d2">Comece com um diagnóstico gratuito. Sem compromisso. Sem produto. Sem pressão. Uma conversa de 30 minutos onde entendemos sua situação e você entende como o planejamento funciona na prática.</p>
-  <p class="cta-body reveal d2" style="margin-top:-20px;">Se fizer sentido, avançamos juntos. Se não fizer, você vai embora sabendo mais do que entrou.</p>
-  <a href="https://wa.me/5516974005673" target="_blank" class="btn btn-white reveal d3">Agendar meu diagnóstico gratuito →</a>
-  <p class="cta-note reveal d3">Sem compromisso. Sem produto. Sem pressão.</p>
+<!-- ══ S9 DEPOIMENTOS ══ -->
+<section id="s-test" class="sec s0">
+  <span class="ey r">Depoimentos</span>
+  <h2 class="stit r d1">O que nossos clientes dizem depois de entender a diferença.</h2>
+  <div class="tph r d2"><p>Depoimentos reais em breve — espaço reservado para inserção quando disponíveis.</p></div>
 </section>
 
-<div class="grad-div grad-off-to-navy" style="background: linear-gradient(to bottom, var(--n1), #030c1c);height:60px;"></div>
+<div class="gd gd-n0-n1" style="background:linear-gradient(var(--n0),var(--n0))"></div>
 
-<!-- ══ S11 FAQ ══ -->
-<section id="s-faq" class="sec sec-deep">
-  <p class="eyebrow reveal">FAQ</p>
-  <h2 class="sec-title reveal d1">Perguntas que todo mundo<br>faz antes de começar.</h2>
+<!-- ══ S10 CTA FINAL ══ -->
+<section id="scta">
+  <div class="cta-glow"></div>
+  <span class="ey r" style="position:relative;z-index:1">Diagnóstico gratuito</span>
+  <h2 class="ctt r d1">O primeiro passo não te leva onde quer chegar. Mas te tira do lugar onde não quer ficar.</h2>
+  <p class="ctb r d2">Comece com um diagnóstico gratuito. Sem compromisso. Sem produto. Sem pressão. Uma conversa de 30 minutos onde entendemos sua situação e você entende como o planejamento funciona na prática.</p>
+  <p class="ctb r d2" style="margin-top:-4px">Se fizer sentido, avançamos juntos. Se não fizer, você vai embora sabendo mais do que entrou.</p>
+  <a href="https://wa.me/5516974005673" target="_blank" class="pb r d3" style="margin-top:8px">
+    <span class="pb-t">Agendar meu diagnóstico gratuito</span>
+    <span class="pb-i"><svg viewBox="0 0 24 24" fill="none" stroke="#07152e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+  </a>
+  <p class="ctn r d3">Sem compromisso. Sem produto. Sem pressão.</p>
+</section>
 
-  <div class="faq-list reveal d2">
-    <div class="faq-item">
-      <button class="faq-btn" onclick="faq(this)">
-        Qual a diferença entre a Zé Investe e um assessor de investimentos?
-        <span class="faq-plus">+</span>
-      </button>
-      <div class="faq-answer">O assessor de investimentos é remunerado por comissão dos produtos que distribui. Isso cria um incentivo estrutural para te colocar nos produtos que mais rendem para ele — não necessariamente para você. A Zé Investe cobra uma taxa fixa de administração e não recebe nenhum tipo de comissão de produto. O incentivo é o oposto: <b>quanto melhor seu patrimônio performar, mais tempo você fica conosco.</b></div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-btn" onclick="faq(this)">
-        Preciso mudar de banco ou corretora?
-        <span class="faq-plus">+</span>
-      </button>
-      <div class="faq-answer">Não necessariamente. A Mont Capital opera em múltiplas corretoras — BTG Pactual, XP, Safra, Genial, Avenue, entre outras. O cliente abre conta diretamente na corretora de sua escolha. Você continua com acesso ao seu dinheiro, a qualquer momento.</div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-btn" onclick="faq(this)">
-        Quanto custa o serviço?
-        <span class="faq-plus">+</span>
-      </button>
-      <div class="faq-answer">Nossa remuneração é de <b>1% ao ano sobre o patrimônio gerido</b>, com valor mínimo de R$ 600 por mês. Não há taxa de abertura, taxa de resgate nem nenhum custo adicional. Tudo é declarado antes de começar.</div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-btn" onclick="faq(this)">
-        Qual o patrimônio mínimo para ser atendido?
-        <span class="faq-plus">+</span>
-      </button>
-      <div class="faq-answer">Atendemos clientes a partir de <b>R$ 300 mil em patrimônio financeiro investido</b>.</div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-btn" onclick="faq(this)">
-        E se eu quiser encerrar o contrato?
-        <span class="faq-plus">+</span>
-      </button>
-      <div class="faq-answer">Sem multa. Você pode encerrar com 60 dias de aviso prévio, sem nenhuma penalidade. Todos os seus documentos — IPS, diagnóstico, relatórios — ficam com você.</div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-btn" onclick="faq(this)">
-        A Zé Investe é regulada?
-        <span class="faq-plus">+</span>
-      </button>
-      <div class="faq-answer">Sim. A Heistaek Ai Participações e Negócios LTDA opera como escritório de planejamento financeiro pessoal, registrada na CVM. A execução da carteira é feita pela Mont Capital, gestora autorizada pela CVM e autorregulada pela ANBIMA.</div>
-    </div>
+<div style="height:1px;background:rgba(255,255,255,.06)"></div>
+
+<!-- ══ FAQ ══ -->
+<section id="s-faq" class="sec s0">
+  <span class="ey r">FAQ</span>
+  <h2 class="stit r d1">Perguntas que todo mundo faz antes de começar.</h2>
+  <div class="flist r d2">
+    <div class="fi2"><button class="fbt" onclick="faq(this)">Qual a diferença entre a Zé Investe e um assessor de investimentos?<span class="fpl">+</span></button><div class="fan">O assessor é remunerado por comissão dos produtos que distribui — incentivo estrutural para te colocar no que mais rende para ele. A Zé Investe cobra taxa fixa e não recebe comissão. <b>Quanto melhor seu patrimônio performar, mais tempo você fica conosco.</b></div></div>
+    <div class="fi2"><button class="fbt" onclick="faq(this)">Preciso mudar de banco ou corretora?<span class="fpl">+</span></button><div class="fan">Não necessariamente. A Mont Capital opera em BTG Pactual, XP, Safra, Genial e Avenue. Você abre conta na corretora de sua escolha e continua com acesso ao seu dinheiro a qualquer momento.</div></div>
+    <div class="fi2"><button class="fbt" onclick="faq(this)">Quanto custa o serviço?<span class="fpl">+</span></button><div class="fan">Nossa remuneração é de <b>1% ao ano sobre o patrimônio gerido</b>, com valor mínimo de R$ 600 por mês. Sem taxa de abertura, sem taxa de resgate, sem custo adicional. Tudo declarado antes de começar.</div></div>
+    <div class="fi2"><button class="fbt" onclick="faq(this)">Qual o patrimônio mínimo?<span class="fpl">+</span></button><div class="fan">Atendemos clientes a partir de <b>R$ 300 mil em patrimônio financeiro investido</b>.</div></div>
+    <div class="fi2"><button class="fbt" onclick="faq(this)">E se eu quiser encerrar o contrato?<span class="fpl">+</span></button><div class="fan">Sem multa. Encerre com 60 dias de aviso prévio, sem penalidade. IPS, diagnóstico e relatórios ficam com você.</div></div>
+    <div class="fi2"><button class="fbt" onclick="faq(this)">A Zé Investe é regulada?<span class="fpl">+</span></button><div class="fan">Sim. A Heistaek Ai Participações e Negócios LTDA opera como escritório de planejamento financeiro pessoal registrado na CVM. A Mont Capital é gestora autorizada pela CVM e autorregulada pela ANBIMA.</div></div>
   </div>
 </section>
 
 <!-- ══ FOOTER ══ -->
 <footer>
-  <div class="footer-grid">
+  <div class="fgrid">
     <div>
-      <p class="footer-brand">Zé Investe</p>
-      <p class="footer-brand-sub">
-        zeinveste.com<br>
-        falecom@zeinveste.com<br>
-        Ribeirão Preto, SP
-      </p>
+      <p class="fbrand">Zé Investe</p>
+      <p class="finfo">zeinveste.com<br><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="5036313c35333f3d102a35393e26352324357e333f3d">[email&#160;protected]</a><br>Ribeirão Preto, SP</p>
     </div>
     <div>
-      <p class="footer-col-title">Links</p>
-      <div class="footer-links">
-        <a href="#s-quem">Sobre nós</a>
-        <a href="#s-como">Como funciona</a>
-        <a href="https://wa.me/5516974005673" target="_blank">Diagnóstico gratuito</a>
-        <a href="#s-faq">FAQ</a>
+      <p class="flbl">Links</p>
+      <div class="flinks">
+        <a href="#s-quem">Sobre nós</a><a href="#s-como">Como funciona</a>
+        <a href="https://wa.me/5516974005673" target="_blank">Diagnóstico gratuito</a><a href="#s-faq">FAQ</a>
       </div>
     </div>
     <div>
-      <p class="footer-col-title">Legal</p>
-      <div class="footer-legal-col">
+      <p class="flbl">Legal</p>
+      <div class="flgl">
         <p>HEISTAEK AI PARTICIPAÇÕES E NEGÓCIOS LTDA</p>
         <p>CNPJ: 30.262.322/0001-70</p>
-        <p>Rua Milton José Robusti, nº 75, 18A, CJ 1802</p>
+        <p>Rua Milton José Robusti, 75, 18A, CJ 1802</p>
         <p>Jardim Botânico, Ribeirão Preto/SP</p>
       </div>
     </div>
   </div>
-
-  <hr class="footer-divider">
-
-  <p class="footer-disclaimer">
-    A Zé Investe atua como escritório de planejamento financeiro pessoal e não exerce atividade de consultoria de valores mobiliários ou assessoria de investimentos nos termos das Resoluções CVM nº 19/2021 e nº 178/2023. A gestão da carteira administrada é realizada pela Mont Capital Gestão e Administração de Recursos S.A. (CNPJ 22.598.618/0001-38), autorizada pela CVM. © 2025 Zé Investe. Todos os direitos reservados.
-  </p>
+  <hr class="fhr">
+  <p class="fdisc">A Zé Investe atua como escritório de planejamento financeiro pessoal e não exerce atividade de consultoria de valores mobiliários ou assessoria de investimentos nos termos das Resoluções CVM nº 19/2021 e nº 178/2023. A gestão da carteira administrada é realizada pela Mont Capital Gestão e Administração de Recursos S.A. (CNPJ 22.598.618/0001-38), autorizada pela CVM. © 2025 Zé Investe.</p>
 </footer>
 
-<script>
-/* ── Z com números de bolsa caindo ── */
-const tickers = [
-  ['PETR4','38.42','+1.2%','up'], ['VALE3','62.18','-0.8%','down'],
-  ['ITUB4','31.95','+0.4%','up'], ['BBDC4','13.72','-0.3%','down'],
-  ['ABEV3','12.44','+0.1%','neu'], ['WEGE3','41.20','+2.1%','up'],
-  ['RENT3','55.80','-1.4%','down'], ['MGLU3','9.12','+0.7%','up'],
-  ['BPAC11','30.60','+0.5%','up'], ['SUZB3','58.34','-0.2%','down'],
-  ['RDOR3','27.10','+1.8%','up'], ['LREN3','18.90','-0.6%','down'],
-  ['HAPV3','4.22','+0.3%','neu'], ['EQTL3','33.70','+0.9%','up'],
-  ['SBSP3','72.45','-0.1%','neu'], ['KLBN11','22.80','+1.5%','up'],
-  ['CSAN3','14.60','-1.1%','down'], ['GGBR4','19.40','+0.6%','up'],
-];
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 
-const container = document.getElementById('tickerContainer');
-const colCount = 12;
-
-for (let i = 0; i < colCount; i++) {
-  const col = document.createElement('div');
-  col.className = 'ticker-col';
-  const leftPct = (i / colCount) * 100 + (Math.random() * 4 - 2);
-  col.style.left = leftPct + '%';
-  const duration = 6 + Math.random() * 8;
-  const delay = -(Math.random() * 12);
-  col.style.animationDuration = duration + 's';
-  col.style.animationDelay = delay + 's';
-
-  // Preenche a coluna com tickers repetidos
-  for (let j = 0; j < 30; j++) {
-    const t = tickers[(i * 3 + j) % tickers.length];
-    const el = document.createElement('div');
-    el.className = `ticker-num ${t[3]}`;
-    el.textContent = `${t[0]} ${t[1]} ${t[2]}`;
-    col.appendChild(el);
+/* Z hero ticker */
+(function() {
+  var TK = ['PETR4','VALE3','ITUB4','BBDC4','ABEV3','WEGE3','RENT3','MGLU3',
+             'BPAC11','SUZB3','RDOR3','LREN3','HAPV3','EQTL3','SBSP3','KLBN11',
+             'CSAN3','GGBR4','JBSS3','BRFS3','RADL3','VIVT3','TAEE11','CMIG4'];
+  var PR = [38.42,62.18,31.95,13.72,12.44,41.20,55.80,9.12,30.60,58.34,
+             27.10,18.90,4.22,33.70,72.45,22.80,14.60,19.40,28.70,14.30,32.60,52.40,15.80,10.20];
+  var CH = ['+1.2','-0.8','+0.4','-0.3','+0.1','+2.1','-1.4','+0.7',
+             '+0.5','-0.2','+1.8','-0.6','+0.3','+0.9','-0.1','+1.5',
+             '-1.1','+0.6','-0.9','+1.3','+0.8','-0.4','+2.2','-0.7'];
+  var el = document.getElementById('zHeroTicker');
+  if (!el) return;
+  for (var i = 0; i < 80; i++) {
+    var idx = i % TK.length, up = CH[idx].charAt(0) === '+';
+    var col = up ? 'rgba(74,222,128,.72)' : 'rgba(248,113,113,.72)';
+    var d = document.createElement('div');
+    d.style.cssText = 'padding:2px 3px;border-bottom:1px solid rgba(255,255,255,.03)';
+    d.innerHTML = '<span style="color:rgba(160,210,255,.6);font-size:9px">' + TK[idx] + '</span><br>'
+      + '<span style="color:rgba(255,255,255,.3);font-size:8px">' + PR[idx].toFixed(2) + '</span> '
+      + '<span style="color:' + col + ';font-size:8px">' + CH[idx] + '%</span>';
+    el.appendChild(d);
   }
-  container.appendChild(col);
-}
+  setInterval(function() {
+    var items = el.children, pick = Math.floor(Math.random() * items.length);
+    var idx = pick % TK.length, up = Math.random() > .48;
+    var col = up ? 'rgba(74,222,128,.72)' : 'rgba(248,113,113,.72)';
+    var val = (PR[idx] + (Math.random() * .8 - .4)).toFixed(2);
+    var pct = (Math.random() * 2.2).toFixed(1);
+    if (items[pick])
+      items[pick].innerHTML = '<span style="color:rgba(160,210,255,.6);font-size:9px">' + TK[idx] + '</span><br>'
+        + '<span style="color:rgba(255,255,255,.3);font-size:8px">' + val + '</span> '
+        + '<span style="color:' + col + ';font-size:8px">' + (up?'+':'-') + pct + '%</span>';
+  }, 500);
+})();
 
-/* ── Scroll reveal ── */
-const io = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) { e.target.classList.add('up'); io.unobserve(e.target); }
+/* ═══════════════════════════════════════════════════
+   INTERSECTION OBSERVER — SCROLL REVEAL
+═══════════════════════════════════════════════════ */
+(function() {
+  var items = Array.from(document.querySelectorAll('.r')).filter(function(el) {
+    return !el.closest('#hero');
   });
-}, { threshold: 0.06, rootMargin: '0px 0px -40px 0px' });
-document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  if (!items.length) return;
 
-/* ── FAQ ── */
+  function show(el) { el.classList.add('on'); }
+
+  /* Revelar imediatamente elementos já na viewport */
+  function revealVisible() {
+    var vh = window.innerHeight;
+    items.forEach(function(el) {
+      if (el.getBoundingClientRect().top < vh - 20) show(el);
+    });
+  }
+
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) { show(e.target); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.07, rootMargin: '0px 0px -20px 0px' });
+    items.forEach(function(el) { io.observe(el); });
+  }
+
+  revealVisible();
+  window.addEventListener('load', revealVisible);
+  window.addEventListener('scroll', revealVisible, { passive: true, once: true });
+})();
+
+/* ═══════════════════════════════════════════════════
+   FAQ
+═══════════════════════════════════════════════════ */
 function faq(btn) {
-  const item = btn.parentElement;
-  const isOpen = item.classList.contains('open');
-  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
-  if (!isOpen) item.classList.add('open');
+  var it   = btn.parentElement;
+  var open = it.classList.contains('open');
+  document.querySelectorAll('.fi2').forEach(function(i) { i.classList.remove('open'); });
+  if (!open) it.classList.add('open');
 }
 </script>
 </body>
