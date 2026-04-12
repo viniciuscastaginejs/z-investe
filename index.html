@@ -7,23 +7,30 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-/* ─── RESET ─── */
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth;overflow-x:hidden}
 body{font-family:'Montserrat',-apple-system,sans-serif;background:#020c1a;color:#fff;overflow-x:hidden;-webkit-font-smoothing:antialiased}
-
-/* ─── VARIÁVEIS ─── */
 :root{
   --n0:#020c1a;--n1:#07152e;--n2:#091B3D;--n3:#0d2147;--n4:#162648;
-  --white:#fff;--off:#f2f5fb;
+  --off:#f2f5fb;--inv:#07152e;--idim:rgba(7,21,46,.58);
   --w80:rgba(255,255,255,.82);--w55:rgba(255,255,255,.55);
   --w30:rgba(255,255,255,.30);--w12:rgba(255,255,255,.12);
   --w06:rgba(255,255,255,.06);--w03:rgba(255,255,255,.03);
-  --inv:#07152e;--idim:rgba(7,21,46,.58);
   --ease:cubic-bezier(.25,.46,.45,.94);
 }
 
-/* ─── BOTÃO PORTFEL ─── */
+/* SCROLL REVEAL */
+.r{opacity:0;transform:translateY(20px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.r.on{opacity:1;transform:none}
+.r.d1{transition-delay:.1s}.r.d2{transition-delay:.2s}.r.d3{transition-delay:.3s}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+#hero .r{animation:fadeUp .9s var(--ease) both;opacity:1}
+#hero .r.d1{animation-delay:.15s}
+#hero .r.d2{animation-delay:.30s}
+#hero .r.d3{animation-delay:.45s}
+@media(prefers-reduced-motion:reduce){.r{opacity:1;transform:none;transition:none}#hero .r{animation:none}}
+
+/* BOTÃO */
 .pb{display:inline-flex;align-items:center;gap:0;background:rgba(10,30,80,.82);border:1.5px solid rgba(255,255,255,.20);border-radius:55px;padding:7px 7px 7px 28px;text-decoration:none;cursor:pointer;transition:border-color .25s,background .25s;backdrop-filter:blur(8px)}
 .pb:hover{border-color:rgba(255,255,255,.48);background:rgba(10,30,80,.96)}
 .pb-t{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#fff;white-space:nowrap;margin-right:16px;line-height:1}
@@ -31,75 +38,45 @@ body{font-family:'Montserrat',-apple-system,sans-serif;background:#020c1a;color:
 .pb:hover .pb-i{transform:rotate(45deg)}
 .pb-i svg{width:16px;height:16px}
 
-/* ─── Z NO HERO ─── */
-.hz-bg{
-  position:absolute;
-  top:50%;
-  left:-12%;
-  transform:translateY(-50%);
-  width:min(82vw,860px);
-  height:auto;
-  aspect-ratio:700/600;
-  z-index:1;
-  pointer-events:none;
-  opacity:.18;
-  filter:blur(2px);
-}
-.hz-bg::after{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(to right,
-    rgba(2,12,26,1)   0%,
-    rgba(2,12,26,.88) 16%,
-    rgba(2,12,26,.40) 44%,
-    rgba(2,12,26,.08) 70%,
-    transparent       88%
-  );
-  pointer-events:none;
-}
-
-/* ─── HERO ─── */
+/* HERO */
 #hero{position:relative;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 24px 80px;overflow:hidden;background:var(--n0)}
+.hz-bg{position:absolute;top:50%;left:-12%;transform:translateY(-50%);width:min(82vw,860px);aspect-ratio:700/600;z-index:1;pointer-events:none;opacity:.18;filter:blur(2px)}
 .hg{position:absolute;top:-8%;left:50%;transform:translateX(-50%);width:1000px;height:720px;background:radial-gradient(ellipse 62% 58% at 50% 18%,rgba(28,88,230,.52) 0%,rgba(8,36,130,.28) 42%,transparent 68%);pointer-events:none;z-index:0}
 .ho{position:absolute;top:12%;left:50%;transform:translateX(-50%);width:360px;height:360px;background:radial-gradient(circle,rgba(38,108,255,.26) 0%,transparent 70%);border-radius:50%;filter:blur(18px);pointer-events:none;z-index:0}
+.hcon{position:relative;z-index:10;display:flex;flex-direction:column;align-items:center}
+.hlog-svg{margin-bottom:36px;display:flex;justify-content:center;width:100%}
+.hlog-svg svg{height:44px;width:auto;display:block}
 
-/* ─── GRADIENTES DIVISORES ─── */
-.gd{pointer-events:none}
-.gd-n0-off{height:90px;background:linear-gradient(var(--n0),var(--off))}
-.gd-off-n1{height:90px;background:linear-gradient(var(--off),var(--n1))}
-.gd-n1-n3{height:90px;background:linear-gradient(var(--n1),var(--n3))}
-.gd-n3-n2{height:90px;background:linear-gradient(var(--n3),var(--n2))}
-.gd-n2-n4{height:90px;background:linear-gradient(var(--n2),var(--n4))}
-.gd-n4-n1{height:90px;background:linear-gradient(var(--n4),var(--n1))}
-.gd-n1-n3b{height:90px;background:linear-gradient(var(--n1),var(--n3))}
-.gd-n3-n2b{height:90px;background:linear-gradient(var(--n3),var(--n2))}
-.gd-n2-n0{height:90px;background:linear-gradient(var(--n2),var(--n0))}
-.gd-n0-n1{height:90px;background:linear-gradient(var(--n0),var(--n1))}
-.gd-n1-n2{height:90px;background:linear-gradient(var(--n1),var(--n2))}
+/* HERO TÍTULO */
+.htit{font-size:clamp(36px,5.5vw,80px);font-weight:900;letter-spacing:-.055em;line-height:1.0;color:#fff;margin-bottom:22px;max-width:680px}
+.htit .h-static{display:block}
+.htit .h-dyn{display:block;position:relative;height:1.15em;overflow:visible}
+.htit .h-item{position:absolute;top:0;left:50%;transform:translateX(-50%);white-space:nowrap;color:rgba(110,190,255,.90);font-size:clamp(20px,4.2vw,68px);line-height:1.15;opacity:0;transition:opacity .6s ease;pointer-events:none}
+.htit .h-item.vis{opacity:1}
 
-/* ─── SEÇÕES ─── */
+.hsub{font-size:clamp(14px,2.2vw,19px);font-weight:400;line-height:1.56;color:var(--w55);max-width:500px;margin:0 auto 12px;letter-spacing:-.01em}
+.hbody{font-size:clamp(12px,1.6vw,14px);font-weight:400;line-height:1.7;color:var(--w30);max-width:460px;margin:0 auto 40px}
+
+/* GRADIENTES */
+.gd{pointer-events:none;height:90px}
+
+/* SEÇÕES */
 .sec{padding:clamp(52px,7vw,88px) clamp(24px,8vw,88px);display:flex;flex-direction:column;align-items:center;text-align:center;position:relative}
 .s0{background:var(--n0)}.s1{background:var(--n1)}.s2{background:var(--n2)}.s3{background:var(--n3)}.s4{background:var(--n4)}
 .sw{background:var(--off);color:var(--inv)}
-
-/* Pontinhos em seções escuras */
-.s0::before,.s1::before,.s2::before,.s3::before,.s4::before,
-#z-section::before,#scta::before{
-  content:'';position:absolute;inset:0;
-  background-image:radial-gradient(circle,rgba(255,255,255,.05) 1px,transparent 1px);
-  background-size:36px 36px;pointer-events:none;z-index:0;
-}
+.s0::before,.s1::before,.s2::before,.s3::before,.s4::before,#scta::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.05) 1px,transparent 1px);background-size:36px 36px;pointer-events:none;z-index:0}
 .sw::before{background-image:radial-gradient(circle,rgba(7,21,46,.07) 1px,transparent 1px);background-size:36px 36px}
 .sec>*{position:relative;z-index:1}
 
-/* ─── TIPOGRAFIA ─── */
+/* TIPOGRAFIA */
 .ey{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.20em;text-transform:uppercase;color:var(--w30);margin-bottom:14px;padding:5px 14px;border:1px solid var(--w12);border-radius:100px}
 .sw .ey{color:rgba(7,21,46,.35);border-color:rgba(7,21,46,.12)}
 .stit{font-size:clamp(28px,4vw,54px);font-weight:900;letter-spacing:-.05em;line-height:1.04;color:#fff;margin-bottom:16px;max-width:800px}
 .sw .stit{color:var(--inv)}
-.sbdy{font-size:clamp(13px,1.3vw,15px);font-weight:400;line-height:1.76;color:var(--w55);max-width:600px;letter-spacing:-.005em;margin-bottom:12px}
+.sbdy{font-size:clamp(13px,1.3vw,15px);line-height:1.76;color:var(--w55);max-width:600px;letter-spacing:-.005em;margin-bottom:12px}
 .sw .sbdy{color:var(--idim)}
 
-/* ─── S2 PROBLEMA ─── */
+/* S2 PROBLEMA */
 .pg{display:grid;grid-template-columns:1fr 1fr;gap:60px;max-width:940px;width:100%;margin-top:44px;text-align:left}
 .pc p{font-size:14px;line-height:1.78;color:var(--idim);margin-bottom:14px}
 .pc strong{color:var(--inv);font-weight:700}
@@ -110,7 +87,7 @@ body{font-family:'Montserrat',-apple-system,sans-serif;background:#020c1a;color:
 .pt{font-size:14px;font-weight:800;letter-spacing:-.03em;color:var(--n2);margin-bottom:4px}
 .pb2{font-size:12px;line-height:1.65;color:rgba(7,21,46,.5)}
 
-/* ─── S3 MUDANÇA ─── */
+/* S3 MUDANÇA */
 .chr{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:800px;width:100%;margin-top:40px}
 .cb{background:var(--w03);border:1px solid var(--w06);border-radius:2px;padding:24px 20px;text-align:left}
 .cf{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--w30);margin-bottom:14px}
@@ -120,30 +97,43 @@ body{font-family:'Montserrat',-apple-system,sans-serif;background:#020c1a;color:
 .csr h3{font-size:clamp(22px,2.8vw,36px);font-weight:900;letter-spacing:-.05em;line-height:1.05}
 .csr p{font-size:14px;color:var(--w55);line-height:1.6;max-width:480px}
 
-/* ─── S4 PILARES ─── */
+/* S4 PILARES */
 .prow{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;max-width:840px;width:100%;margin-top:40px;background:var(--w06);overflow:hidden;border-radius:2px}
 .pil{background:var(--n3);padding:28px 24px;text-align:left;transition:background .2s}
 .pil:hover{background:var(--n4)}
 .pit{font-size:14px;font-weight:800;letter-spacing:-.02em;margin-bottom:8px}
 .pib{font-size:12px;line-height:1.65;color:var(--w55)}
 
-/* ─── S5 COMO FUNCIONA (bento) ─── */
-.bento{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;max-width:960px;width:100%;margin-top:40px}
-.bcard{background:var(--n3);border-radius:20px;padding:32px 28px;text-align:left;position:relative;border:1px solid rgba(255,255,255,.07);transition:border-color .2s,background .2s}
-.bcard:hover{border-color:rgba(255,255,255,.15);background:var(--n4)}
-.bcard-hero{grid-column:1/3}
-.bcard-side{grid-column:3/4;grid-row:1/3;display:flex;flex-direction:column;justify-content:space-between}
-.bcard-sm{grid-column:auto}
-.bnum{position:absolute;top:18px;right:18px;width:30px;height:30px;border-radius:50%;border:1.5px solid rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:var(--w55)}
-.bico{width:36px;height:36px;border-radius:8px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);display:flex;align-items:center;justify-content:center;margin-bottom:20px}
-.bico svg{width:18px;height:18px;stroke:rgba(255,255,255,.6);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.btit{font-size:clamp(18px,2vw,24px);font-weight:800;letter-spacing:-.04em;line-height:1.15;margin-bottom:12px;color:#fff}
-.bdsc{font-size:13px;line-height:1.68;color:var(--w55)}
-.b-fpsb{margin-top:20px;padding-top:18px;border-top:1px solid rgba(255,255,255,.07)}
-.b-fpsb p{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--w30);margin-bottom:6px}
-.b-fpsb span{font-size:12px;color:var(--w55);line-height:1.6}
+/* ORBITAL */
+.orb-wrap{display:flex;align-items:center;gap:40px;max-width:900px;width:100%;margin-top:40px;flex-wrap:wrap;justify-content:center}
+.orb-stage-box{position:relative;width:340px;height:340px;flex-shrink:0}
+.orb-ring{position:absolute;inset:0;border-radius:50%;border:1px solid rgba(255,255,255,.08)}
+.orb-ring-inner{position:absolute;inset:60px;border-radius:50%;border:1px dashed rgba(255,255,255,.05)}
+.orb-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#1a5fd4,#6eb8ff);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:10;transition:transform .3s}
+.orb-center:hover{transform:translate(-50%,-50%) scale(1.08)}
+.orb-center-pulse{position:absolute;width:84px;height:84px;border-radius:50%;border:1.5px solid rgba(110,184,255,.3);animation:orbpulse 2s ease-out infinite}
+@keyframes orbpulse{0%{transform:scale(.85);opacity:1}100%{transform:scale(1.5);opacity:0}}
+.orb-node{position:absolute;display:flex;flex-direction:column;align-items:center;cursor:pointer;transform:translate(-50%,-50%);transition:transform .2s;z-index:5}
+.orb-node:hover{transform:translate(-50%,-50%) scale(1.12)}
+.orb-btn{width:48px;height:48px;border-radius:50%;background:rgba(22,38,72,.9);border:1.5px solid rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;transition:border-color .2s,background .2s;margin-bottom:5px}
+.orb-node.on .orb-btn{border-color:rgba(110,184,255,.6);background:rgba(26,95,212,.3)}
+.orb-btn svg{width:18px;height:18px;stroke:rgba(255,255,255,.5);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.orb-node.on .orb-btn svg{stroke:#6eb8ff}
+.orb-lbl{font-size:9px;font-weight:700;color:rgba(255,255,255,.35);letter-spacing:.03em;white-space:nowrap;font-family:'Montserrat',sans-serif;transition:color .2s}
+.orb-node.on .orb-lbl{color:rgba(110,184,255,.85)}
+.orb-card-box{flex:1;min-width:260px;max-width:360px;background:rgba(13,33,71,.85);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:24px 22px;transition:opacity .3s,transform .3s}
+.orb-card-top2{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.orb-badge{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;background:rgba(110,184,255,.15);color:#6eb8ff;border-radius:100px;padding:3px 10px}
+.orb-tag{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.22)}
+.orb-ctit{font-size:clamp(16px,2vw,20px);font-weight:900;letter-spacing:-.04em;color:#fff;margin-bottom:8px;line-height:1.2}
+.orb-cdesc{font-size:12px;line-height:1.68;color:rgba(255,255,255,.45);margin-bottom:16px}
+.orb-bar-row{display:flex;align-items:center;gap:10px}
+.orb-bar-lbl{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.22);white-space:nowrap}
+.orb-track{flex:1;height:3px;background:rgba(255,255,255,.08);border-radius:10px;overflow:hidden}
+.orb-fill{height:100%;border-radius:10px;background:linear-gradient(to right,#1a5fd4,#6eb8ff);transition:width .6s var(--ease)}
+.orb-pct{font-size:9px;font-weight:700;color:#6eb8ff;min-width:28px;text-align:right}
 
-/* ─── S6 FEE ─── */
+/* S6 FEE */
 .fp{display:grid;grid-template-columns:1fr 1fr;gap:2px;max-width:800px;width:100%;margin-top:40px;background:var(--w06);overflow:hidden;border-radius:2px}
 .fcol{background:var(--n4);padding:32px 28px;text-align:left}
 .fct{font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--w30);margin-bottom:20px}
@@ -151,13 +141,13 @@ body{font-family:'Montserrat',-apple-system,sans-serif;background:#020c1a;color:
 .fi:last-child{margin-bottom:0}
 .fm{font-size:11px;font-weight:700;color:var(--w30);flex-shrink:0;width:12px}
 
-/* ─── S7 PARA QUEM ─── */
+/* S7 PARA QUEM */
 .pqb{max-width:660px;width:100%;margin-top:32px}
 .pqb p{font-size:clamp(13px,1.3vw,15px);line-height:1.76;color:var(--w55);margin-bottom:12px}
 .pqq{margin-top:32px;padding:24px 28px;border-left:2px solid var(--w12);text-align:left;font-size:clamp(16px,1.7vw,20px);font-weight:700;font-style:italic;line-height:1.4;letter-spacing:-.03em;color:var(--w80)}
 .pqm{margin-top:22px;font-size:12px;color:var(--w30);letter-spacing:.02em}
 
-/* ─── S8 GESTORA ─── */
+/* S8 GESTORA */
 .gc{display:grid;grid-template-columns:1fr 1fr;gap:44px;max-width:840px;width:100%;margin-top:40px;text-align:left}
 .gtag{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--w30);display:block;margin-bottom:8px}
 .gnm{font-size:clamp(17px,1.8vw,22px);font-weight:900;letter-spacing:-.04em;margin-bottom:14px;color:#fff}
@@ -166,7 +156,7 @@ body{font-family:'Montserrat',-apple-system,sans-serif;background:#020c1a;color:
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
 .chip{font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--w30);padding:4px 10px;border:1px solid var(--w12);border-radius:100px}
 
-/* ─── PASSO A PASSO ─── */
+/* PASSO A PASSO */
 #s-passo{background:var(--n2);padding:clamp(52px,7vw,88px) clamp(24px,8vw,88px);display:flex;flex-direction:column;align-items:center;text-align:center;position:relative}
 .ptit-main{font-size:clamp(24px,3vw,40px);font-weight:800;letter-spacing:-.04em;line-height:1.1;color:#fff;margin-bottom:36px;max-width:640px}
 .pgrid{width:100%;max-width:960px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
@@ -181,18 +171,18 @@ body{font-family:'Montserrat',-apple-system,sans-serif;background:#020c1a;color:
 .psdsc{font-size:13px;line-height:1.68;color:var(--w55)}
 .pimg{background:var(--n4);border-radius:20px;border:1px solid rgba(255,255,255,.1);overflow:hidden;width:100%;aspect-ratio:4/3;transform:perspective(800px) rotateY(-4deg) rotateX(2deg);box-shadow:0 24px 60px rgba(0,0,0,.5)}
 
-/* ─── S10 CTA ─── */
+/* CTA */
 #scta{background:var(--n0);padding:clamp(68px,9vw,110px) 24px;display:flex;flex-direction:column;align-items:center;text-align:center;position:relative;overflow:hidden}
 .cta-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:580px;height:480px;background:radial-gradient(ellipse 58% 52% at 50% 50%,rgba(22,78,210,.22) 0%,transparent 70%);pointer-events:none}
 .ctt{font-size:clamp(30px,4.2vw,56px);font-weight:900;letter-spacing:-.05em;line-height:1.05;max-width:740px;margin-bottom:20px;position:relative;z-index:1}
 .ctb{font-size:clamp(13px,1.3vw,15px);line-height:1.74;color:var(--w55);max-width:500px;margin-bottom:8px;position:relative;z-index:1}
 .ctn{font-size:11px;color:var(--w30);margin-top:14px;position:relative;z-index:1}
 
-/* ─── TESTI ─── */
+/* TESTI */
 .tph{margin-top:40px;max-width:500px;width:100%;padding:40px 28px;border:1px dashed var(--w12);border-radius:2px}
 .tph p{font-size:13px;color:var(--w30);font-style:italic}
 
-/* ─── FAQ ─── */
+/* FAQ */
 .flist{max-width:700px;width:100%;margin-top:40px;text-align:left}
 .fi2{border-bottom:1px solid var(--w06)}.fi2:first-child{border-top:1px solid var(--w06)}
 .fbt{width:100%;background:none;border:none;display:flex;justify-content:space-between;align-items:center;padding:18px 0;gap:14px;font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;color:var(--w80);cursor:pointer;text-align:left;letter-spacing:-.02em;transition:color .2s}
@@ -203,7 +193,7 @@ body{font-family:'Montserrat',-apple-system,sans-serif;background:#020c1a;color:
 .fi2.open .fan{max-height:400px;padding-bottom:18px}
 .fan b{color:var(--w80);font-weight:700}
 
-/* ─── FOOTER ─── */
+/* FOOTER */
 footer{background:#020c1a;border-top:1px solid var(--w06);padding:44px clamp(24px,8vw,88px) 32px}
 .fgrid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:44px;max-width:940px;margin:0 auto 32px}
 .fbrand{font-size:15px;font-weight:800;letter-spacing:-.04em;margin-bottom:7px}
@@ -216,106 +206,99 @@ footer{background:#020c1a;border-top:1px solid var(--w06);padding:44px clamp(24p
 .fhr{border:none;border-top:1px solid var(--w06);max-width:940px;margin:0 auto 20px}
 .fdisc{max-width:940px;margin:0 auto;font-size:10px;color:rgba(255,255,255,.16);line-height:1.7}
 
-/* ─── HERO LOGO ─── */
-.hlog-svg{
-  margin-bottom:36px;
-  display:flex;
-  justify-content:center;
-  width:100%;
-}
-.hlog-svg svg{
-  height:44px;
-  width:auto;
-  display:block;
-}
-
-/* ─── HERO TÍTULO COM SLIDE ─── */
-.htit{
-  font-size:clamp(36px,5.5vw,80px);
-  font-weight:900;
-  letter-spacing:-.055em;
-  line-height:1.0;
-  color:#fff;
-  margin-bottom:22px;
-  max-width:680px;
-}
-.htit .h-static{
-  display:block;
-}
-.htit .h-dyn-wrap{
-  display:block;
-  position:relative;
-  min-height:1.1em;
-}
-.htit .h-track{
-  display:block;
-}
-.htit .h-item{
-  display:none;
-  color:rgba(110,190,255,.90);
-  font-size:clamp(22px,3.8vw,54px);
-  line-height:1.1;
-  opacity:0;
-  transition:opacity .5s ease;
-}
-.htit .h-item.active{
-  display:block;
-  opacity:1;
-}
-
-.hsub{font-size:clamp(15px,1.7vw,19px);font-weight:400;line-height:1.56;color:var(--w55);max-width:500px;margin:0 auto 12px;letter-spacing:-.01em}
-.hbody{font-size:clamp(12px,1.2vw,14px);font-weight:400;line-height:1.7;color:var(--w30);max-width:460px;margin:0 auto 40px}
-.hcon{position:relative;z-index:10;display:flex;flex-direction:column;align-items:center}
-
-/* ─── SCROLL REVEAL ─── */
-.r{opacity:0;transform:translateY(22px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
-.r.on{opacity:1;transform:translateY(0)}
-.r.d1{transition-delay:.1s}.r.d2{transition-delay:.2s}.r.d3{transition-delay:.3s}
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-#hero .r{animation:fadeUp .9s var(--ease) both;opacity:1}
-#hero .r.d1{animation-delay:.15s}
-#hero .r.d2{animation-delay:.30s}
-#hero .r.d3{animation-delay:.45s}
-@media(prefers-reduced-motion:reduce){.r{opacity:1;transform:none;transition:none}#hero .r{animation:none}.htit .h-track{transition:none}}
-
-/* ─── RESPONSIVO ─── */
+/* RESPONSIVO */
 @media(max-width:768px){
+  /* HERO */
   #hero{padding:48px 20px 60px}
-  .hlog-svg svg{height:32px}
-  .hsub,.hbody{max-width:100%}
-  .pb{padding:7px 7px 7px 18px;max-width:340px}
+  .hlog-svg{margin-bottom:24px}
+  .hlog-svg svg{height:30px}
+  .htit{font-size:clamp(38px,10vw,56px);margin-bottom:18px;max-width:100%}
+  .htit .h-dyn{height:1.2em}
+  .htit .h-item{font-size:clamp(28px,7.5vw,48px);white-space:nowrap}
+  .hsub{font-size:15px;max-width:100%;margin-bottom:10px}
+  .hbody{font-size:13px;max-width:100%;margin-bottom:32px}
+  .pb{padding:7px 7px 7px 18px;max-width:100%}
   .pb-t{font-size:11px;margin-right:10px;white-space:normal;line-height:1.3}
+  .pb-i{width:34px;height:34px}
+
+  /* SEÇÕES */
   .sec{padding:48px 20px}
-  .stit{font-size:clamp(24px,7vw,38px)}
+  .stit{font-size:clamp(22px,6vw,34px)}
+  .sbdy{font-size:14px;max-width:100%}
+  .ey{font-size:9px}
+  .gd{height:60px}
+
+  /* S2 PROBLEMA */
   .pg{grid-template-columns:1fr;gap:24px}
   .pcards{border-left:none;padding-left:0;border-top:1px solid rgba(7,21,46,.1);padding-top:24px}
+
+  /* S3 MUDANÇA */
   .chr{grid-template-columns:1fr}
-  .csr{padding:28px 24px}
+  .csr{padding:28px 20px;gap:16px}
+  .csr h3{font-size:clamp(18px,5vw,26px)}
+
+  /* S4 PILARES */
   .prow{grid-template-columns:1fr}
-  .bento{grid-template-columns:1fr}
-  .bcard-hero,.bcard-side,.bcard-sm{grid-column:1;grid-row:auto}
-  .bcard-side{display:block}
+
+  /* ORBITAL */
+  .orb-wrap{flex-direction:column;align-items:center;gap:24px}
+  .orb-stage-box{width:280px;height:280px}
+  .orb-card-box{max-width:100%;width:100%}
+
+  /* S6 FEE */
   .fp{grid-template-columns:1fr}
+
+  /* S7 PARA QUEM */
+  .pqq{font-size:16px;padding:20px 20px}
+  .pqb p{font-size:14px}
+
+  /* S8 GESTORA */
   .gc{grid-template-columns:1fr;gap:24px}
+
+  /* PASSO A PASSO */
   #s-passo{padding:48px 20px}
   .prow1,.prow2{grid-template-columns:1fr}
   .pimg{transform:none;aspect-ratio:16/9}
+  .ptit-main{font-size:clamp(20px,5vw,30px);margin-bottom:24px}
+
+  /* CTA */
   #scta{padding:56px 20px}
-  .ctt{font-size:clamp(26px,7vw,40px)}
+  .ctt{font-size:clamp(22px,6vw,36px)}
+  .ctb{font-size:14px;max-width:100%}
+
+  /* FOOTER */
   .fgrid{grid-template-columns:1fr;gap:24px}
   footer{padding:36px 20px 28px}
-  .gd{height:60px}
 }
+
 @media(max-width:480px){
-  #hero{padding:40px 16px 52px}
-  .htit{font-size:clamp(30px,10vw,46px)}
-  .pb{max-width:100%;padding:7px 7px 7px 16px}
+  /* HERO */
+  #hero{padding:36px 16px 48px}
+  .htit{font-size:clamp(34px,11vw,48px)}
+  .htit .h-item{font-size:clamp(22px,8vw,38px)}
+  .hsub{font-size:14px}
+  .hbody{font-size:12px;margin-bottom:28px}
+  .pb-i{width:30px;height:30px}
   .pb-t{font-size:10px}
-  .pb-i{width:32px;height:32px}
-  .sec{padding:40px 16px}
-  .bcard,.pstep{padding:22px 18px;border-radius:16px}
-  .btit,.pstit{font-size:18px}
-  .bnum,.psbadge{width:26px;height:26px;font-size:10px;top:12px;right:12px}
+
+  /* SEÇÕES */
+  .sec{padding:36px 16px}
+  .stit{font-size:clamp(20px,7vw,30px)}
+
+  /* ORBITAL */
+  .orb-stage-box{width:240px;height:240px}
+  .orb-btn{width:40px;height:40px}
+  .orb-btn svg{width:14px;height:14px}
+  .orb-lbl{font-size:8px}
+  .orb-ctit{font-size:15px}
+  .orb-cdesc{font-size:11px}
+
+  /* PASSO A PASSO */
+  .pstep{padding:20px 16px;border-radius:14px}
+  .pstit{font-size:16px}
+  .psbadge{width:24px;height:24px;font-size:9px;top:10px;right:10px}
+
+  /* FOOTER */
   footer{padding:28px 16px 24px}
   .fdisc{font-size:9px}
 }
@@ -323,39 +306,32 @@ footer{background:#020c1a;border-top:1px solid var(--w06);padding:44px clamp(24p
 </head>
 <body>
 
-<!-- ══ HERO ══ -->
+<!-- HERO -->
 <section id="hero">
   <div class="hg"></div>
   <div class="ho"></div>
   <canvas id="zCanvas" class="hz-bg"></canvas>
-
   <div class="hcon">
-    <!-- LOGO — mantida no mesmo lugar -->
     <div class="hlog-svg r">
       <svg viewBox="0 0 380 52" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Zé Investe">
-        <text x="190" y="40" text-anchor="middle" font-family="Montserrat, -apple-system, sans-serif" font-size="40" font-weight="300" letter-spacing="-1" fill="white">Zé Investe</text>
-        <text x="289" y="35" text-anchor="middle" font-family="Montserrat, -apple-system, sans-serif" font-size="7" font-weight="300" fill="rgba(255,255,255,0.50)">®</text>
+        <text x="190" y="40" text-anchor="middle" font-family="Montserrat,-apple-system,sans-serif" font-size="40" font-weight="300" letter-spacing="-1" fill="white">Zé Investe</text>
+        <text x="289" y="35" text-anchor="middle" font-family="Montserrat,-apple-system,sans-serif" font-size="7" font-weight="300" fill="rgba(255,255,255,0.50)">®</text>
       </svg>
     </div>
-
-    <!-- TÍTULO COM SLIDE ANIMADO -->
     <h1 class="htit r d1">
       <span class="h-static">Invista</span>
-      <span class="h-dyn-wrap">
-        <span class="h-track" id="zSlide">
-          <span class="h-item">em você.</span>
-          <span class="h-item">na sua evolução.</span>
-          <span class="h-item">no seu futuro.</span>
-          <span class="h-item">no seu crescimento.</span>
-          <span class="h-item">no seu potencial.</span>
-          <span class="h-item">nos seus sonhos.</span>
-          <span class="h-item">na sua melhor versão.</span>
-          <span class="h-item">no seu desenvolvimento.</span>
-          <span class="h-item">na sua jornada.</span>
-        </span>
+      <span class="h-dyn">
+        <span class="h-item">em você.</span>
+        <span class="h-item">na sua evolução.</span>
+        <span class="h-item">no seu futuro.</span>
+        <span class="h-item">no seu crescimento.</span>
+        <span class="h-item">no seu potencial.</span>
+        <span class="h-item">nos seus sonhos.</span>
+        <span class="h-item">na sua melhor versão.</span>
+        <span class="h-item">no seu desenvolvimento.</span>
+        <span class="h-item">na sua jornada.</span>
       </span>
     </h1>
-
     <p class="hsub r d2">O mercado financeiro foi construído para ganhar do seu dinheiro. A Zé Investe foi construída para cuidar dele.</p>
     <p class="hbody r d2">Somos um escritório de planejamento financeiro pessoal independente. Não vendemos produto. Não ganhamos comissão. Não trabalhamos para corretora. Trabalhamos para você — e apenas para você.</p>
     <a href="https://wa.me/5516974005673" target="_blank" class="pb r d3">
@@ -365,9 +341,9 @@ footer{background:#020c1a;border-top:1px solid var(--w06);padding:44px clamp(24p
   </div>
 </section>
 
-<div class="gd gd-n0-off" style="background:linear-gradient(var(--n0),var(--off))"></div>
+<div class="gd" style="background:linear-gradient(var(--n0),var(--off))"></div>
 
-<!-- ══ S2 O PROBLEMA ══ -->
+<!-- S2 PROBLEMA -->
 <section id="s-prob" class="sec sw">
   <span class="ey r">O Problema</span>
   <h2 class="stit r d1">Se você não paga pelo produto, você é o produto.</h2>
@@ -385,9 +361,9 @@ footer{background:#020c1a;border-top:1px solid var(--w06);padding:44px clamp(24p
   </div>
 </section>
 
-<div class="gd gd-off-n1"></div>
+<div class="gd" style="background:linear-gradient(var(--off),var(--n1))"></div>
 
-<!-- ══ S3 A MUDANÇA ══ -->
+<!-- S3 MUDANÇA -->
 <section id="s-mud" class="sec s1">
   <span class="ey r">O Contexto</span>
   <h2 class="stit r d1">O modelo de assessoria por comissão está com os dias contados.</h2>
@@ -428,9 +404,9 @@ footer{background:#020c1a;border-top:1px solid var(--w06);padding:44px clamp(24p
   </div>
 </section>
 
-<div class="gd gd-n1-n3"></div>
+<div class="gd" style="background:linear-gradient(var(--n1),var(--n3))"></div>
 
-<!-- ══ S4 QUEM SOMOS ══ -->
+<!-- S4 QUEM SOMOS -->
 <section id="s-quem" class="sec s3">
   <span class="ey r">Quem Somos</span>
   <h2 class="stit r d1">Pense em nós como o seu médico financeiro.</h2>
@@ -444,70 +420,47 @@ footer{background:#020c1a;border-top:1px solid var(--w06);padding:44px clamp(24p
   </div>
 </section>
 
-<div class="gd gd-n3-n2"></div>
+<div class="gd" style="background:linear-gradient(var(--n3),var(--n2))"></div>
 
-<!-- ══ S5 COMO FUNCIONA ══ -->
+<!-- S5 COMO FUNCIONA ORBITAL -->
 <section id="s-como" class="sec s2">
   <span class="ey r">Como Funciona</span>
   <h2 class="stit r d1">Você decide o horizonte. Nós ajustamos a rota.</h2>
-  <p class="sbdy r d2">Seguimos o processo do FPSB — Financial Planning Standards Board — o padrão internacional de planejamento financeiro.</p>
-  <div class="bento r d3">
-    <div class="bcard bcard-hero">
-      <span class="bnum">1</span>
-      <div class="bico"><svg viewBox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0"/></svg></div>
-      <p class="btit">Estabelecer o relacionamento</p>
-      <p class="bdsc">Começamos entendendo quem você é e o que espera. Sem compromisso, sem produto, sem pressão. Uma conversa de 30 minutos.</p>
-      <div style="margin-top:20px">
-        <a href="https://wa.me/5516974005673" target="_blank" class="pb">
-          <span class="pb-t">Falar com um planejador</span>
-          <span class="pb-i"><svg viewBox="0 0 24 24" fill="none" stroke="#07152e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
-        </a>
+  <p class="sbdy r d2">Seguimos o processo do FPSB — Financial Planning Standards Board — o padrão internacional de planejamento financeiro. Clique em cada etapa.</p>
+  <div class="orb-wrap r d3">
+    <div class="orb-stage-box" id="orbStage">
+      <div class="orb-ring"></div>
+      <div class="orb-ring-inner"></div>
+      <div class="orb-center" id="orbCenter">
+        <div class="orb-center-pulse"></div>
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+        </svg>
       </div>
     </div>
-    <div class="bcard bcard-side">
-      <div>
-        <span class="bnum">6</span>
-        <div class="bico"><svg viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg></div>
-        <p class="btit">Monitorar e revisar</p>
-        <p class="bdsc">O plano não é estático. Sua vida muda, o mercado muda, as metas evoluem. Revisões periódicas garantem o alinhamento.</p>
+    <div class="orb-card-box" id="orbCard">
+      <div class="orb-card-top2">
+        <span class="orb-badge" id="orbNum">Passo 1</span>
+        <span class="orb-tag">FPSB</span>
       </div>
-      <div class="b-fpsb">
-        <p>FPSB</p>
-        <span>Financial Planning Standards Board — padrão internacional de planejamento financeiro.</span>
+      <h3 class="orb-ctit" id="orbTitle">Estabelecer o relacionamento</h3>
+      <p class="orb-cdesc" id="orbDesc">Começamos entendendo quem você é e o que espera. Sem compromisso, sem produto, sem pressão. Uma conversa de 30 minutos.</p>
+      <div class="orb-bar-row">
+        <span class="orb-bar-lbl">Impacto no plano</span>
+        <div class="orb-track"><div class="orb-fill" id="orbFill" style="width:16%"></div></div>
+        <span class="orb-pct" id="orbPct">16%</span>
       </div>
-    </div>
-    <div class="bcard bcard-sm">
-      <span class="bnum">2</span>
-      <div class="bico"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg></div>
-      <p class="btit">Coletar as informações</p>
-      <p class="bdsc">Renda. Gastos. Investimentos. Imóveis. Dívidas. Família. Seguros. Previdência. Quanto mais detalhe, melhor o diagnóstico.</p>
-    </div>
-    <div class="bcard bcard-sm">
-      <span class="bnum">3</span>
-      <div class="bico"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
-      <p class="btit">Analisar a situação</p>
-      <p class="bdsc">Raio-X completo do patrimônio. O que está funcionando, o que custa mais do que deveria e onde estão as vulnerabilidades.</p>
-    </div>
-  </div>
-  <div class="bento r d3" style="margin-top:16px">
-    <div class="bcard" style="grid-column:1/2">
-      <span class="bnum">4</span>
-      <div class="bico"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
-      <p class="btit">Desenvolver recomendações</p>
-      <p class="bdsc">Quanto gastar. Quanto guardar. Como dolarizar. Como diversificar. Tudo apresentado e justificado.</p>
-    </div>
-    <div class="bcard" style="grid-column:2/4">
-      <span class="bnum">5</span>
-      <div class="bico"><svg viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg></div>
-      <p class="btit">Implementar o plano aprovado</p>
-      <p class="bdsc">A carteira é montada pela Mont Capital com base no IPS — documento que formaliza seus objetivos e perfil de risco. Sem comissão. Você acompanha pelo dashboard em tempo real.</p>
+      <a href="https://wa.me/5516974005673" target="_blank" class="pb" style="margin-top:20px">
+        <span class="pb-t">Falar com um planejador</span>
+        <span class="pb-i"><svg viewBox="0 0 24 24" fill="none" stroke="#07152e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+      </a>
     </div>
   </div>
 </section>
 
-<div class="gd gd-n2-n4"></div>
+<div class="gd" style="background:linear-gradient(var(--n2),var(--n4))"></div>
 
-<!-- ══ S6 FEE-ONLY ══ -->
+<!-- S6 FEE-ONLY -->
 <section id="s-fee" class="sec s4">
   <span class="ey r">Diferencial</span>
   <h2 class="stit r d1">Somos remunerados apenas por você. E isso muda tudo.</h2>
@@ -534,9 +487,9 @@ footer{background:#020c1a;border-top:1px solid var(--w06);padding:44px clamp(24p
   </div>
 </section>
 
-<div class="gd gd-n4-n1"></div>
+<div class="gd" style="background:linear-gradient(var(--n4),var(--n1))"></div>
 
-<!-- ══ S7 PARA QUEM É ══ -->
+<!-- S7 PARA QUEM -->
 <section id="s-pq" class="sec s1">
   <span class="ey r">Para Quem É</span>
   <h2 class="stit r d1">Para quem trabalhou muito e ainda não parou para organizar o que construiu.</h2>
@@ -552,9 +505,9 @@ footer{background:#020c1a;border-top:1px solid var(--w06);padding:44px clamp(24p
   </a>
 </section>
 
-<div class="gd gd-n1-n3b"></div>
+<div class="gd" style="background:linear-gradient(var(--n1),var(--n3))"></div>
 
-<!-- ══ S8 GESTORA ══ -->
+<!-- S8 GESTORA -->
 <section id="s-gest" class="sec s3">
   <span class="ey r">A Gestora Parceira</span>
   <h2 class="stit r d1">Você tem duas equipes trabalhando pelo seu patrimônio.</h2>
@@ -581,9 +534,9 @@ footer{background:#020c1a;border-top:1px solid var(--w06);padding:44px clamp(24p
   </div>
 </section>
 
-<div class="gd gd-n3-n2b"></div>
+<div class="gd" style="background:linear-gradient(var(--n3),var(--n2))"></div>
 
-<!-- ══ PASSO A PASSO ══ -->
+<!-- PASSO A PASSO -->
 <section id="s-passo" class="sec s2">
   <span class="ey r">Passo a Passo</span>
   <h2 class="ptit-main r d1">Como funciona nosso primeiro contato</h2>
@@ -654,18 +607,18 @@ footer{background:#020c1a;border-top:1px solid var(--w06);padding:44px clamp(24p
   </div>
 </section>
 
-<div class="gd gd-n2-n0" style="background:linear-gradient(var(--n2),var(--n0))"></div>
+<div class="gd" style="background:linear-gradient(var(--n2),var(--n0))"></div>
 
-<!-- ══ S9 DEPOIMENTOS ══ -->
+<!-- S9 DEPOIMENTOS -->
 <section id="s-test" class="sec s0">
   <span class="ey r">Depoimentos</span>
   <h2 class="stit r d1">O que nossos clientes dizem depois de entender a diferença.</h2>
   <div class="tph r d2"><p>Depoimentos reais em breve — espaço reservado para inserção quando disponíveis.</p></div>
 </section>
 
-<div class="gd gd-n0-n1" style="background:linear-gradient(var(--n0),var(--n0))"></div>
+<div class="gd" style="background:linear-gradient(var(--n0),var(--n0))"></div>
 
-<!-- ══ S10 CTA FINAL ══ -->
+<!-- CTA FINAL -->
 <section id="scta">
   <div class="cta-glow"></div>
   <span class="ey r" style="position:relative;z-index:1">Diagnóstico gratuito</span>
@@ -681,7 +634,7 @@ footer{background:#020c1a;border-top:1px solid var(--w06);padding:44px clamp(24p
 
 <div style="height:1px;background:rgba(255,255,255,.06)"></div>
 
-<!-- ══ FAQ ══ -->
+<!-- FAQ -->
 <section id="s-faq" class="sec s0">
   <span class="ey r">FAQ</span>
   <h2 class="stit r d1">Perguntas que todo mundo faz antes de começar.</h2>
@@ -695,7 +648,7 @@ footer{background:#020c1a;border-top:1px solid var(--w06);padding:44px clamp(24p
   </div>
 </section>
 
-<!-- ══ FOOTER ══ -->
+<!-- FOOTER -->
 <footer>
   <div class="fgrid">
     <div>
@@ -705,8 +658,10 @@ footer{background:#020c1a;border-top:1px solid var(--w06);padding:44px clamp(24p
     <div>
       <p class="flbl">Links</p>
       <div class="flinks">
-        <a href="#s-quem">Sobre nós</a><a href="#s-como">Como funciona</a>
-        <a href="https://wa.me/5516974005673" target="_blank">Diagnóstico gratuito</a><a href="#s-faq">FAQ</a>
+        <a href="#s-quem">Sobre nós</a>
+        <a href="#s-como">Como funciona</a>
+        <a href="https://wa.me/5516974005673" target="_blank">Diagnóstico gratuito</a>
+        <a href="#s-faq">FAQ</a>
       </div>
     </div>
     <div>
@@ -724,211 +679,143 @@ footer{background:#020c1a;border-top:1px solid var(--w06);padding:44px clamp(24p
 </footer>
 
 <script>
-/* ═══════════════════════════════════════════════════
-   FADE ANIMADO DO TÍTULO
-═══════════════════════════════════════════════════ */
+/* FADE TÍTULO */
 (function(){
   var items = Array.from(document.querySelectorAll('.h-item'));
   if(!items.length) return;
-  /* remove o clone duplicado (último item) que era só pro slide */
-  var last = items[items.length - 1];
-  if(last) last.parentNode.removeChild(last);
-  items = Array.from(document.querySelectorAll('.h-item'));
-  var total = items.length;
   var cur = 0;
-
-  /* mostra primeiro imediatamente */
-  items[0].classList.add('active');
-
+  items[0].classList.add('vis');
   setInterval(function(){
-    /* fade out atual */
-    items[cur].style.opacity = '0';
-    setTimeout(function(){
-      items[cur].style.display = 'none';
-      cur = (cur + 1) % total;
-      /* fade in próximo */
-      items[cur].style.display = 'block';
-      /* força reflow pra transição funcionar */
-      void items[cur].offsetHeight;
-      items[cur].style.opacity = '1';
-    }, 500);
+    items[cur].classList.remove('vis');
+    cur = (cur + 1) % items.length;
+    items[cur].classList.add('vis');
   }, 2800);
 })();
 
-/* ═══════════════════════════════════════════════════
-   Z CANVAS — tickers animados em forma de Z
-═══════════════════════════════════════════════════ */
+/* ORBITAL */
 (function(){
-  var canvas = document.getElementById('zCanvas');
-  if(!canvas) return;
-
-  function resize(){
-    var w = canvas.offsetWidth;
-    var h = canvas.offsetHeight || (w * 600 / 700);
-    canvas.width  = w;
-    canvas.height = h;
-  }
-  resize();
-  window.addEventListener('resize', function(){ resize(); initCols(); });
-
-  var ctx = canvas.getContext('2d');
-
-  var CHARS = [
-    'PETR4','VALE3','ITUB4','BBDC4','WEGE3','MGLU3','BPAC11',
-    '+1.2%','-0.8%','+2.1%','-1.4%','+0.5%','-0.3%','+0.9%',
-    '38.42','62.18','31.95','13.72','41.20','55.80','30.60',
-    'ABEV3','SUZB3','RDOR3','LREN3','HAPV3','EQTL3','SBSP3',
-    '0','1','2','3','4','5','6','7','8','9',
-    '+','-','=','%','$','R$','▲','▼'
+  var stage = document.getElementById('orbStage');
+  if(!stage) return;
+  var steps = [
+    {label:'Relacionamento',icon:'<path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0"/>',title:'Estabelecer o relacionamento',desc:'Começamos entendendo quem você é e o que espera. Sem compromisso, sem produto, sem pressão. Uma conversa de 30 minutos.',pct:16},
+    {label:'Coleta',icon:'<path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>',title:'Coletar as informações',desc:'Renda, gastos, investimentos, imóveis, dívidas, seguros e previdência. Quanto mais detalhe, mais preciso o diagnóstico.',pct:33},
+    {label:'Análise',icon:'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>',title:'Analisar a situação',desc:'Raio-X completo do patrimônio. O que está funcionando, o que custa mais do que deveria e onde estão as vulnerabilidades.',pct:50},
+    {label:'Recomendações',icon:'<path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>',title:'Desenvolver recomendações',desc:'Quanto gastar, quanto guardar, como dolarizar, como diversificar. Tudo apresentado e justificado com clareza.',pct:66},
+    {label:'Implementação',icon:'<path d="M13 10V3L4 14h7v7l9-11h-7z"/>',title:'Implementar o plano',desc:'A carteira é montada pela Mont Capital com base no IPS — documento que formaliza seus objetivos e perfil de risco.',pct:83},
+    {label:'Revisão',icon:'<path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>',title:'Monitorar e revisar',desc:'O plano não é estático. Sua vida muda, o mercado muda, as metas evoluem. Revisões periódicas garantem o alinhamento.',pct:100}
   ];
+  var nodes=[], cur=0, auto, W=stage.offsetWidth, R=W*0.38, cx=W/2, cy=W/2;
+  steps.forEach(function(s,i){
+    var angle=(i/steps.length)*2*Math.PI-Math.PI/2;
+    var x=cx+R*Math.cos(angle), y=cy+R*Math.sin(angle);
+    var n=document.createElement('div');
+    n.className='orb-node'+(i===0?' on':'');
+    n.style.left=x+'px'; n.style.top=y+'px';
+    n.innerHTML='<div class="orb-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+s.icon+'</svg></div><span class="orb-lbl">'+s.label+'</span>';
+    n.addEventListener('click',function(){clearInterval(auto);sel(i);});
+    stage.appendChild(n); nodes.push(n);
+  });
+  document.getElementById('orbCenter').addEventListener('click',function(){clearInterval(auto);sel(0);});
+  function sel(i){
+    cur=i; nodes.forEach(function(n,j){n.classList.toggle('on',j===i);});
+    var s=steps[i], c=document.getElementById('orbCard');
+    c.style.opacity='0'; c.style.transform='translateY(6px)';
+    document.getElementById('orbNum').textContent='Passo '+(i+1);
+    document.getElementById('orbTitle').textContent=s.title;
+    document.getElementById('orbDesc').textContent=s.desc;
+    document.getElementById('orbFill').style.width=s.pct+'%';
+    document.getElementById('orbPct').textContent=s.pct+'%';
+    setTimeout(function(){c.style.opacity='1';c.style.transform='translateY(0)';},20);
+  }
+  sel(0);
+  auto=setInterval(function(){sel((cur+1)%steps.length);},3000);
+})();
 
-  var COL_W = 52;
-  var cols = [];
-
+/* Z CANVAS */
+(function(){
+  var canvas=document.getElementById('zCanvas');
+  if(!canvas) return;
+  function resize(){var w=canvas.offsetWidth;canvas.width=w;canvas.height=w*600/700;}
+  resize(); window.addEventListener('resize',function(){resize();initCols();});
+  var ctx=canvas.getContext('2d');
+  var CHARS=['PETR4','VALE3','ITUB4','BBDC4','WEGE3','+1.2%','-0.8%','+2.1%','-1.4%','38.42','62.18','31.95','ABEV3','SUZB3','RDOR3','0','1','2','3','4','5','6','7','8','9','+','-','%','R$','▲','▼'];
+  var COL_W=52, cols=[];
   function initCols(){
-    var W = canvas.width;
-    var H = canvas.height;
-    var n = Math.floor(W / COL_W) + 1;
-    cols = [];
-    for(var i = 0; i < n; i++){
-      cols.push({
-        x: i * COL_W + COL_W / 2,
-        y: -Math.random() * H,
-        speed: 0.4 + Math.random() * 0.5,
-        chars: []
-      });
-      for(var k = 0; k < 20; k++){
-        cols[i].chars.push({
-          ch: CHARS[Math.floor(Math.random() * CHARS.length)],
-          offset: k * 18,
-          alpha: 0.15 + Math.random() * 0.55
-        });
-      }
+    var W=canvas.width,H=canvas.height,n=Math.floor(W/COL_W)+1;
+    cols=[];
+    for(var i=0;i<n;i++){
+      var col={x:i*COL_W+COL_W/2,y:-Math.random()*H,speed:0.4+Math.random()*0.5,chars:[]};
+      for(var k=0;k<20;k++) col.chars.push({ch:CHARS[Math.floor(Math.random()*CHARS.length)],offset:k*18,alpha:0.15+Math.random()*0.55});
+      cols.push(col);
     }
   }
   initCols();
-
-  setInterval(function(){
-    cols.forEach(function(col){
-      if(Math.random() > 0.7){
-        var idx = Math.floor(Math.random() * col.chars.length);
-        col.chars[idx].ch = CHARS[Math.floor(Math.random() * CHARS.length)];
-        col.chars[idx].alpha = 0.15 + Math.random() * 0.55;
-      }
-    });
-  }, 400);
-
-  function buildZPath(W, H){
-    var pts = [
-      [60,40],[640,40],[640,130],[200,470],
-      [640,470],[640,560],[60,560],[60,470],
-      [500,130],[60,130]
-    ];
+  setInterval(function(){cols.forEach(function(col){if(Math.random()>.7){var idx=Math.floor(Math.random()*col.chars.length);col.chars[idx].ch=CHARS[Math.floor(Math.random()*CHARS.length)];}});},400);
+  function buildZ(W,H){
+    var pts=[[60,40],[640,40],[640,130],[200,470],[640,470],[640,560],[60,560],[60,470],[500,130],[60,130]];
     ctx.beginPath();
-    pts.forEach(function(p, i){
-      var px = p[0] / 700 * W;
-      var py = p[1] / 600 * H;
-      if(i === 0) ctx.moveTo(px, py);
-      else ctx.lineTo(px, py);
-    });
+    pts.forEach(function(p,i){var px=p[0]/700*W,py=p[1]/600*H;i===0?ctx.moveTo(px,py):ctx.lineTo(px,py);});
     ctx.closePath();
   }
-
   function draw(){
-    var W = canvas.width;
-    var H = canvas.height;
-    ctx.clearRect(0, 0, W, H);
-
-    ctx.save();
-    buildZPath(W, H);
-    ctx.clip();
-
-    ctx.fillStyle = 'rgba(13,33,71,0.95)';
-    ctx.fillRect(0, 0, W, H);
-
-    var fontSize = Math.max(8, W / 60);
-    ctx.font = 'bold ' + fontSize + 'px Montserrat, monospace';
-    ctx.textAlign = 'center';
-
+    var W=canvas.width,H=canvas.height;
+    ctx.clearRect(0,0,W,H);
+    ctx.save(); buildZ(W,H); ctx.clip();
+    ctx.fillStyle='rgba(13,33,71,0.95)'; ctx.fillRect(0,0,W,H);
+    var fs=Math.max(8,W/60);
+    ctx.font='bold '+fs+'px Montserrat,monospace'; ctx.textAlign='center';
     cols.forEach(function(col){
-      col.chars.forEach(function(item, k){
-        var cy = col.y + item.offset;
-        if(cy > H + 20){
-          cy = cy - (H + 40);
-          col.chars[k].offset = cy - col.y;
-          col.chars[k].ch = CHARS[Math.floor(Math.random() * CHARS.length)];
-        }
-        var isHead = k === 0;
-        if(isHead){
-          ctx.fillStyle = 'rgba(200,235,255,0.88)';
-        } else {
-          var up = item.ch.indexOf('+') >= 0 || item.ch === '▲';
-          var dn = item.ch.indexOf('-') >= 0 || item.ch === '▼';
-          if(up)      ctx.fillStyle = 'rgba(74,222,128,'+item.alpha+')';
-          else if(dn) ctx.fillStyle = 'rgba(248,113,113,'+item.alpha+')';
-          else        ctx.fillStyle = 'rgba(77,166,255,'+item.alpha+')';
-        }
-        ctx.fillText(item.ch, col.x, cy);
+      col.chars.forEach(function(item,k){
+        var cy2=col.y+item.offset;
+        if(cy2>H+20){cy2=cy2-(H+40);col.chars[k].offset=cy2-col.y;col.chars[k].ch=CHARS[Math.floor(Math.random()*CHARS.length)];}
+        if(k===0) ctx.fillStyle='rgba(200,235,255,0.88)';
+        else{var up=item.ch.indexOf('+')>=0||item.ch==='▲',dn=item.ch.indexOf('-')>=0||item.ch==='▼';ctx.fillStyle=up?'rgba(74,222,128,'+item.alpha+')':dn?'rgba(248,113,113,'+item.alpha+')':'rgba(77,166,255,'+item.alpha+')';}
+        ctx.fillText(item.ch,col.x,cy2);
       });
-
-      col.y += col.speed;
-      if(col.y > H + 20) col.y = -Math.random() * 60;
+      col.y+=col.speed; if(col.y>H+20) col.y=-Math.random()*60;
     });
-
     ctx.restore();
-    ctx.save();
-    buildZPath(W, H);
-    ctx.strokeStyle = 'rgba(50,130,255,0.40)';
-    ctx.lineWidth = Math.max(1, W / 350);
-    ctx.shadowColor = 'rgba(50,130,255,0.5)';
-    ctx.shadowBlur = 8;
-    ctx.stroke();
+    ctx.save(); buildZ(W,H);
+    ctx.strokeStyle='rgba(50,130,255,0.40)'; ctx.lineWidth=Math.max(1,W/350);
+    ctx.shadowColor='rgba(50,130,255,0.5)'; ctx.shadowBlur=8; ctx.stroke();
     ctx.restore();
-
     requestAnimationFrame(draw);
   }
   draw();
 })();
 
-/* ═══════════════════════════════════════════════════
-   SCROLL REVEAL
-═══════════════════════════════════════════════════ */
+/* SCROLL REVEAL */
 (function(){
-  var items = Array.from(document.querySelectorAll('.r')).filter(function(el){
-    return !el.closest('#hero');
-  });
-  if(!items.length) return;
+  var all=Array.from(document.querySelectorAll('.r'));
+  var hero=Array.from(document.querySelectorAll('#hero .r'));
+  var outside=all.filter(function(el){return !el.closest('#hero');});
 
-  function show(el){ el.classList.add('on'); }
+  function show(el){el.classList.add('on');}
 
-  function revealVisible(){
-    var vh = window.innerHeight;
-    items.forEach(function(el){
-      if(el.getBoundingClientRect().top < vh - 20) show(el);
+  /* Revela tudo que já está visível */
+  function check(){
+    var vh=window.innerHeight;
+    outside.forEach(function(el){
+      if(el.getBoundingClientRect().top<vh*0.95) show(el);
     });
   }
 
   if('IntersectionObserver' in window){
-    var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(e){
-        if(e.isIntersecting){ show(e.target); io.unobserve(e.target); }
-      });
-    }, { threshold: 0.07, rootMargin: '0px 0px -20px 0px' });
-    items.forEach(function(el){ io.observe(el); });
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){if(e.isIntersecting){show(e.target);io.unobserve(e.target);}});
+    },{threshold:0.05});
+    outside.forEach(function(el){io.observe(el);});
   }
 
-  revealVisible();
-  window.addEventListener('load', revealVisible);
-  window.addEventListener('scroll', revealVisible, { passive: true, once: true });
+  check();
+  window.addEventListener('scroll',check,{passive:true});
+  window.addEventListener('load',check);
 })();
 
-/* ═══════════════════════════════════════════════════
-   FAQ
-═══════════════════════════════════════════════════ */
+/* FAQ */
 function faq(btn){
-  var it   = btn.parentElement;
-  var open = it.classList.contains('open');
-  document.querySelectorAll('.fi2').forEach(function(i){ i.classList.remove('open'); });
+  var it=btn.parentElement,open=it.classList.contains('open');
+  document.querySelectorAll('.fi2').forEach(function(i){i.classList.remove('open');});
   if(!open) it.classList.add('open');
 }
 </script>
