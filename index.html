@@ -44,8 +44,21 @@ body{font-family:'Montserrat',-apple-system,sans-serif;background:#020c1a;color:
 .hg{position:absolute;top:-8%;left:50%;transform:translateX(-50%);width:1000px;height:720px;background:radial-gradient(ellipse 62% 58% at 50% 18%,rgba(28,88,230,.52) 0%,rgba(8,36,130,.28) 42%,transparent 68%);pointer-events:none;z-index:0}
 .ho{position:absolute;top:12%;left:50%;transform:translateX(-50%);width:360px;height:360px;background:radial-gradient(circle,rgba(38,108,255,.26) 0%,transparent 70%);border-radius:50%;filter:blur(18px);pointer-events:none;z-index:0}
 .hcon{position:relative;z-index:10;display:flex;flex-direction:column;align-items:center}
-.hlog-svg{margin-bottom:36px;display:flex;justify-content:center;width:100%}
-.hlog-svg svg{height:44px;width:auto;display:block}
+.hlog-svg{
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.logo-img{
+  display: block;
+  height: 28px;
+  width: auto;
+  max-width: 160px;
+  object-fit: contain;
+}
 
 /* HERO TÍTULO */
 .htit{font-size:clamp(36px,5.5vw,80px);font-weight:900;letter-spacing:-.055em;line-height:1.0;color:#fff;margin-bottom:22px;max-width:680px}
@@ -213,8 +226,8 @@ footer{background:#020c1a;border-top:1px solid var(--w06);padding:44px clamp(24p
 @media(max-width:768px){
   /* HERO */
   #hero{padding:48px 20px 60px}
-  .hlog-svg{margin-bottom:24px}
-  .hlog-svg svg{height:30px}
+.hlog-svg{margin-bottom:14px}
+.logo-img{height:24px;max-width:140px}
   .htit{font-size:clamp(38px,10vw,56px);margin-bottom:18px;max-width:100%}
   .htit .h-dyn{height:1.35em}
   .htit .h-item{font-size:clamp(28px,7.5vw,48px);white-space:nowrap}
@@ -304,11 +317,9 @@ footer{background:#020c1a;border-top:1px solid var(--w06);padding:44px clamp(24p
   /* FOOTER */
   footer{padding:28px 16px 24px}
   .fdisc{font-size:9px}
-.logo-img {
-  height: 40px;
-  width: auto;
-  max-width: 180px;
-  object-fit: contain;
+
+.hlog-svg{margin-bottom:12px}
+.logo-img{height:20px;max-width:120px}
 }
 </style>
 </head>
