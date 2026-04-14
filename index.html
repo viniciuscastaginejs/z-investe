@@ -44,32 +44,13 @@ body{font-family:'Montserrat',-apple-system,sans-serif;background:#020c1a;color:
 .hg{position:absolute;top:-8%;left:50%;transform:translateX(-50%);width:1000px;height:720px;background:radial-gradient(ellipse 62% 58% at 50% 18%,rgba(28,88,230,.52) 0%,rgba(8,36,130,.28) 42%,transparent 68%);pointer-events:none;z-index:0}
 .ho{position:absolute;top:12%;left:50%;transform:translateX(-50%);width:360px;height:360px;background:radial-gradient(circle,rgba(38,108,255,.26) 0%,transparent 70%);border-radius:50%;filter:blur(18px);pointer-events:none;z-index:0}
 .hcon{position:relative;z-index:10;display:flex;flex-direction:column;align-items:center}
-.hlog-svg{
-  margin-bottom: 8px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-}
-
-.logo-img{
-  display: block;
-  height: 220px;
-  width: auto;
-  max-width: none;
-  object-fit: contain;
-}
-
-/* HERO TÍTULO */
+.hlog-svg{margin-bottom:8px;display:flex;justify-content:center;align-items:center;width:100%}
+.logo-img{display:block;height:220px;width:auto;max-width:none;object-fit:contain}
 .htit{font-size:clamp(36px,5.5vw,80px);font-weight:900;letter-spacing:-.055em;line-height:1.0;color:#fff;margin-bottom:22px;max-width:680px}
-.htit .h-static{
-  display:block;
-  font-weight:450;
-}
+.htit .h-static{display:block;font-weight:450}
 .htit .h-dyn{display:block;position:relative;height:1.15em;overflow:visible}
 .htit .h-item{position:absolute;top:0;left:50%;transform:translateX(-50%);white-space:nowrap;color:rgba(110,190,255,.90);font-size:clamp(20px,4.2vw,68px);line-height:1.15;opacity:0;transition:opacity .6s ease;pointer-events:none}
 .htit .h-item.vis{opacity:1}
-
 .hsub{font-size:clamp(14px,2.2vw,19px);font-weight:400;line-height:1.56;color:var(--w55);max-width:500px;margin:0 auto 12px;letter-spacing:-.01em}
 .hbody{font-size:clamp(12px,1.6vw,14px);font-weight:400;line-height:1.7;color:var(--w30);max-width:460px;margin:0 auto 40px}
 
@@ -149,6 +130,38 @@ body{font-family:'Montserrat',-apple-system,sans-serif;background:#020c1a;color:
 .orb-fill{height:100%;border-radius:10px;background:linear-gradient(to right,#1a5fd4,#6eb8ff);transition:width .6s var(--ease)}
 .orb-pct{font-size:9px;font-weight:700;color:#6eb8ff;min-width:28px;text-align:right}
 
+/* ============================================================
+   NOVO: GALLERY CAROUSEL (entre Como Funciona e Diferencial)
+   ============================================================ */
+#s-gallery{
+  background:var(--n4);
+  padding:clamp(52px,7vw,88px) 0;
+  display:flex;flex-direction:column;align-items:center;text-align:center;position:relative;overflow:hidden
+}
+#s-gallery::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.05) 1px,transparent 1px);background-size:36px 36px;pointer-events:none;z-index:0}
+#s-gallery > *{position:relative;z-index:1}
+.gal-header{padding:0 clamp(24px,8vw,88px);display:flex;align-items:flex-end;justify-content:space-between;width:100%;max-width:1200px;margin-bottom:36px;flex-wrap:wrap;gap:20px}
+.gal-header-left{display:flex;flex-direction:column;align-items:flex-start;text-align:left}
+.gal-nav{display:flex;gap:10px}
+.gal-nav-btn{width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .2s,border-color .2s;color:var(--w55)}
+.gal-nav-btn:hover:not(:disabled){background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.28);color:#fff}
+.gal-nav-btn:disabled{opacity:.3;cursor:default}
+.gal-nav-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.gal-track-wrap{width:100%;overflow:hidden}
+.gal-track{display:flex;gap:20px;transition:transform .55s var(--ease);will-change:transform;padding:0 clamp(24px,8vw,88px)}
+.gal-item{flex:0 0 320px;border-radius:16px;overflow:hidden;position:relative;cursor:pointer;min-height:420px}
+@media(min-width:1024px){.gal-item{flex:0 0 360px}}
+.gal-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .45s var(--ease)}
+.gal-item:hover .gal-img{transform:scale(1.06)}
+.gal-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(2,12,26,0) 0%,rgba(2,12,26,.45) 40%,rgba(2,12,26,.88) 100%)}
+.gal-content{position:absolute;bottom:0;left:0;right:0;padding:28px 24px}
+.gal-tag{font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(110,184,255,.8);margin-bottom:10px;display:block}
+.gal-title{font-size:clamp(16px,1.8vw,20px);font-weight:800;letter-spacing:-.03em;color:#fff;line-height:1.2;margin-bottom:8px}
+.gal-desc{font-size:12px;line-height:1.6;color:rgba(255,255,255,.5);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.gal-dots{display:flex;gap:6px;justify-content:center;margin-top:28px;padding:0 clamp(24px,8vw,88px)}
+.gal-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.2);border:none;cursor:pointer;padding:0;transition:background .2s,width .3s}
+.gal-dot.on{background:#6eb8ff;width:20px;border-radius:3px}
+
 /* S6 FEE */
 .fp{display:grid;grid-template-columns:1fr 1fr;gap:2px;max-width:800px;width:100%;margin-top:40px;background:var(--w06);overflow:hidden;border-radius:2px}
 .fcol{background:var(--n4);padding:32px 28px;text-align:left}
@@ -187,16 +200,74 @@ body{font-family:'Montserrat',-apple-system,sans-serif;background:#020c1a;color:
 .psdsc{font-size:13px;line-height:1.68;color:var(--w55)}
 .pimg{background:var(--n4);border-radius:20px;border:1px solid rgba(255,255,255,.1);overflow:hidden;width:100%;aspect-ratio:4/3;transform:perspective(800px) rotateY(-4deg) rotateX(2deg);box-shadow:0 24px 60px rgba(0,0,0,.5)}
 
+/* ============================================================
+   NOVO: DEPOIMENTOS (colunas com scroll vertical infinito)
+   ============================================================ */
+#s-test{
+  background:var(--n0);
+  padding:clamp(52px,7vw,88px) clamp(24px,8vw,88px);
+  display:flex;flex-direction:column;align-items:center;text-align:center;position:relative;overflow:hidden
+}
+#s-test::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.05) 1px,transparent 1px);background-size:36px 36px;pointer-events:none;z-index:0}
+#s-test > *{position:relative;z-index:1}
+.testi-cols{
+  display:flex;gap:20px;width:100%;max-width:960px;margin-top:44px;
+  max-height:680px;overflow:hidden;
+  -webkit-mask-image:linear-gradient(to bottom,transparent,black 10%,black 88%,transparent);
+  mask-image:linear-gradient(to bottom,transparent,black 10%,black 88%,transparent);
+  position:relative;
+}
+.testi-col{display:flex;flex-direction:column;gap:16px;flex:1}
+.testi-col:nth-child(2){display:none}
+.testi-col:nth-child(3){display:none}
+@media(min-width:768px){.testi-col:nth-child(2){display:flex}}
+@media(min-width:1024px){.testi-col:nth-child(3){display:flex}}
+.testi-inner{display:flex;flex-direction:column;gap:16px;animation:scrollUp linear infinite}
+.testi-inner.rev{animation:scrollDown linear infinite}
+@keyframes scrollUp{0%{transform:translateY(0)}100%{transform:translateY(-50%)}}
+@keyframes scrollDown{0%{transform:translateY(-50%)}100%{transform:translateY(0)}}
+.testi-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:24px;text-align:left;transition:border-color .2s,background .2s}
+.testi-card:hover{border-color:rgba(255,255,255,.16);background:rgba(255,255,255,.07)}
+.testi-text{font-size:13px;line-height:1.72;color:var(--w55);margin-bottom:18px}
+.testi-footer{display:flex;align-items:center;gap:12px}
+.testi-avatar{width:36px;height:36px;border-radius:50%;object-fit:cover;border:1.5px solid rgba(255,255,255,.12)}
+.testi-name{font-size:13px;font-weight:700;color:var(--w80);letter-spacing:-.02em}
+.testi-role{font-size:11px;color:var(--w30);margin-top:2px}
+.testi-stars{display:flex;gap:2px;margin-bottom:10px}
+.testi-star{color:#fbbf24;font-size:11px}
+
+/* ============================================================
+   NOVO: SLIDER DE LOGOS (entre FAQ e CTA)
+   ============================================================ */
+#s-logos{
+  background:var(--n0);
+  padding:clamp(40px,5vw,64px) 0;
+  display:flex;flex-direction:column;align-items:center;position:relative;overflow:hidden
+}
+#s-logos::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.05) 1px,transparent 1px);background-size:36px 36px;pointer-events:none;z-index:0}
+.logos-label{font-size:10px;font-weight:700;letter-spacing:.20em;text-transform:uppercase;color:var(--w30);margin-bottom:28px;padding:5px 14px;border:1px solid var(--w12);border-radius:100px;position:relative;z-index:1}
+.logos-track-wrap{width:100%;overflow:hidden;position:relative;z-index:1}
+/* blur progressivo nas bordas */
+.logos-track-wrap::before,
+.logos-track-wrap::after{
+  content:'';position:absolute;top:0;bottom:0;width:180px;z-index:2;pointer-events:none
+}
+.logos-track-wrap::before{left:0;background:linear-gradient(to right,var(--n0) 0%,transparent 100%)}
+.logos-track-wrap::after{right:0;background:linear-gradient(to left,var(--n0) 0%,transparent 100%)}
+.logos-track{display:flex;gap:0;width:max-content;animation:logoScroll 28s linear infinite}
+@keyframes logoScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.logos-track:hover{animation-play-state:paused}
+.logo-slide{display:flex;align-items:center;justify-content:center;padding:0 48px;white-space:nowrap;flex-shrink:0}
+.logo-name{font-size:clamp(15px,2vw,20px);font-weight:800;letter-spacing:-.04em;color:rgba(255,255,255,.22);transition:color .3s}
+.logo-slide:hover .logo-name{color:rgba(255,255,255,.55)}
+.logo-dot{width:4px;height:4px;background:rgba(255,255,255,.12);border-radius:50%;margin:0 48px}
+
 /* CTA */
 #scta{background:var(--n0);padding:clamp(68px,9vw,110px) 24px;display:flex;flex-direction:column;align-items:center;text-align:center;position:relative;overflow:hidden}
 .cta-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:580px;height:480px;background:radial-gradient(ellipse 58% 52% at 50% 50%,rgba(22,78,210,.22) 0%,transparent 70%);pointer-events:none}
 .ctt{font-size:clamp(30px,4.2vw,56px);font-weight:900;letter-spacing:-.05em;line-height:1.05;max-width:740px;margin-bottom:20px;position:relative;z-index:1}
 .ctb{font-size:clamp(13px,1.3vw,15px);line-height:1.74;color:var(--w55);max-width:500px;margin-bottom:8px;position:relative;z-index:1}
 .ctn{font-size:11px;color:var(--w30);margin-top:14px;position:relative;z-index:1}
-
-/* TESTI */
-.tph{margin-top:40px;max-width:500px;width:100%;padding:40px 28px;border:1px dashed var(--w12);border-radius:2px}
-.tph p{font-size:13px;color:var(--w30);font-style:italic}
 
 /* FAQ */
 .flist{max-width:700px;width:100%;margin-top:40px;text-align:left}
@@ -222,12 +293,13 @@ footer{background:#020c1a;border-top:1px solid var(--w06);padding:44px clamp(24p
 .fhr{border:none;border-top:1px solid var(--w06);max-width:940px;margin:0 auto 20px}
 .fdisc{max-width:940px;margin:0 auto;font-size:10px;color:rgba(255,255,255,.16);line-height:1.7}
 
-/* RESPONSIVO */
+/* ============================================================
+   RESPONSIVO
+   ============================================================ */
 @media(max-width:768px){
-  /* HERO */
   #hero{padding:48px 20px 60px}
-.hlog-svg{margin-bottom:8px}
-.logo-img{height:150px;}
+  .hlog-svg{margin-bottom:8px}
+  .logo-img{height:150px}
   .htit{font-size:clamp(38px,10vw,56px);margin-bottom:18px;max-width:100%}
   .htit .h-dyn{height:1.35em}
   .htit .h-item{font-size:clamp(28px,7.5vw,48px);white-space:nowrap}
@@ -236,59 +308,45 @@ footer{background:#020c1a;border-top:1px solid var(--w06);padding:44px clamp(24p
   .pb{padding:7px 7px 7px 18px;max-width:100%}
   .pb-t{font-size:11px;margin-right:10px;white-space:normal;line-height:1.3}
   .pb-i{width:34px;height:34px}
-
-  /* SEÇÕES */
   .sec{padding:48px 20px}
   .stit{font-size:clamp(22px,6vw,34px)}
   .sbdy{font-size:14px;max-width:100%}
   .ey{font-size:9px}
   .gd{height:60px}
-
-  /* S2 PROBLEMA */
   .pg{grid-template-columns:1fr;gap:24px}
   .pcards{border-left:none;padding-left:0;border-top:1px solid rgba(7,21,46,.1);padding-top:24px}
-
-  /* S3 MUDANÇA */
   .chr{grid-template-columns:1fr}
   .csr{padding:28px 20px;gap:16px}
   .csr h3{font-size:clamp(18px,5vw,26px)}
-
-  /* S4 PILARES */
   .prow{grid-template-columns:1fr}
-
-  /* ORBITAL */
   .orb-wrap{flex-direction:column;align-items:center;gap:24px}
   .orb-stage-box{width:280px;height:280px}
   .orb-card-box{max-width:100%;width:100%}
-
-  /* S6 FEE */
   .fp{grid-template-columns:1fr}
-
-  /* S7 PARA QUEM */
   .pqq{font-size:16px;padding:20px 20px}
   .pqb p{font-size:14px}
-
-  /* S8 GESTORA */
   .gc{grid-template-columns:1fr;gap:24px}
-
-  /* PASSO A PASSO */
   #s-passo{padding:48px 20px}
   .prow1,.prow2{grid-template-columns:1fr}
   .pimg{transform:none;aspect-ratio:16/9}
   .ptit-main{font-size:clamp(20px,5vw,30px);margin-bottom:24px}
-
-  /* CTA */
   #scta{padding:56px 20px}
   .ctt{font-size:clamp(22px,6vw,36px)}
   .ctb{font-size:14px;max-width:100%}
-
-  /* FOOTER */
   .fgrid{grid-template-columns:1fr;gap:24px}
   footer{padding:36px 20px 28px}
+  /* gallery mobile */
+  .gal-header{flex-direction:column;align-items:flex-start;padding:0 20px}
+  .gal-track{padding:0 20px}
+  .gal-item{flex:0 0 280px;min-height:360px}
+  /* testi mobile */
+  #s-test{padding:48px 20px}
+  .testi-cols{max-height:520px}
+  /* logos mobile */
+  .logos-track-wrap::before,.logos-track-wrap::after{width:80px}
 }
 
 @media(max-width:480px){
-  /* HERO */
   #hero{padding:36px 16px 48px}
   .htit{font-size:clamp(34px,11vw,48px)}
   .htit .h-item{font-size:clamp(22px,8vw,38px)}
@@ -296,30 +354,23 @@ footer{background:#020c1a;border-top:1px solid var(--w06);padding:44px clamp(24p
   .hbody{font-size:12px;margin-bottom:28px}
   .pb-i{width:30px;height:30px}
   .pb-t{font-size:10px}
-
-  /* SEÇÕES */
   .sec{padding:36px 16px}
   .stit{font-size:clamp(20px,7vw,30px)}
-
-  /* ORBITAL */
   .orb-stage-box{width:240px;height:240px}
   .orb-btn{width:40px;height:40px}
   .orb-btn svg{width:14px;height:14px}
   .orb-lbl{font-size:8px}
   .orb-ctit{font-size:15px}
   .orb-cdesc{font-size:11px}
-
-  /* PASSO A PASSO */
   .pstep{padding:20px 16px;border-radius:14px}
   .pstit{font-size:16px}
   .psbadge{width:24px;height:24px;font-size:9px;top:10px;right:10px}
-
-  /* FOOTER */
   footer{padding:28px 16px 24px}
   .fdisc{font-size:9px}
-
-.hlog-svg{margin-bottom:6px}
-.logo-img{height:110px;}
+  .hlog-svg{margin-bottom:6px}
+  .logo-img{height:110px}
+  .gal-item{flex:0 0 260px;min-height:320px}
+  #s-test{padding:36px 16px}
 }
 </style>
 </head>
@@ -331,9 +382,9 @@ footer{background:#020c1a;border-top:1px solid var(--w06);padding:44px clamp(24p
   <div class="ho"></div>
   <canvas id="zCanvas" class="hz-bg"></canvas>
   <div class="hcon">
-<div class="hlog-svg r">
-  <img src="logo.png" alt="Zé Investe" class="logo-img">
-</div>
+    <div class="hlog-svg r">
+      <img src="logo.png" alt="Zé Investe" class="logo-img">
+    </div>
     <h1 class="htit r d1">
       <span class="h-static">Invista</span>
       <span class="h-dyn">
@@ -475,6 +526,90 @@ footer{background:#020c1a;border-top:1px solid var(--w06);padding:44px clamp(24p
 </section>
 
 <div class="gd" style="background:linear-gradient(var(--n2),var(--n4))"></div>
+
+<!-- ============================================================
+     NOVO: GALLERY CAROUSEL (entre Como Funciona e Diferencial)
+     ============================================================ -->
+<section id="s-gallery">
+  <div class="gal-header r">
+    <div class="gal-header-left">
+      <span class="ey" style="margin-bottom:14px">Perspectiva</span>
+      <h2 class="stit" style="margin-bottom:8px;text-align:left">O planejamento que transforma patrimônio em liberdade.</h2>
+      <p class="sbdy" style="text-align:left;margin-bottom:0">Não gerimos dinheiro. Gerimos o que o dinheiro pode fazer pela sua vida.</p>
+    </div>
+    <div class="gal-nav">
+      <button class="gal-nav-btn" id="galPrev" disabled>
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <button class="gal-nav-btn" id="galNext">
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="gal-track-wrap r d2">
+    <div class="gal-track" id="galTrack">
+      <!-- Card 1 -->
+      <div class="gal-item">
+        <img class="gal-img" src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&q=80" alt="Planejamento financeiro">
+        <div class="gal-overlay"></div>
+        <div class="gal-content">
+          <span class="gal-tag">Planejamento</span>
+          <p class="gal-title">Do caos financeiro ao controle total</p>
+          <p class="gal-desc">Organize renda, dívidas e investimentos em um único plano coeso que evolui com você.</p>
+        </div>
+      </div>
+      <!-- Card 2 -->
+      <div class="gal-item">
+        <img class="gal-img" src="https://images.unsplash.com/photo-1642790551116-18e150f248e3?w=800&q=80" alt="Crescimento patrimonial">
+        <div class="gal-overlay"></div>
+        <div class="gal-content">
+          <span class="gal-tag">Patrimônio</span>
+          <p class="gal-title">Crescimento real, sem comissão oculta</p>
+          <p class="gal-desc">Cada alocação é feita pelo seu interesse — não pelo produto que rende mais para o assessor.</p>
+        </div>
+      </div>
+      <!-- Card 3 -->
+      <div class="gal-item">
+        <img class="gal-img" src="https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=800&q=80" alt="Liberdade financeira">
+        <div class="gal-overlay"></div>
+        <div class="gal-content">
+          <span class="gal-tag">Liberdade</span>
+          <p class="gal-title">Trabalhe porque quer, não porque precisa</p>
+          <p class="gal-desc">A independência financeira não é sorte — é o resultado de um plano bem executado ao longo do tempo.</p>
+        </div>
+      </div>
+      <!-- Card 4 -->
+      <div class="gal-item">
+        <img class="gal-img" src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=800&q=80" alt="Proteção patrimonial">
+        <div class="gal-overlay"></div>
+        <div class="gal-content">
+          <span class="gal-tag">Proteção</span>
+          <p class="gal-title">Blindagem do que você levou anos para construir</p>
+          <p class="gal-desc">Sucessão, proteção fiscal e patrimonial integrados em uma estratégia de longo prazo.</p>
+        </div>
+      </div>
+      <!-- Card 5 -->
+      <div class="gal-item">
+        <img class="gal-img" src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80" alt="Estratégia de investimentos">
+        <div class="gal-overlay"></div>
+        <div class="gal-content">
+          <span class="gal-tag">Estratégia</span>
+          <p class="gal-title">Carteira montada sob medida para você</p>
+          <p class="gal-desc">Sem produto de prateleira. Sem fundo de taxa absurda. Só o que faz sentido para o seu perfil e objetivos.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="gal-dots r d3" id="galDots">
+    <button class="gal-dot on" data-idx="0"></button>
+    <button class="gal-dot" data-idx="1"></button>
+    <button class="gal-dot" data-idx="2"></button>
+    <button class="gal-dot" data-idx="3"></button>
+    <button class="gal-dot" data-idx="4"></button>
+  </div>
+</section>
+
+<div class="gd" style="background:linear-gradient(var(--n4),var(--n4))"></div>
 
 <!-- S6 FEE-ONLY -->
 <section id="s-fee" class="sec s4">
@@ -625,11 +760,235 @@ footer{background:#020c1a;border-top:1px solid var(--w06);padding:44px clamp(24p
 
 <div class="gd" style="background:linear-gradient(var(--n2),var(--n0))"></div>
 
-<!-- S9 DEPOIMENTOS -->
-<section id="s-test" class="sec s0">
+<!-- ============================================================
+     NOVO: S9 DEPOIMENTOS — colunas com scroll vertical infinito
+     ============================================================ -->
+<section id="s-test">
   <span class="ey r">Depoimentos</span>
   <h2 class="stit r d1">O que nossos clientes dizem depois de entender a diferença.</h2>
-  <div class="tph r d2"><p>Depoimentos reais em breve — espaço reservado para inserção quando disponíveis.</p></div>
+  <p class="sbdy r d2">Profissionais de alta renda que decidiram parar de deixar o mercado decidir por eles.</p>
+
+  <div class="testi-cols r d3" id="testiCols">
+    <!-- Coluna 1 -->
+    <div class="testi-col">
+      <div class="testi-inner" style="animation-duration:22s">
+        <!-- bloco original -->
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"Sempre achei que entendia de investimentos. Depois da primeira reunião com a Zé Investe, percebi que estava pagando quase 2% ao ano em taxas que nem sabia que existiam."</p>
+          <div class="testi-footer">
+            <img class="testi-avatar" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face" alt="Carlos M.">
+            <div>
+              <p class="testi-name">Carlos M.</p>
+              <p class="testi-role">Médico, São Paulo</p>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"O que mais me surpreendeu foi a clareza. Pela primeira vez alguém sentou comigo e explicou onde está cada centavo e por quê está lá."</p>
+          <div class="testi-footer">
+            <img class="testi-avatar" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face" alt="Fernanda R.">
+            <div>
+              <p class="testi-name">Fernanda R.</p>
+              <p class="testi-role">Advogada, Campinas</p>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"Tinha patrimônio espalhado em 4 corretoras diferentes, sem nenhuma coerência. Em três meses organizamos tudo com uma lógica que faz sentido para os meus objetivos."</p>
+          <div class="testi-footer">
+            <img class="testi-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face" alt="Roberto K.">
+            <div>
+              <p class="testi-name">Roberto K.</p>
+              <p class="testi-role">Empresário, Ribeirão Preto</p>
+            </div>
+          </div>
+        </div>
+        <!-- duplicata para loop infinito -->
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"Sempre achei que entendia de investimentos. Depois da primeira reunião com a Zé Investe, percebi que estava pagando quase 2% ao ano em taxas que nem sabia que existiam."</p>
+          <div class="testi-footer">
+            <img class="testi-avatar" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face" alt="Carlos M.">
+            <div>
+              <p class="testi-name">Carlos M.</p>
+              <p class="testi-role">Médico, São Paulo</p>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"O que mais me surpreendeu foi a clareza. Pela primeira vez alguém sentou comigo e explicou onde está cada centavo e por quê está lá."</p>
+          <div class="testi-footer">
+            <img class="testi-avatar" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face" alt="Fernanda R.">
+            <div>
+              <p class="testi-name">Fernanda R.</p>
+              <p class="testi-role">Advogada, Campinas</p>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"Tinha patrimônio espalhado em 4 corretoras diferentes, sem nenhuma coerência. Em três meses organizamos tudo com uma lógica que faz sentido para os meus objetivos."</p>
+          <div class="testi-footer">
+            <img class="testi-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face" alt="Roberto K.">
+            <div>
+              <p class="testi-name">Roberto K.</p>
+              <p class="testi-role">Empresário, Ribeirão Preto</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Coluna 2 (visível em ≥768px) -->
+    <div class="testi-col">
+      <div class="testi-inner rev" style="animation-duration:26s">
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"Meu assessor anterior me ligava toda semana para oferecer produto novo. A Zé Investe me liga quando precisa. É diferente trabalhar com quem não tem nada para vender."</p>
+          <div class="testi-footer">
+            <img class="testi-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&h=80&fit=crop&crop=face" alt="Mariana T.">
+            <div>
+              <p class="testi-name">Mariana T.</p>
+              <p class="testi-role">Dentista, Belo Horizonte</p>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"Finalmente alguém que fala a língua do planejamento, não da venda. O diagnóstico inicial já valeu cada centavo da taxa anual."</p>
+          <div class="testi-footer">
+            <img class="testi-avatar" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&crop=face" alt="André S.">
+            <div>
+              <p class="testi-name">André S.</p>
+              <p class="testi-role">Engenheiro, Porto Alegre</p>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"Entrei achando que minha carteira estava boa. Saí entendendo que estava pagando caro por um serviço que não trabalhava para mim. A diferença em 12 meses foi expressiva."</p>
+          <div class="testi-footer">
+            <img class="testi-avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&crop=face" alt="Patrícia L.">
+            <div>
+              <p class="testi-name">Patrícia L.</p>
+              <p class="testi-role">Diretora, São Paulo</p>
+            </div>
+          </div>
+        </div>
+        <!-- duplicata -->
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"Meu assessor anterior me ligava toda semana para oferecer produto novo. A Zé Investe me liga quando precisa. É diferente trabalhar com quem não tem nada para vender."</p>
+          <div class="testi-footer">
+            <img class="testi-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&h=80&fit=crop&crop=face" alt="Mariana T.">
+            <div>
+              <p class="testi-name">Mariana T.</p>
+              <p class="testi-role">Dentista, Belo Horizonte</p>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"Finalmente alguém que fala a língua do planejamento, não da venda. O diagnóstico inicial já valeu cada centavo da taxa anual."</p>
+          <div class="testi-footer">
+            <img class="testi-avatar" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&crop=face" alt="André S.">
+            <div>
+              <p class="testi-name">André S.</p>
+              <p class="testi-role">Engenheiro, Porto Alegre</p>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"Entrei achando que minha carteira estava boa. Saí entendendo que estava pagando caro por um serviço que não trabalhava para mim. A diferença em 12 meses foi expressiva."</p>
+          <div class="testi-footer">
+            <img class="testi-avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&crop=face" alt="Patrícia L.">
+            <div>
+              <p class="testi-name">Patrícia L.</p>
+              <p class="testi-role">Diretora, São Paulo</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Coluna 3 (visível em ≥1024px) -->
+    <div class="testi-col">
+      <div class="testi-inner" style="animation-duration:19s">
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"Pensei que era necessário ter muito dinheiro para ter um planejador. Com R$ 70 mil já consegui começar e a evolução foi consistente desde o início."</p>
+          <div class="testi-footer">
+            <img class="testi-avatar" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=80&h=80&fit=crop&crop=face" alt="Lucas P.">
+            <div>
+              <p class="testi-name">Lucas P.</p>
+              <p class="testi-role">Analista, Brasília</p>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"A tranquilidade de saber que tem alguém olhando pela minha carteira sem interesse em me vender nada não tem preço. Literalmente."</p>
+          <div class="testi-footer">
+            <img class="testi-avatar" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=80&h=80&fit=crop&crop=face" alt="Thiago N.">
+            <div>
+              <p class="testi-name">Thiago N.</p>
+              <p class="testi-role">Arquiteto, Curitiba</p>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"Tive coragem de perguntar quanto o meu assessor ganhava comigo. A resposta me fez ligar no mesmo dia para a Zé Investe."</p>
+          <div class="testi-footer">
+            <img class="testi-avatar" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=80&h=80&fit=crop&crop=face" alt="Renata C.">
+            <div>
+              <p class="testi-name">Renata C.</p>
+              <p class="testi-role">Consultora, Florianópolis</p>
+            </div>
+          </div>
+        </div>
+        <!-- duplicata -->
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"Pensei que era necessário ter muito dinheiro para ter um planejador. Com R$ 70 mil já consegui começar e a evolução foi consistente desde o início."</p>
+          <div class="testi-footer">
+            <img class="testi-avatar" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=80&h=80&fit=crop&crop=face" alt="Lucas P.">
+            <div>
+              <p class="testi-name">Lucas P.</p>
+              <p class="testi-role">Analista, Brasília</p>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"A tranquilidade de saber que tem alguém olhando pela minha carteira sem interesse em me vender nada não tem preço. Literalmente."</p>
+          <div class="testi-footer">
+            <img class="testi-avatar" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=80&h=80&fit=crop&crop=face" alt="Thiago N.">
+            <div>
+              <p class="testi-name">Thiago N.</p>
+              <p class="testi-role">Arquiteto, Curitiba</p>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"Tive coragem de perguntar quanto o meu assessor ganhava comigo. A resposta me fez ligar no mesmo dia para a Zé Investe."</p>
+          <div class="testi-footer">
+            <img class="testi-avatar" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=80&h=80&fit=crop&crop=face" alt="Renata C.">
+            <div>
+              <p class="testi-name">Renata C.</p>
+              <p class="testi-role">Consultora, Florianópolis</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <div class="gd" style="background:linear-gradient(var(--n0),var(--n0))"></div>
@@ -664,6 +1023,43 @@ footer{background:#020c1a;border-top:1px solid var(--w06);padding:44px clamp(24p
   </div>
 </section>
 
+<!-- ============================================================
+     NOVO: SLIDER DE LOGOS (entre FAQ e CTA)
+     ============================================================ -->
+<div class="gd" style="background:linear-gradient(var(--n0),var(--n0))"></div>
+
+<section id="s-logos">
+  <span class="logos-label">Corretoras Parceiras</span>
+  <div class="logos-track-wrap">
+    <div class="logos-track" id="logosTrack">
+      <!-- Original -->
+      <div class="logo-slide"><span class="logo-name">BTG Pactual</span></div>
+      <div class="logo-dot"></div>
+      <div class="logo-slide"><span class="logo-name">XP Investimentos</span></div>
+      <div class="logo-dot"></div>
+      <div class="logo-slide"><span class="logo-name">Safra</span></div>
+      <div class="logo-dot"></div>
+      <div class="logo-slide"><span class="logo-name">Genial</span></div>
+      <div class="logo-dot"></div>
+      <div class="logo-slide"><span class="logo-name">Avenue</span></div>
+      <div class="logo-dot"></div>
+      <!-- Duplicata para loop perfeito -->
+      <div class="logo-slide"><span class="logo-name">BTG Pactual</span></div>
+      <div class="logo-dot"></div>
+      <div class="logo-slide"><span class="logo-name">XP Investimentos</span></div>
+      <div class="logo-dot"></div>
+      <div class="logo-slide"><span class="logo-name">Safra</span></div>
+      <div class="logo-dot"></div>
+      <div class="logo-slide"><span class="logo-name">Genial</span></div>
+      <div class="logo-dot"></div>
+      <div class="logo-slide"><span class="logo-name">Avenue</span></div>
+      <div class="logo-dot"></div>
+    </div>
+  </div>
+</section>
+
+<div style="height:1px;background:rgba(255,255,255,.06)"></div>
+
 <!-- FOOTER -->
 <footer>
   <div class="fgrid">
@@ -695,24 +1091,28 @@ footer{background:#020c1a;border-top:1px solid var(--w06);padding:44px clamp(24p
 </footer>
 
 <script>
-/* FADE TÍTULO */
+/* ============================================================
+   FADE TÍTULO HERO
+   ============================================================ */
 (function(){
-  var items = Array.from(document.querySelectorAll('.h-item'));
+  var items=Array.from(document.querySelectorAll('.h-item'));
   if(!items.length) return;
-  var cur = 0;
+  var cur=0;
   items[0].classList.add('vis');
   setInterval(function(){
     items[cur].classList.remove('vis');
-    cur = (cur + 1) % items.length;
+    cur=(cur+1)%items.length;
     items[cur].classList.add('vis');
-  }, 2800);
+  },2800);
 })();
 
-/* ORBITAL */
+/* ============================================================
+   ORBITAL
+   ============================================================ */
 (function(){
-  var stage = document.getElementById('orbStage');
+  var stage=document.getElementById('orbStage');
   if(!stage) return;
-  var steps = [
+  var steps=[
     {label:'Relacionamento',icon:'<path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0"/>',title:'Estabelecer o relacionamento',desc:'Começamos entendendo quem você é e o que espera. Sem compromisso, sem produto, sem pressão. Uma conversa de 30 minutos.',pct:16},
     {label:'Coleta',icon:'<path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>',title:'Coletar as informações',desc:'Renda, gastos, investimentos, imóveis, dívidas, seguros e previdência. Quanto mais detalhe, mais preciso o diagnóstico.',pct:33},
     {label:'Análise',icon:'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>',title:'Analisar a situação',desc:'Raio-X completo do patrimônio. O que está funcionando, o que custa mais do que deveria e onde estão as vulnerabilidades.',pct:50},
@@ -720,22 +1120,22 @@ footer{background:#020c1a;border-top:1px solid var(--w06);padding:44px clamp(24p
     {label:'Implementação',icon:'<path d="M13 10V3L4 14h7v7l9-11h-7z"/>',title:'Implementar o plano',desc:'A carteira é montada pela Mont Capital com base no IPS — documento que formaliza seus objetivos e perfil de risco.',pct:83},
     {label:'Revisão',icon:'<path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>',title:'Monitorar e revisar',desc:'O plano não é estático. Sua vida muda, o mercado muda, as metas evoluem. Revisões periódicas garantem o alinhamento.',pct:100}
   ];
-  var nodes=[], cur=0, auto, W=stage.offsetWidth, R=W*0.38, cx=W/2, cy=W/2;
+  var nodes=[],cur=0,auto,W=stage.offsetWidth,R=W*0.38,cx=W/2,cy=W/2;
   steps.forEach(function(s,i){
     var angle=(i/steps.length)*2*Math.PI-Math.PI/2;
-    var x=cx+R*Math.cos(angle), y=cy+R*Math.sin(angle);
+    var x=cx+R*Math.cos(angle),y=cy+R*Math.sin(angle);
     var n=document.createElement('div');
     n.className='orb-node'+(i===0?' on':'');
-    n.style.left=x+'px'; n.style.top=y+'px';
+    n.style.left=x+'px';n.style.top=y+'px';
     n.innerHTML='<div class="orb-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+s.icon+'</svg></div><span class="orb-lbl">'+s.label+'</span>';
     n.addEventListener('click',function(){clearInterval(auto);sel(i);});
-    stage.appendChild(n); nodes.push(n);
+    stage.appendChild(n);nodes.push(n);
   });
   document.getElementById('orbCenter').addEventListener('click',function(){clearInterval(auto);sel(0);});
   function sel(i){
-    cur=i; nodes.forEach(function(n,j){n.classList.toggle('on',j===i);});
-    var s=steps[i], c=document.getElementById('orbCard');
-    c.style.opacity='0'; c.style.transform='translateY(6px)';
+    cur=i;nodes.forEach(function(n,j){n.classList.toggle('on',j===i);});
+    var s=steps[i],c=document.getElementById('orbCard');
+    c.style.opacity='0';c.style.transform='translateY(6px)';
     document.getElementById('orbNum').textContent='Passo '+(i+1);
     document.getElementById('orbTitle').textContent=s.title;
     document.getElementById('orbDesc').textContent=s.desc;
@@ -747,15 +1147,17 @@ footer{background:#020c1a;border-top:1px solid var(--w06);padding:44px clamp(24p
   auto=setInterval(function(){sel((cur+1)%steps.length);},3000);
 })();
 
-/* Z CANVAS */
+/* ============================================================
+   Z CANVAS
+   ============================================================ */
 (function(){
   var canvas=document.getElementById('zCanvas');
   if(!canvas) return;
   function resize(){var w=canvas.offsetWidth;canvas.width=w;canvas.height=w*600/700;}
-  resize(); window.addEventListener('resize',function(){resize();initCols();});
+  resize();window.addEventListener('resize',function(){resize();initCols();});
   var ctx=canvas.getContext('2d');
   var CHARS=['PETR4','VALE3','ITUB4','BBDC4','WEGE3','+1.2%','-0.8%','+2.1%','-1.4%','38.42','62.18','31.95','ABEV3','SUZB3','RDOR3','0','1','2','3','4','5','6','7','8','9','+','-','%','R$','▲','▼'];
-  var COL_W=52, cols=[];
+  var COL_W=52,cols=[];
   function initCols(){
     var W=canvas.width,H=canvas.height,n=Math.floor(W/COL_W)+1;
     cols=[];
@@ -776,10 +1178,10 @@ footer{background:#020c1a;border-top:1px solid var(--w06);padding:44px clamp(24p
   function draw(){
     var W=canvas.width,H=canvas.height;
     ctx.clearRect(0,0,W,H);
-    ctx.save(); buildZ(W,H); ctx.clip();
-    ctx.fillStyle='rgba(13,33,71,0.95)'; ctx.fillRect(0,0,W,H);
+    ctx.save();buildZ(W,H);ctx.clip();
+    ctx.fillStyle='rgba(13,33,71,0.95)';ctx.fillRect(0,0,W,H);
     var fs=Math.max(8,W/60);
-    ctx.font='bold '+fs+'px Montserrat,monospace'; ctx.textAlign='center';
+    ctx.font='bold '+fs+'px Montserrat,monospace';ctx.textAlign='center';
     cols.forEach(function(col){
       col.chars.forEach(function(item,k){
         var cy2=col.y+item.offset;
@@ -788,52 +1190,125 @@ footer{background:#020c1a;border-top:1px solid var(--w06);padding:44px clamp(24p
         else{var up=item.ch.indexOf('+')>=0||item.ch==='▲',dn=item.ch.indexOf('-')>=0||item.ch==='▼';ctx.fillStyle=up?'rgba(74,222,128,'+item.alpha+')':dn?'rgba(248,113,113,'+item.alpha+')':'rgba(77,166,255,'+item.alpha+')';}
         ctx.fillText(item.ch,col.x,cy2);
       });
-      col.y+=col.speed; if(col.y>H+20) col.y=-Math.random()*60;
+      col.y+=col.speed;if(col.y>H+20) col.y=-Math.random()*60;
     });
     ctx.restore();
-    ctx.save(); buildZ(W,H);
-    ctx.strokeStyle='rgba(50,130,255,0.40)'; ctx.lineWidth=Math.max(1,W/350);
-    ctx.shadowColor='rgba(50,130,255,0.5)'; ctx.shadowBlur=8; ctx.stroke();
+    ctx.save();buildZ(W,H);
+    ctx.strokeStyle='rgba(50,130,255,0.40)';ctx.lineWidth=Math.max(1,W/350);
+    ctx.shadowColor='rgba(50,130,255,0.5)';ctx.shadowBlur=8;ctx.stroke();
     ctx.restore();
     requestAnimationFrame(draw);
   }
   draw();
 })();
 
-/* SCROLL REVEAL */
+/* ============================================================
+   SCROLL REVEAL
+   ============================================================ */
 (function(){
   var all=Array.from(document.querySelectorAll('.r'));
-  var hero=Array.from(document.querySelectorAll('#hero .r'));
   var outside=all.filter(function(el){return !el.closest('#hero');});
-
   function show(el){el.classList.add('on');}
-
-  /* Revela tudo que já está visível */
   function check(){
     var vh=window.innerHeight;
     outside.forEach(function(el){
       if(el.getBoundingClientRect().top<vh*0.95) show(el);
     });
   }
-
   if('IntersectionObserver' in window){
     var io=new IntersectionObserver(function(entries){
       entries.forEach(function(e){if(e.isIntersecting){show(e.target);io.unobserve(e.target);}});
     },{threshold:0.05});
     outside.forEach(function(el){io.observe(el);});
   }
-
   check();
   window.addEventListener('scroll',check,{passive:true});
   window.addEventListener('load',check);
 })();
 
-/* FAQ */
+/* ============================================================
+   FAQ
+   ============================================================ */
 function faq(btn){
   var it=btn.parentElement,open=it.classList.contains('open');
   document.querySelectorAll('.fi2').forEach(function(i){i.classList.remove('open');});
   if(!open) it.classList.add('open');
 }
+
+/* ============================================================
+   GALLERY CAROUSEL
+   ============================================================ */
+(function(){
+  var track=document.getElementById('galTrack');
+  var prevBtn=document.getElementById('galPrev');
+  var nextBtn=document.getElementById('galNext');
+  var dots=Array.from(document.querySelectorAll('.gal-dot'));
+  if(!track) return;
+
+  var items=Array.from(track.querySelectorAll('.gal-item'));
+  var total=items.length;
+  var cur=0;
+  var itemW=0;
+  var gap=20;
+
+  function getItemW(){
+    if(items[0]) itemW=items[0].offsetWidth;
+  }
+  getItemW();
+  window.addEventListener('resize',function(){getItemW();goTo(cur,false);});
+
+  function goTo(idx,animate){
+    if(typeof animate==='undefined') animate=true;
+    cur=Math.max(0,Math.min(idx,total-1));
+    var offset=cur*(itemW+gap);
+    track.style.transition=animate?'transform .55s cubic-bezier(.25,.46,.45,.94)':'none';
+    track.style.transform='translateX(-'+offset+'px)';
+    prevBtn.disabled=cur===0;
+    nextBtn.disabled=cur===total-1;
+    dots.forEach(function(d,i){d.classList.toggle('on',i===cur);});
+  }
+
+  prevBtn.addEventListener('click',function(){goTo(cur-1);});
+  nextBtn.addEventListener('click',function(){goTo(cur+1);});
+  dots.forEach(function(d){
+    d.addEventListener('click',function(){goTo(parseInt(d.dataset.idx));});
+  });
+
+  /* drag/swipe */
+  var startX=0,isDragging=false,dragOffset=0;
+  track.addEventListener('mousedown',function(e){isDragging=true;startX=e.clientX;track.style.transition='none';});
+  window.addEventListener('mousemove',function(e){
+    if(!isDragging) return;
+    dragOffset=e.clientX-startX;
+    var base=cur*(itemW+gap);
+    track.style.transform='translateX(-'+(base-dragOffset)+'px)';
+  });
+  window.addEventListener('mouseup',function(){
+    if(!isDragging) return;
+    isDragging=false;
+    if(dragOffset<-60) goTo(cur+1);
+    else if(dragOffset>60) goTo(cur-1);
+    else goTo(cur);
+    dragOffset=0;
+  });
+  track.addEventListener('touchstart',function(e){startX=e.touches[0].clientX;isDragging=true;track.style.transition='none';},{passive:true});
+  track.addEventListener('touchmove',function(e){
+    if(!isDragging) return;
+    dragOffset=e.touches[0].clientX-startX;
+    var base=cur*(itemW+gap);
+    track.style.transform='translateX(-'+(base-dragOffset)+'px)';
+  },{passive:true});
+  track.addEventListener('touchend',function(){
+    if(!isDragging) return;
+    isDragging=false;
+    if(dragOffset<-60) goTo(cur+1);
+    else if(dragOffset>60) goTo(cur-1);
+    else goTo(cur);
+    dragOffset=0;
+  });
+
+  goTo(0,false);
+})();
 </script>
 </body>
 </html>
